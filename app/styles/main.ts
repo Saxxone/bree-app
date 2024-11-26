@@ -1,20 +1,23 @@
-import { StyleSheet } from "react-native";
+import { gray_900 } from "@/constants/Colors";
+import { ViewStyle, TextStyle, StyleSheet } from "react-native";
 
-export const dark_mode = StyleSheet.create({
-  light: {
-    color: "#374151",
-    backgroundColor: "#fff",
-    // tint: tintColorLight,
-    // icon: "#687076",
-    // tabIconDefault: "#687076",
-    // tabIconSelected: tintColorLight,
+export const container: ViewStyle = {
+  flex: 1,
+  backgroundColor: gray_900,
+  justifyContent: "center",
+  alignItems: "center",
+};
+
+export const button: TextStyle = {
+  fontSize: 20,
+  textDecorationLine: "underline",
+  color: "#fff",
+};
+
+export const styles = StyleSheet.create({
+  container,
+  text: {
+    color: "#fff",
   },
-  dark: {
-    color: "#e5e7eb",
-    backgroundColor: "#111827",
-    // tint: tintColorDark,
-    // icon: "#9BA1A6",
-    // tabIconDefault: "#9BA1A6",
-    // tabIconSelected: tintColorDark,
-  },
+  button,
 });
