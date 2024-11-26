@@ -5,6 +5,9 @@ import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import "react-native-reanimated";
+import { ThemedView } from "@/components/ThemedView";
+import { Slot } from "expo-router";
+import { SessionProvider } from "@/ctx";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 
@@ -28,12 +31,19 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        {/* <Stack.Screen name="(tabs)" options={{ headerShown: false }} /> */}
-        <Stack.Screen name="index" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <SessionProvider>
+      <Slot />
+    </SessionProvider>
+    // <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+    //   <ThemedView>
+    //     <Stack>
+    //       {/* <Stack.Screen name="(tabs)" options={{ headerShown: false }} /> */}
+    //       <Stack.Screen name="(tabs)" />
+    //       <Stack.Screen name="index" />
+    //       <Stack.Screen name="(auth)" />
+    //     </Stack>
+    //   </ThemedView>
+    //   <StatusBar style="auto" />
+    // </ThemeProvider>
   );
 }

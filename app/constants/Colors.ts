@@ -24,3 +24,37 @@ export const Colors = {
     tabIconSelected: tintColorDark,
   },
 };
+
+// gray
+export const gray_900 = "#111827";
+export const gray_800 = "#1f2937";
+export const gray_700 = "#374151";
+export const gray_600 = "#4b5563";
+export const gray_500 = "#6b7280";
+export const gray_400 = "#9ca3af";
+export const gray_300 = "#d1d5db";
+export const gray_200 = "#e5e7eb";
+export const gray_100 = "#f3f4f6";
+export const gray_50 = "#f9fafb";
+
+export const white = "#fff";
+
+export const primary = "#6366f1";
+
+// indigo
+export const indigo_500 = "#6366f1";
+
+// purple
+export const purple_900 = "#581c87";
+export const purple_800 = "#6b21a8";
+export const purple_700 = "#7e22ce";
+export const purple_600 = "#9333ea";
+export const purple_500 = "#a855f7";
+export const purple_400 = "#c084fc";
+export const purple_300 = "#d8b4fe";
+export const purple_200 = "#e9d5ff";
+export const purple_100 = "#f3e8ff";
+export const purple_50 = "#faf5ff";
+
+// violet
+export const violet_400 = "#a78bfa";

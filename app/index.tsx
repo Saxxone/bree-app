@@ -1,45 +1,21 @@
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
-import ParallaxScrollView from "@/components/ParallaxScrollView";
-
-import { Image, StyleSheet, Platform } from "react-native";
-import { ExternalLink } from "./components/ExternalLink";
+import { Text, View, StyleSheet } from "react-native";
 
 export default function Index() {
   return (
-    <ParallaxScrollView headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }} headerImage={<Image source={require("@/assets/images/bree.png")} style={styles.reactLogo} />}>
-      <ThemedView
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}>
-        <ExternalLink href="https://bree.social/">
-          <ThemedText type="title"> Visit our website </ThemedText>
-        </ExternalLink>
-
-        <ThemedText>Bree</ThemedText>
-        <ThemedText>HMR IS QUITE FAST</ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <View style={styles.container}>
+      <Text style={styles.text}>Home screen</Text>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: "row",
+  container: {
+    flex: 1,
+    backgroundColor: "#25292e",
     alignItems: "center",
-    gap: 8,
+    justifyContent: "center",
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: "absolute",
+  text: {
+    color: "#fff",
   },
 });

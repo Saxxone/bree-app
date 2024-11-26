@@ -5,7 +5,7 @@
     "description": "Bree Social is social media that's healthy and non-toxic. Social media that is the best of us for us. Bree is freedom to express yourself in the most authentic way. Be Free",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/bree.png",
+    "icon": "./app/assets/images/bree.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -15,7 +15,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/bree.png",
+        "foregroundImage": "./app/assets/images/bree.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.anonymous.breeapp"
@@ -23,14 +23,14 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/bree.png"
+      "favicon": "./app/assets/images/bree.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/bree.png",
+          "image": "./app/assets/images/bree.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
