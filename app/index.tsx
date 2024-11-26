@@ -14,7 +14,7 @@ export default function Index() {
           justifyContent: "center",
           alignItems: "center",
         }}>
-        <ExternalLink href="http://bree.social/">
+        <ExternalLink href="https://bree.social/">
           <ThemedText type="title"> Visit our website </ThemedText>
         </ExternalLink>
 
