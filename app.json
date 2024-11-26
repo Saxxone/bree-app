@@ -4,7 +4,7 @@
     "slug": "bree-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/bree.svg",
+    "icon": "./assets/images/bree.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,7 +13,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/bree.svg",
+        "foregroundImage": "./assets/images/bree.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.anonymous.breeapp"
@@ -21,14 +21,14 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/bree.svg"
+      "favicon": "./assets/images/bree.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/bree.svg",
+          "image": "./assets/images/bree.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
