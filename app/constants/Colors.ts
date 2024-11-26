@@ -58,3 +58,7 @@ export const purple_50 = "#faf5ff";
 
 // violet
 export const violet_400 = "#a78bfa";
+
+// radius
+
+export const rounded_lg = 8;

@@ -9,6 +9,12 @@ export default function AuthLayout() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="(post)"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 }

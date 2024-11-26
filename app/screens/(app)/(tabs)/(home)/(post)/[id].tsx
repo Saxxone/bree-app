@@ -1,20 +1,11 @@
-import { useLocalSearchParams } from 'expo-router';
-import { View, Text, StyleSheet } from 'react-native';
+import { useLocalSearchParams } from "expo-router";
+import { posts } from "@/data/posts";
+import PostDisplay from "@/components/post/PostDisplay";
+import { ThemedView } from "@/components/ThemedView";
 
 export default function PostScreen() {
   const { id } = useLocalSearchParams();
+  const post = posts.find((post) => post.id === id);
 
-  return (
-    <View style={styles.container}>
-      <Text>Details of user {id} </Text>
-    </View>
-  );
+  return <ThemedView>{post && <PostDisplay post={post} />}</ThemedView>;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
