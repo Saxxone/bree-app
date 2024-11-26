@@ -7,7 +7,7 @@ export default function Index() {
     <View style={styles.container}>
       <Text style={styles.text}>Home screen</Text>
       <Link href="/screens/(auth)/login" style={styles.button}>
-        Go to About screen
+        Go to Login screen
       </Link>
     </View>
   );

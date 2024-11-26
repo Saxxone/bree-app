@@ -1,7 +1,7 @@
-import { Text } from 'react-native';
-import { Redirect, Stack } from 'expo-router';
+import { Text } from "react-native";
+import { Redirect, Stack } from "expo-router";
 
-import { useSession } from '../../ctx';
+import { useSession } from "../../ctx";
 
 export default function AppLayout() {
   const { session, isLoading } = useSession();
@@ -20,5 +20,20 @@ export default function AppLayout() {
   }
 
   // This layout can be deferred because it's not the root layout.
-  return <Stack />;
+  return (
+    <Stack>
+      <Stack.Screen
+        name="(profile)"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="(tabs)"
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Stack>
+  );
 }

@@ -7,13 +7,13 @@ export default function HomeScreen() {
   };
   return (
     <View style={styles.container}>
-      <Text>Home</Text>
+      <Text>View Post Feed</Text>
       <Link
         href={{
           pathname: "/screens/(app)/(tabs)/(home)/(post)/[id]",
           params: { id: post.id },
         }}>
-        View user details
+        View this Post
       </Link>
     </View>
   );
