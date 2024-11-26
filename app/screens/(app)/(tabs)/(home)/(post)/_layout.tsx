@@ -4,7 +4,7 @@ export default function AuthLayout() {
   return (
     <Stack>
       <Stack.Screen
-        name="post"
+        name="[id]"
         options={{
           headerShown: false,
         }}

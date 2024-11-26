@@ -34,6 +34,18 @@ export default function RootLayout() {
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <ThemedView>
           <Stack>
+            <Stack.Screen
+              name="screens/(app)"
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="screens/(auth)"
+              options={{
+                headerShown: false,
+              }}
+            />
             <Slot />
           </Stack>
         </ThemedView>
