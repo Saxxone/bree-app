@@ -3,7 +3,7 @@ import { ViewStyle, TextStyle, StyleSheet, ImageStyle } from "react-native";
 
 export const container: ViewStyle = {
   flex: 1,
-  backgroundColor: gray_900,
+  // backgroundColor: gray_900,
   padding: 16,
 };
 
