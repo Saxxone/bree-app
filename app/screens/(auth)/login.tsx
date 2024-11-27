@@ -23,9 +23,22 @@ export default function Login() {
 
       <SpacerY size="xs" />
 
-      <FormInput placeholder="Enter email or username" value={username} onChangeText={setUsername} />
-      <FormInput placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry />
-      <Button title="Login" color={styles.buttonPrimary.backgroundColor} onPress={handleSignIn} />
+      <FormInput
+        placeholder="Enter email or username"
+        value={username}
+        onChangeText={setUsername}
+      />
+      <FormInput
+        placeholder="Password"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+      />
+      <Button
+        title="Login"
+        color={styles.buttonPrimary.backgroundColor}
+        onPress={handleSignIn}
+      />
     </View>
   );
 }

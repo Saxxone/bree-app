@@ -15,7 +15,8 @@ export default function PostDisplay({ post }: Props) {
       href={{
         pathname: "/screens/(app)/(tabs)/(home)/(post)/[id]",
         params: { id: post.id },
-      }}>
+      }}
+    >
       <MediaViewer post={post} />
       <Text>{post.text}</Text>
     </Link>

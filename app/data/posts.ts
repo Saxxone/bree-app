@@ -32,7 +32,9 @@ export const posts: Post[] = [
           id: "ef8b80b6-c7bf-407c-9225-c8d9b00af9c6",
           longPostId: "015974d8-4223-4a5b-b868-db5548e1e916",
           text: "holla",
-          media: ["https://pbs.bree.social/1000243004-4205dfe7ef6009b4c7f800df339f4333.jpg"],
+          media: [
+            "https://pbs.bree.social/1000243004-4205dfe7ef6009b4c7f800df339f4333.jpg",
+          ],
           mediaTypes: ["image"],
         },
       ],
@@ -43,7 +45,9 @@ export const posts: Post[] = [
   {
     id: "57f79840-0470-44b2-81b4-421ae8bd0d18",
     text: "Welcome Tori!",
-    media: ["https://pbs.bree.social/1000243004-4205dfe7ef6009b4c7f800df339f4333.jpg"],
+    media: [
+      "https://pbs.bree.social/1000243004-4205dfe7ef6009b4c7f800df339f4333.jpg",
+    ],
     mediaTypes: ["image"],
     published: true,
     authorId: "4f1e9ff9-6cfa-498b-8711-bfb713df575f",
@@ -66,7 +70,8 @@ export const posts: Post[] = [
         verified: false,
         banner: null,
         img: "https://pbs.bree.social/bree-pfp.svg",
-        password: "$2b$10$FhQK4Ge7XwUT3gVTZ4EvkeToxJlNtvqyxZtfUOzYVv4BcyRh5SoLu",
+        password:
+          "$2b$10$FhQK4Ge7XwUT3gVTZ4EvkeToxJlNtvqyxZtfUOzYVv4BcyRh5SoLu",
         createdAt: "2024-11-02T21:57:04.431Z",
         updatedAt: "2024-11-21T18:04:00.969Z",
         deletedAt: null,
@@ -83,7 +88,8 @@ export const posts: Post[] = [
         verified: true,
         banner: null,
         img: "https://pbs.bree.social/a5f541cf-5845-49a0-bf5d-f22528ff8315.jpg",
-        password: "$2b$10$0/pci16ml0tu9QQU.bxew.r0G3/8QBnN33hVB9umPbOYqXAeA0S5W",
+        password:
+          "$2b$10$0/pci16ml0tu9QQU.bxew.r0G3/8QBnN33hVB9umPbOYqXAeA0S5W",
         createdAt: "2024-09-26T18:22:29.413Z",
         updatedAt: "2024-11-21T19:16:50.233Z",
         deletedAt: null,

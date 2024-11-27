@@ -1,6 +1,13 @@
 import { Theme } from "@react-navigation/native";
 import { fonts } from "@react-navigation/native/src/theming/fonts";
-import { gray_100, gray_200, gray_400, gray_700, gray_800, primary } from "./Colors";
+import {
+  gray_100,
+  gray_200,
+  gray_400,
+  gray_700,
+  gray_800,
+  primary,
+} from "./Colors";
 import { StyleSheet } from "react-native";
 
 export const DarkTheme: Theme = {

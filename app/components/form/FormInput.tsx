@@ -11,10 +11,20 @@ interface Props {
   readonly onChangeText: (text: string) => void;
 }
 
-export function FormInput({ label, value, placeholder, secureTextEntry, onChangeText }: Props) {
+export function FormInput({
+  label,
+  value,
+  placeholder,
+  secureTextEntry,
+  onChangeText,
+}: Props) {
   const colorScheme = useColorScheme();
-  const textColor = colorScheme === "dark" ? DarkStyle.textColor : LightStyle.textColor;
-  const mutedTextColor = colorScheme === "dark" ? DarkStyle.mutedTextColor.color : LightStyle.mutedTextColor.color;
+  const textColor =
+    colorScheme === "dark" ? DarkStyle.textColor : LightStyle.textColor;
+  const mutedTextColor =
+    colorScheme === "dark"
+      ? DarkStyle.mutedTextColor.color
+      : LightStyle.mutedTextColor.color;
   const backgroundColor = colorScheme === "dark" ? gray_900 : white;
 
   return (

@@ -1,4 +1,10 @@
-import { gray_200, gray_800, indigo_500, rounded_lg, white } from "@/constants/Colors";
+import {
+  gray_200,
+  gray_800,
+  indigo_500,
+  rounded_lg,
+  white,
+} from "@/constants/Colors";
 import { ViewStyle, TextStyle, StyleSheet, ImageStyle } from "react-native";
 
 export const container: ViewStyle = {

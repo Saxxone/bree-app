@@ -20,7 +20,11 @@ export default function Compose() {
   return (
     <View>
       <View>
-        <Button theme="primary" label="Choose a photo" onPress={pickImageAsync} />
+        <Button
+          theme="primary"
+          label="Choose a photo"
+          onPress={pickImageAsync}
+        />
         <Button label="Use this photo" />
       </View>
     </View>

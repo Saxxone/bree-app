@@ -8,6 +8,7 @@ interface Props {
 
 export function AppText({ children, style }: Props) {
   const colorScheme = useColorScheme();
-  const textColor = colorScheme === "dark" ? DarkStyle.textColor : LightStyle.textColor;
+  const textColor =
+    colorScheme === "dark" ? DarkStyle.textColor : LightStyle.textColor;
   return <Text style={[textColor, style]}>{children}</Text>;
 }

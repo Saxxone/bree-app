@@ -7,8 +7,16 @@ export type ThemedViewProps = ViewProps & {
   darkColor?: string;
 };
 
-export function ThemedView({ style, lightColor, darkColor, ...otherProps }: ThemedViewProps) {
-  const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, "background");
+export function ThemedView({
+  style,
+  lightColor,
+  darkColor,
+  ...otherProps
+}: ThemedViewProps) {
+  const backgroundColor = useThemeColor(
+    { light: lightColor, dark: darkColor },
+    "background",
+  );
   const height = StyleSheet.create({
     innerHeight: {
       height: "100%",
@@ -18,5 +26,10 @@ export function ThemedView({ style, lightColor, darkColor, ...otherProps }: Them
     },
   });
 
-  return <View style={[{ backgroundColor }, height.innerHeight, style]} {...otherProps} />;
+  return (
+    <View
+      style={[{ backgroundColor }, height.innerHeight, style]}
+      {...otherProps}
+    />
+  );
 }

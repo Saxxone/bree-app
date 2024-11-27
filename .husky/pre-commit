@@ -1,1 +1,1 @@
-npx expo lint
+npm run format && git add .

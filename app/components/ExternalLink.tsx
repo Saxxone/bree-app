@@ -4,7 +4,15 @@ import { type ComponentProps } from "react";
 import { Platform } from "react-native";
 
 type Props = Omit<ComponentProps<typeof Link>, "href"> & {
-  href: RelativePathString | ExternalPathString | "/" | `/?${string}` | `/#${string}` | "/_sitemap" | `/_sitemap?${string}` | `/_sitemap#${string}`;
+  href:
+    | RelativePathString
+    | ExternalPathString
+    | "/"
+    | `/?${string}`
+    | `/#${string}`
+    | "/_sitemap"
+    | `/_sitemap?${string}`
+    | `/_sitemap#${string}`;
 };
 
 export function ExternalLink({ href, ...rest }: Props) {

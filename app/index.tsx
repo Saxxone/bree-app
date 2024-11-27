@@ -5,7 +5,8 @@ import { DarkStyle, LightStyle } from "./constants/Theme";
 
 export default function Index() {
   const colorScheme = useColorScheme();
-  const textColor = colorScheme === "dark" ? DarkStyle.textColor : LightStyle.textColor;
+  const textColor =
+    colorScheme === "dark" ? DarkStyle.textColor : LightStyle.textColor;
 
   return (
     <View style={styles.container}>

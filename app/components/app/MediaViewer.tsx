@@ -16,7 +16,10 @@ export default function MediaViewer({ post }: Props) {
         key={`${m.toString()}-${index}-${post.id}`}
       />
     ) : (
-      <VideoViewer uri={m as string} key={`${m.toString()}-${index}-${post.id}`} />
+      <VideoViewer
+        uri={m as string}
+        key={`${m.toString()}-${index}-${post.id}`}
+      />
     );
   });
   return view;

@@ -4,8 +4,16 @@ import { Platform } from "react-native";
 
 type UseStateHook<T> = [[boolean, T | null], (value: T | null) => void];
 
-function useAsyncState<T>(initialValue: [boolean, T | null] = [true, null]): UseStateHook<T> {
-  return useReducer((state: [boolean, T | null], action: T | null = null): [boolean, T | null] => [false, action], initialValue) as UseStateHook<T>;
+function useAsyncState<T>(
+  initialValue: [boolean, T | null] = [true, null],
+): UseStateHook<T> {
+  return useReducer(
+    (
+      state: [boolean, T | null],
+      action: T | null = null,
+    ): [boolean, T | null] => [false, action],
+    initialValue,
+  ) as UseStateHook<T>;
 }
 
 export async function setStorageItemAsync(key: string, value: string | null) {
@@ -20,11 +28,7 @@ export async function setStorageItemAsync(key: string, value: string | null) {
       console.error("Local storage is unavailable:", e);
     }
   } else {
-    if 
-    
-    
-    
-    (value == null) {
+    if (value == null) {
       await SecureStore.deleteItemAsync(key);
     } else {
       await SecureStore.setItemAsync(key, value);
@@ -59,7 +63,7 @@ export function useStorageState(key: string): UseStateHook<string> {
       setState(value);
       setStorageItemAsync(key, value);
     },
-    [key, setState]
+    [key, setState],
   );
 
   return [state, setValue];

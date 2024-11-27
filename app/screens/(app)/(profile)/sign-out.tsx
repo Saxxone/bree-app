@@ -10,7 +10,8 @@ export default function Index() {
         onPress={() => {
           // The `app/(app)/_layout.tsx` will redirect to the sign-in screen.
           signOut();
-        }}>
+        }}
+      >
         Sign Out
       </Text>
     </View>
