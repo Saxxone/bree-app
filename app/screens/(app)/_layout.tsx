@@ -1,6 +1,7 @@
 import { Text } from "react-native";
 import { Redirect, Stack } from "expo-router";
 import { useSession } from "@/ctx";
+import { header } from "@/styles/main";
 
 export default function AppLayout() {
   const { session, isLoading } = useSession();
@@ -20,7 +21,7 @@ export default function AppLayout() {
 
   // This layout can be deferred because it's not the root layout.
   return (
-    <Stack>
+    <Stack screenOptions={header}>
       <Stack.Screen
         name="(profile)"
         options={{

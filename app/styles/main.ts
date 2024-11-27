@@ -1,4 +1,4 @@
-import { rounded_lg } from "@/constants/Colors";
+import { gray_900, indigo_500, rounded_lg } from "@/constants/Colors";
 import { ViewStyle, TextStyle, StyleSheet, ImageStyle } from "react-native";
 
 export const container: ViewStyle = {
@@ -27,3 +27,15 @@ export const styles = StyleSheet.create({
   image: media,
   video: media,
 });
+
+export const header = {
+  tabBarActiveTintColor: indigo_500,
+  headerStyle: {
+    backgroundColor: gray_900,
+  },
+  headerShadowVisible: false,
+  headerTintColor: "#fff",
+  tabBarStyle: {
+    backgroundColor: gray_900,
+  },
+};

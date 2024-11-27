@@ -7,6 +7,7 @@ export default function PostLayout() {
         name="[id]"
         options={{
           headerShown: false,
+          title: "Post",
         }}
       />
     </Stack>
