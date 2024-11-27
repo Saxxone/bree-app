@@ -1,5 +1,5 @@
 import { ThemeProvider } from "@react-navigation/native";
-import { Appearance, useColorScheme } from "react-native";
+import { useColorScheme } from "react-native";
 import { useFonts } from "expo-font";
 import { Stack, Slot } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
@@ -8,13 +8,14 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 import { SessionProvider } from "@/ctx";
 import { DarkTheme, LightTheme } from "@/constants/Theme";
-import { header } from "./styles/main";
+import { headerDark, headerLight } from "./styles/main";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+  const header = colorScheme === "dark" ? headerDark : headerLight;
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
   });

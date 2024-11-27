@@ -1,6 +1,7 @@
 import { Tabs } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { header } from "@/styles/main";
+import { useColorScheme } from "react-native";
+import { headerDark, headerLight } from "@/styles/main";
 
 const tabBarIcon =
   (name: string) =>
@@ -8,6 +9,8 @@ const tabBarIcon =
     <Ionicons name={focused ? `${name}-sharp` : `${name}-outline`} color={color} size={24} />;
 
 export default function TabLayout() {
+  const colorScheme = useColorScheme();
+  const header = colorScheme === "dark" ? headerDark : headerLight;
   return (
     <Tabs screenOptions={header}>
       <Tabs.Screen name="(home)" options={{ title: "Home", tabBarIcon: tabBarIcon("home") }} />

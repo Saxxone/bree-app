@@ -1,10 +1,12 @@
-import { Text } from "react-native";
+import { Text, useColorScheme } from "react-native";
 import { Redirect, Stack } from "expo-router";
 import { useSession } from "@/ctx";
-import { header } from "@/styles/main";
+
+import { headerDark, headerLight } from "@/styles/main";
 
 export default function AppLayout() {
   const { session, isLoading } = useSession();
+  const colorScheme = useColorScheme();
 
   // You can keep the splash screen open, or render a loading screen like we do here.
   if (isLoading) {
@@ -21,7 +23,7 @@ export default function AppLayout() {
 
   // This layout can be deferred because it's not the root layout.
   return (
-    <Stack screenOptions={header}>
+    <Stack screenOptions={colorScheme === "dark" ? headerDark : headerLight}>
       <Stack.Screen
         name="(profile)"
         options={{
