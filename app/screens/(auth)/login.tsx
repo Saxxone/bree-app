@@ -1,21 +1,21 @@
 import { router } from "expo-router";
-import { Text, View } from "react-native";
-
+import { Text } from "react-native";
 import { useSession } from "@/ctx";
+import { ThemedView } from "@/components/ThemedView";
+import { styles } from "@/styles/main";
 
 export default function SignIn() {
   const { signIn } = useSession();
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <ThemedView style={styles.container}>
       <Text
+        style={styles.text}
         onPress={() => {
           signIn();
-          // Navigate after signing in. You may want to tweak this to ensure sign-in is
-          // successful before navigating.
           router.replace("/screens/(home)");
         }}>
-        Sign In
+        Login
       </Text>
-    </View>
+    </ThemedView>
   );
 }

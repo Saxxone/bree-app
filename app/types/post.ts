@@ -1,10 +1,10 @@
 import type { Author, User } from "~/types/user";
-import type { MediaType } from "~/types/types";
+import type { DateString, MediaType } from "~/types/types";
 
 export interface Post {
   id: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: DateString | null;
+  updatedAt: DateString | null;
   text: string | null | undefined;
   author: Partial<Author>;
   published: boolean;
@@ -22,11 +22,10 @@ export interface Post {
   parentId: string | null | undefined;
   parent?: Post;
   type: PostType;
-  longPost?: Partial<LongPost> | null | undefined;
+  longPost: Partial<LongPost> | null | undefined;
   longPostId: string | null | undefined;
-  deletedAt: string | null | undefined;
+  deletedAt: DateString | null;
 }
-
 export type PostType = "LONG" | "SHORT";
 
 export interface LongPost {

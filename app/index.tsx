@@ -9,6 +9,9 @@ export default function Index() {
       <Link href="/screens/(auth)/login" style={styles.button}>
         Go to Login screen
       </Link>
+      <Link href="/screens/(app)/compose" style={styles.button}>
+        Compose a Post
+      </Link>
     </View>
   );
 }
