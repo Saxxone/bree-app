@@ -20,7 +20,9 @@ export default function Login() {
   return (
     <View style={styles.container}>
       <AppText style={styles.h1}>Login your account</AppText>
+
       <SpacerY size="xs" />
+
       <FormInput placeholder="Enter email or username" value={username} onChangeText={setUsername} />
       <FormInput placeholder="Password" value={password} onChangeText={setPassword} secureTextEntry />
       <Button title="Login" color={styles.buttonPrimary.backgroundColor} onPress={handleSignIn} />
