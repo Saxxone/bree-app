@@ -1,10 +1,9 @@
-import { gray_900, rounded_lg } from "@/constants/Colors";
+import { rounded_lg } from "@/constants/Colors";
 import { ViewStyle, TextStyle, StyleSheet, ImageStyle } from "react-native";
 
 export const container: ViewStyle = {
   flex: 1,
-  // backgroundColor: gray_900,
-  padding: 16,
+  padding: 40,
 };
 
 export const button: TextStyle = {
