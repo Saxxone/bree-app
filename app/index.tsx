@@ -1,21 +1,17 @@
-import { Text, View, useColorScheme } from "react-native";
+import { View } from "react-native";
 import { Link } from "expo-router";
 import { styles } from "@/styles/main";
-import { DarkStyle, LightStyle } from "./constants/Theme";
+import { AppText } from "./components/app/AppText";
 
 export default function Index() {
-  const colorScheme = useColorScheme();
-  const textColor =
-    colorScheme === "dark" ? DarkStyle.textColor : LightStyle.textColor;
-
   return (
     <View style={styles.container}>
-      <Text style={textColor}>Home screen</Text>
-      <Link href="/screens/(auth)/login" style={textColor}>
-        Go to Login screen
+      <AppText>Home screen</AppText>
+      <Link href="/screens/(auth)/login" style={styles.button}>
+        <AppText>Go to Login screen</AppText>
       </Link>
-      <Link href="/screens/(app)/compose" style={textColor}>
-        Compose a Post
+      <Link href="/screens/(app)/compose" style={styles.button}>
+        <AppText>Compose a Post</AppText>
       </Link>
     </View>
   );

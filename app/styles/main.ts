@@ -1,4 +1,5 @@
 import {
+  gray_100,
   gray_200,
   gray_800,
   indigo_500,
@@ -33,19 +34,19 @@ export const media: ImageStyle = {
 
 export const h1: TextStyle = {
   fontSize: 36,
-  fontWeight: "bold",
+  fontFamily: "Outfit-SemiBold",
   marginBottom: 16,
 };
 
 export const h2: TextStyle = {
   fontSize: 24,
-  fontWeight: "bold",
+  fontFamily: "Outfit-SemiBold",
   marginBottom: 8,
 };
 
 export const h3: TextStyle = {
   fontSize: 18,
-  fontWeight: "medium",
+  fontFamily: "Outfit-SemiBold",
   marginBottom: 4,
 };
 
@@ -66,12 +67,12 @@ export const styles = StyleSheet.create({
 export const headerLight = {
   tabBarActiveTintColor: indigo_500,
   headerStyle: {
-    backgroundColor: white,
+    backgroundColor: gray_200,
   },
   headerShadowVisible: false,
   headerTintColor: gray_800,
   tabBarStyle: {
-    backgroundColor: white,
+    backgroundColor: gray_200,
   },
 };
 

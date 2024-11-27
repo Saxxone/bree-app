@@ -7,8 +7,24 @@ export default function AuthLayout() {
   const header = colorScheme === "dark" ? headerDark : headerLight;
   return (
     <Stack screenOptions={header}>
-      <Stack.Screen name="login" />
-      <Stack.Screen name="register" />
+      <Stack.Screen
+        name="login"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="register"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="forgot-password"
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 }

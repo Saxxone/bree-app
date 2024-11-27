@@ -28,7 +28,7 @@ export default function Login() {
   return (
     <View style={styles.container}>
       <SpacerY size="xl" />
-      <AppText style={styles.h1}>Login your account</AppText>
+      <AppText style={styles.h1}>Create your account</AppText>
 
       <SpacerY size="xxs" />
 
