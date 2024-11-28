@@ -6,7 +6,7 @@ type Props = {
   readonly post: Post;
 };
 
-export default function MediaViewer({ post }: Props) {
+export default const MediaViewer = memo(function MediaViewer({ post }: Props) {
   const view = post.media.map((m, index) => {
     return post.mediaTypes[index] === "image" ? (
       <ImageViewer
@@ -24,3 +24,4 @@ export default function MediaViewer({ post }: Props) {
   });
   return view;
 }
+)

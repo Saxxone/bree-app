@@ -4,8 +4,8 @@ interface Props {
   readonly size: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
 }
 
-export default const SpacerY = memo(function SpacerY({ size }: Props) {
-  const verticalPadding = (() => {
+export default const SpacerX = memo(function SpacerX({ size }: Props) {
+  const horizontalPadding = (() => {
     switch (size) {
       case "xxs":
         return 8;
@@ -26,5 +26,5 @@ export default const SpacerY = memo(function SpacerY({ size }: Props) {
     }
   })();
 
-  return <View style={{ paddingVertical: verticalPadding }} />;
+  return <View style={{ paddingHorizontal: horizontalPadding }} />;
 })

@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { LightStyle, DarkStyle } from "@/constants/Theme";
 import {
   TextInput,
@@ -22,7 +23,7 @@ interface Props {
   readonly onAppendPressed?: (event: GestureResponderEvent) => void;
 }
 
-export function FormInput({
+export default const FormInput = memo(function FormInput({
   label,
   value,
   placeholder,
@@ -86,7 +87,7 @@ export function FormInput({
       </View>
     </View>
   );
-}
+})
 
 const styles = StyleSheet.create({
   input: {

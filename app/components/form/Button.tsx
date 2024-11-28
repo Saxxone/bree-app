@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { View, StyleSheet } from "react-native";
 import { AppText } from "../app/AppText";
 
@@ -9,7 +10,7 @@ type Props = {
   readonly children: React.ReactNode;
 };
 
-export const AppButton = ({ onPress, theme, children }: Props) => {
+export default const AppButton = memo(function AppButton({ onPress, theme, children }: Props) {
   return (
     <View
       style={[
@@ -28,7 +29,7 @@ export const AppButton = ({ onPress, theme, children }: Props) => {
       </AppText>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   buttonContainer: {
