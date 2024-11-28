@@ -10,7 +10,7 @@ type Props = {
   readonly children: React.ReactNode;
 };
 
-export default const AppButton = memo(function AppButton({ onPress, theme, children }: Props) {
+function AppButton({ onPress, theme, children }: Props) {
   return (
     <View
       style={[
@@ -29,7 +29,9 @@ export default const AppButton = memo(function AppButton({ onPress, theme, child
       </AppText>
     </View>
   );
-});
+};
+
+export default const AppButton = memo(AppButton)
 
 const styles = StyleSheet.create({
   buttonContainer: {

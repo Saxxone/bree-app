@@ -23,7 +23,7 @@ interface Props {
   readonly onAppendPressed?: (event: GestureResponderEvent) => void;
 }
 
-export default const FormInput = memo(function FormInput({
+function FormInput({
   label,
   value,
   placeholder,
@@ -35,13 +35,14 @@ export default const FormInput = memo(function FormInput({
   onChangeText,
 }: Props) {
   const colorScheme = useColorScheme();
-  const textColor =
-    colorScheme === "dark" ? DarkStyle.textColor : LightStyle.textColor;
-  const mutedTextColor =
-    colorScheme === "dark"
-      ? DarkStyle.mutedTextColor.color
-      : LightStyle.mutedTextColor.color;
-  const backgroundColor = colorScheme === "dark" ? gray_900 : white;
+
+  const textColor = useMemo(() => colorScheme === "dark" ? DarkStyle.textColor : LightStyle.textColor, [colorScheme]);
+  
+  const mutedTextColor = useMemo(() => colorScheme === "dark"
+  ? DarkStyle.mutedTextColor.color
+  : LightStyle.mutedTextColor.color, [colorScheme]);
+    
+  const backgroundColor = useMemo(() => colorScheme === "dark" ? gray_900 : white, [colorScheme]);
 
   return (
     <View>
@@ -87,7 +88,9 @@ export default const FormInput = memo(function FormInput({
       </View>
     </View>
   );
-})
+}
+
+export default const FormInput = memo(FormInput)
 
 const styles = StyleSheet.create({
   input: {

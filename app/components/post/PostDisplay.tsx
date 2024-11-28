@@ -9,7 +9,7 @@ type Props = {
   readonly post: Post;
 };
 
-export default const PostDisplay = memo(function PostDisplay({ post }: Props) {
+function PostDisplay({ post }: Props) {
   return (
     <Link
       style={styles.text}
@@ -22,4 +22,6 @@ export default const PostDisplay = memo(function PostDisplay({ post }: Props) {
       <Text>{post.text}</Text>
     </Link>
   );
-})
+}
+
+export default const PostDisplay = memo(PostDisplay)

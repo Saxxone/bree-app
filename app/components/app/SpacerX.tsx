@@ -1,11 +1,12 @@
+import { memo, useMemo } from "react";
 import { View } from "react-native";
 
 interface Props {
   readonly size: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
 }
 
-export default const SpacerX = memo(function SpacerX({ size }: Props) {
-  const horizontalPadding = (() => {
+function SpacerX({ size }: Props) {
+  const horizontalPadding = () => {
     switch (size) {
       case "xxs":
         return 8;
@@ -24,7 +25,11 @@ export default const SpacerX = memo(function SpacerX({ size }: Props) {
       default:
         return 16;
     }
-  })();
+  };
 
-  return <View style={{ paddingHorizontal: horizontalPadding }} />;
-})
+  const useHorizontalPadding = useMemo(() => horizontalPadding(), [size])
+
+  return <View style={{ paddingHorizontal: useHorizontalPadding }} />;
+}
+
+export default const SpacerX = memo(SpacerX)

@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { ImageViewer } from "@/components/app/ImageViewer";
 import { VideoViewer } from "@/components/app/VideoViewer";
 import { Post } from "@/types/post";
@@ -6,8 +7,8 @@ type Props = {
   readonly post: Post;
 };
 
-export default const MediaViewer = memo(function MediaViewer({ post }: Props) {
-  const view = post.media.map((m, index) => {
+function MediaViewer({ post }: Props) {
+  const posts = post.media.map((m, index) => {
     return post.mediaTypes[index] === "image" ? (
       <ImageViewer
         imgSource={{
@@ -22,6 +23,10 @@ export default const MediaViewer = memo(function MediaViewer({ post }: Props) {
       />
     );
   });
+
+  const view = useMemo(() => posts, [post])
+  
   return view;
 }
-)
+
+export default const MediaViewer = memo(MediaViewer)

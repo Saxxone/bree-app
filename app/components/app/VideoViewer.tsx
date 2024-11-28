@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { StyleSheet } from "react-native";
 import { useRef, useState } from "react";
 import { Video, ResizeMode } from "expo-av";
@@ -6,7 +7,7 @@ type Props = {
   readonly uri: string;
 };
 
-export default const VideoViewer = memo(function VideoViewer({ uri }: Props) {
+function VideoViewer({ uri }: Props) {
   const video = useRef(null);
   const [status, setStatus] = useState({});
   return (
@@ -22,7 +23,9 @@ export default const VideoViewer = memo(function VideoViewer({ uri }: Props) {
       onPlaybackStatusUpdate={(status) => setStatus(() => status)}
     />
   );
-})
+}
+
+export default const VideoViewer = memo(VideoViewer)
 
 const styles = StyleSheet.create({
   video: {
