@@ -1,6 +1,6 @@
-import { memo } from 'react';
+import { memo } from "react";
 import { View, StyleSheet } from "react-native";
-import { AppText } from "../app/AppText";
+import AppText from "../app/AppText";
 
 import { rounded_lg, primary, white } from "@/constants/Colors";
 
@@ -10,7 +10,7 @@ type Props = {
   readonly children: React.ReactNode;
 };
 
-function AppButton({ onPress, theme, children }: Props) {
+const AppButton = memo(({ onPress, theme, children }: Props) => {
   return (
     <View
       style={[
@@ -19,6 +19,7 @@ function AppButton({ onPress, theme, children }: Props) {
       ]}
     >
       <AppText
+        onPress={onPress}
         style={{
           fontFamily: "Outfit-SemiBold",
           textTransform: "capitalize",
@@ -29,9 +30,9 @@ function AppButton({ onPress, theme, children }: Props) {
       </AppText>
     </View>
   );
-};
+});
 
-export default const AppButton = memo(AppButton)
+export default AppButton;
 
 const styles = StyleSheet.create({
   buttonContainer: {

@@ -6,8 +6,8 @@ type Props = {
   readonly imgSource: ImageSource;
 };
 
-function ImageViewer({ imgSource }: Props) {
+const ImageViewer = memo(({ imgSource }: Props) => {
   return <Image source={imgSource} style={styles.image} />;
-}
+});
 
-export default const ImageViewer = memo(ImageViewer)
+export default ImageViewer;

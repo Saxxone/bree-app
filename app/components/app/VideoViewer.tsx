@@ -7,7 +7,7 @@ type Props = {
   readonly uri: string;
 };
 
-function VideoViewer({ uri }: Props) {
+const VideoViewer = memo(({ uri }: Props) => {
   const video = useRef(null);
   const [status, setStatus] = useState({});
   return (
@@ -23,9 +23,9 @@ function VideoViewer({ uri }: Props) {
       onPlaybackStatusUpdate={(status) => setStatus(() => status)}
     />
   );
-}
+});
 
-export default const VideoViewer = memo(VideoViewer)
+export default VideoViewer;
 
 const styles = StyleSheet.create({
   video: {

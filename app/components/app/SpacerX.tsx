@@ -5,7 +5,7 @@ interface Props {
   readonly size: "xxs" | "xs" | "sm" | "md" | "lg" | "xl" | "xxl";
 }
 
-function SpacerX({ size }: Props) {
+const SpacerX = memo(({ size }: Props) => {
   const horizontalPadding = () => {
     switch (size) {
       case "xxs":
@@ -27,9 +27,9 @@ function SpacerX({ size }: Props) {
     }
   };
 
-  const useHorizontalPadding = useMemo(() => horizontalPadding(), [size])
+  const useHorizontalPadding = useMemo(() => horizontalPadding(), [size]);
 
   return <View style={{ paddingHorizontal: useHorizontalPadding }} />;
-}
+});
 
-export default const SpacerX = memo(SpacerX)
+export default SpacerX;

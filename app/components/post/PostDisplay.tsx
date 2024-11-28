@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo } from "react";
 import { Post } from "@/types/post";
 import MediaViewer from "@/components/app/MediaViewer";
 import { Text } from "react-native";
@@ -9,7 +9,7 @@ type Props = {
   readonly post: Post;
 };
 
-function PostDisplay({ post }: Props) {
+const PostDisplay = memo(({ post }: Props) => {
   return (
     <Link
       style={styles.text}
@@ -22,6 +22,6 @@ function PostDisplay({ post }: Props) {
       <Text>{post.text}</Text>
     </Link>
   );
-}
+});
 
-export default const PostDisplay = memo(PostDisplay)
+export default PostDisplay;

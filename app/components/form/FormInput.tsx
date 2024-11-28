@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useMemo } from "react";
 import { LightStyle, DarkStyle } from "@/constants/Theme";
 import {
   TextInput,
@@ -23,74 +23,87 @@ interface Props {
   readonly onAppendPressed?: (event: GestureResponderEvent) => void;
 }
 
-function FormInput({
-  label,
-  value,
-  placeholder,
-  secureTextEntry,
-  prependIcon,
-  appendIcon,
-  onPrependPressed,
-  onAppendPressed,
-  onChangeText,
-}: Props) {
-  const colorScheme = useColorScheme();
+const FormInput = memo(
+  ({
+    label,
+    value,
+    placeholder,
+    secureTextEntry,
+    prependIcon,
+    appendIcon,
+    onPrependPressed,
+    onAppendPressed,
+    onChangeText,
+  }: Props) => {
+    const colorScheme = useColorScheme();
 
-  const textColor = useMemo(() => colorScheme === "dark" ? DarkStyle.textColor : LightStyle.textColor, [colorScheme]);
-  
-  const mutedTextColor = useMemo(() => colorScheme === "dark"
-  ? DarkStyle.mutedTextColor.color
-  : LightStyle.mutedTextColor.color, [colorScheme]);
-    
-  const backgroundColor = useMemo(() => colorScheme === "dark" ? gray_900 : white, [colorScheme]);
+    const textColor = useMemo(
+      () =>
+        colorScheme === "dark" ? DarkStyle.textColor : LightStyle.textColor,
+      [colorScheme],
+    );
 
-  return (
-    <View>
-      {label ? <AppText>{label}</AppText> : null}
+    const mutedTextColor = useMemo(
+      () =>
+        colorScheme === "dark"
+          ? DarkStyle.mutedTextColor.color
+          : LightStyle.mutedTextColor.color,
+      [colorScheme],
+    );
 
-      <View
-        style={[styles.inputContainer, { backgroundColor: backgroundColor }]}
-      >
-        {prependIcon ? (
-          <Ionicons
-            name={`${prependIcon}-outline`}
-            color={textColor.color}
-            size={16}
-            style={styles.icon}
-            onPress={onPrependPressed}
+    const backgroundColor = useMemo(
+      () => (colorScheme === "dark" ? gray_900 : white),
+      [colorScheme],
+    );
+
+    return (
+      <View>
+        {label ? <AppText>{label}</AppText> : null}
+
+        <View
+          style={[styles.inputContainer, { backgroundColor: backgroundColor }]}
+        >
+          {prependIcon ? (
+            <Ionicons
+              name={`${prependIcon}-outline`}
+              color={textColor.color}
+              size={16}
+              style={styles.icon}
+              onPress={onPrependPressed}
+            />
+          ) : null}
+          <TextInput
+            placeholder={placeholder}
+            style={[
+              styles.input,
+              textColor,
+              { backgroundColor: backgroundColor },
+            ]}
+            value={value}
+            placeholderTextColor={mutedTextColor}
+            onChangeText={onChangeText}
+            secureTextEntry={secureTextEntry}
+            autoCapitalize="none"
+            autoCorrect={false}
+            multiline={false}
+            numberOfLines={1}
           />
-        ) : null}
-        <TextInput
-          placeholder={placeholder}
-          style={[
-            styles.input,
-            textColor,
-            { backgroundColor: backgroundColor },
-          ]}
-          value={value}
-          placeholderTextColor={mutedTextColor}
-          onChangeText={onChangeText}
-          secureTextEntry={secureTextEntry}
-          autoCapitalize="none"
-          autoCorrect={false}
-          multiline={false}
-          numberOfLines={1}
-        />
-        {appendIcon ? (
-          <Ionicons
-            name={`${appendIcon}-outline`}
-            color={textColor.color}
-            size={18}
-            style={styles.icon}
-            onPress={onAppendPressed}
-          />
-        ) : null}
+          {appendIcon ? (
+            <Ionicons
+              name={`${appendIcon}-outline`}
+              color={textColor.color}
+              size={18}
+              style={styles.icon}
+              onPress={onAppendPressed}
+            />
+          ) : null}
+        </View>
       </View>
-    </View>
-  );
-}
+    );
+  },
+);
 
-export default const FormInput = memo(FormInput)
+export default FormInput;
 
 const styles = StyleSheet.create({
   input: {

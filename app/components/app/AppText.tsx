@@ -1,14 +1,32 @@
-import { memo } from "react";
-import { Text, useColorScheme, StyleSheet } from "react-native";
+import { memo, useMemo } from "react";
+import { Text, useColorScheme, StyleSheet, TextStyle } from "react-native";
 import { DarkStyle, LightStyle } from "@/constants/Theme";
 
-function AppText({style, ...props}): React.FC<React.ComponentProps<typeof Text>> {
-  const colorScheme = useColorScheme();
-  const textColor = useMemo(() => colorScheme === "dark" ? DarkStyle.textColor : LightStyle.textColor, [colorScheme]);
-  return <Text style={[styles.default, textColor, style]} {...props} />;
-};
+interface Props {
+  style?: TextStyle;
+  children?: React.ReactNode;
+  onPress?: () => void;
+}
 
-export default const AppText = memo(AppText)
+const AppText = memo(({ style, children, ...props }: Props) => {
+  const colorScheme = useColorScheme();
+  const textColor = useMemo(
+    () => (colorScheme === "dark" ? DarkStyle.textColor : LightStyle.textColor),
+    [colorScheme],
+  );
+
+  return (
+    <Text
+      style={[styles.default, textColor, style]}
+      {...props}
+      onPress={props.onPress}
+    >
+      {children}
+    </Text>
+  );
+});
+
+export default AppText;
 
 const styles = StyleSheet.create({
   default: {
