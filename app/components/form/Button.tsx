@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { View, StyleSheet } from "react-native";
+import { StyleSheet, Pressable } from "react-native";
 import AppText from "../app/AppText";
 
 import { rounded_lg, primary, white } from "@/constants/Colors";
@@ -12,14 +12,14 @@ type Props = {
 
 const AppButton = memo(({ onPress, theme, children }: Props) => {
   return (
-    <View
+    <Pressable
+      onPress={onPress}
       style={[
         styles.buttonContainer,
         { backgroundColor: theme === "primary" ? primary : "transparent" },
       ]}
     >
       <AppText
-        onPress={onPress}
         style={{
           fontFamily: "Outfit-SemiBold",
           textTransform: "capitalize",
@@ -28,7 +28,7 @@ const AppButton = memo(({ onPress, theme, children }: Props) => {
       >
         {children}
       </AppText>
-    </View>
+    </Pressable>
   );
 });
 

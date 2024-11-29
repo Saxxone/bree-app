@@ -2,11 +2,11 @@ import { Link, router } from "expo-router";
 import { View, StyleSheet } from "react-native";
 import { useSession } from "@/ctx";
 import { useState } from "react";
-import { FormInput } from "@/components/form/FormInput";
+import FormInput from "@/components/form/FormInput";
 import { styles } from "@/styles/main";
-import { AppText } from "@/components/app/AppText";
-import { SpacerY } from "@/components/app/SpacerY";
-import { AppButton } from "@/components/form/Button";
+import AppText from "@/components/app/AppText";
+import SpacerY from "@/components/app/SpacerY";
+import AppButton from "@/components/form/Button";
 import { app_routes } from "@/constants/Routes";
 import { primary } from "@/constants/Colors";
 

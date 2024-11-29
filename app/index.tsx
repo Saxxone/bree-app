@@ -1,7 +1,7 @@
 import { View } from "react-native";
 import { Link } from "expo-router";
 import { styles } from "@/styles/main";
-import { AppText } from "./components/app/AppText";
+import AppText from "./components/app/AppText";
 
 export default function Index() {
   return (

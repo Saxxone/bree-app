@@ -2,11 +2,11 @@ import { Link, router } from "expo-router";
 import { View, StyleSheet } from "react-native";
 import { useSession } from "@/ctx";
 import { useState } from "react";
-import { FormInput } from "@/components/form/FormInput";
+import FormInput from "@/components/form/FormInput";
 import { styles } from "@/styles/main";
-import { AppText } from "@/components/app/AppText";
-import { SpacerY } from "@/components/app/SpacerY";
-import { AppButton } from "@/components/form/Button";
+import AppText from "@/components/app/AppText";
+import SpacerY from "@/components/app/SpacerY";
+import AppButton from "@/components/form/Button";
 import { app_routes } from "@/constants/Routes";
 import { primary } from "@/constants/Colors";
 
@@ -36,16 +36,20 @@ export default function Login() {
         placeholder="Enter your email or username"
         value={username}
         onChangeText={setUsername}
-        prependIcon="person"
+        prependIcon="line-md:person-twotone"
       />
       <FormInput
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
         secureTextEntry={toggled}
-        prependIcon="lock-closed"
+        prependIcon="ic:twotone-lock"
         onAppendPressed={togglePasswordField}
-        appendIcon={toggled ? "eye-off" : "eye"}
+        appendIcon={
+          toggled
+            ? "line-md:watch-twotone-loop"
+            : "line-md:watch-off-twotone-loop"
+        }
       />
 
       <View style={style.flexend}>

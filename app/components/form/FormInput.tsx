@@ -2,21 +2,22 @@ import { memo, useMemo } from "react";
 import { LightStyle, DarkStyle } from "@/constants/Theme";
 import {
   TextInput,
+  Pressable,
   StyleSheet,
   useColorScheme,
   View,
   GestureResponderEvent,
 } from "react-native";
-import { AppText } from "@/components/app/AppText";
+import AppText from "@/components/app/AppText";
 import { gray_900, rounded_lg, white } from "@/constants/Colors";
-import Ionicons from "@expo/vector-icons/Ionicons";
+import { Icon, IconifyIcon } from "@iconify/react";
 
 interface Props {
   readonly value: string;
   readonly label?: string;
   readonly placeholder: string;
   readonly secureTextEntry?: boolean;
-  readonly prependIcon?: string;
+  readonly prependIcon?: string | IconifyIcon;
   readonly appendIcon?: string;
   readonly onChangeText: (text: string) => void;
   readonly onPrependPressed?: (event: GestureResponderEvent) => void;
@@ -56,6 +57,26 @@ const FormInput = memo(
       [colorScheme],
     );
 
+    const memoPrependIcon = useMemo(() => {
+      if (!prependIcon) return null;
+
+      return (
+        <Pressable onPress={onPrependPressed} style={styles.icon}>
+          <Icon icon={prependIcon} color={textColor.color} />
+        </Pressable>
+      );
+    }, [prependIcon]);
+
+    const memoAppendIcon = useMemo(() => {
+      if (!appendIcon) return null;
+
+      return (
+        <Pressable onPress={onAppendPressed} style={styles.icon}>
+          <Icon icon={appendIcon} color={textColor.color} />
+        </Pressable>
+      );
+    }, [appendIcon]);
+
     return (
       <View>
         {label ? <AppText>{label}</AppText> : null}
@@ -63,15 +84,7 @@ const FormInput = memo(
         <View
           style={[styles.inputContainer, { backgroundColor: backgroundColor }]}
         >
-          {prependIcon ? (
-            <Ionicons
-              name={`${prependIcon}-outline`}
-              color={textColor.color}
-              size={16}
-              style={styles.icon}
-              onPress={onPrependPressed}
-            />
-          ) : null}
+          {prependIcon ? memoPrependIcon : null}
           <TextInput
             placeholder={placeholder}
             style={[
@@ -88,15 +101,7 @@ const FormInput = memo(
             multiline={false}
             numberOfLines={1}
           />
-          {appendIcon ? (
-            <Ionicons
-              name={`${appendIcon}-outline`}
-              color={textColor.color}
-              size={18}
-              style={styles.icon}
-              onPress={onAppendPressed}
-            />
-          ) : null}
+          {appendIcon ? memoAppendIcon : null}
         </View>
       </View>
     );
