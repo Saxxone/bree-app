@@ -1,4 +1,5 @@
 import { Link, router } from "expo-router";
+import * as Keychain from "react-native-keychain";
 import { View, StyleSheet } from "react-native";
 import { useSession } from "@/ctx";
 import { useState } from "react";
@@ -15,6 +16,7 @@ import { useQuery } from "@tanstack/react-query";
 import api_routes from "@/constants/ApiRoutes";
 import { FetchMethod, Snack } from "@/types/types";
 import SnackBar from "@/components/app/SnackBar";
+import { User } from "@/types/user";
 
 export default function Login() {
   const { signIn } = useSession();
@@ -54,7 +56,7 @@ export default function Login() {
       };
 
       if (validateLogin()) {
-        return await ApiConnectService<any>({
+        return await ApiConnectService<User>({
           url: api_routes.login,
           method: FetchMethod.POST,
           body: data,
@@ -70,9 +72,16 @@ export default function Login() {
   const HandleSignIn = async () => {
     if (validateLogin()) {
       const response = await refetch();
-      console.log(response);
+      const api_url = process.env.EXPO_PUBLIC_API_BASE_URL as string;
 
-      if (response.data && response.data.success) {
+      if (response.data && !response.data.error) {
+        await Keychain.setGenericPassword(email, password);
+        await Keychain.setInternetCredentials(
+          api_url,
+          "access_token",
+          response?.data?.data?.access_token,
+        );
+
         // // Assuming your API returns a success flag
         // signIn(); // Call signIn only if the API call is successful
         // router.replace("/screens/(home)");
@@ -83,14 +92,6 @@ export default function Login() {
           statusCode: 404,
           type: "error",
           message: response.error.message || "Login failed. Please try again.",
-        });
-      } else {
-        setSnackBar({
-          visible: true,
-          title: "Error",
-          statusCode: 404,
-          type: "error",
-          message: "Login failed. Please try again.",
         });
       }
     }

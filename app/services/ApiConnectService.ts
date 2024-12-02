@@ -1,6 +1,5 @@
 import { FetchMethod } from "@/types/types";
-
-const access_token = "";
+import * as Keychain from "react-native-keychain";
 
 interface Props {
   url: string;
@@ -12,6 +11,17 @@ interface Props {
   headers?: Record<string, string>;
 }
 
+async function retrieveTokenFromKeychain() {
+  const api_url = process.env.EXPO_PUBLIC_API_BASE_URL as string;
+  try {
+    const credentials = await Keychain.getInternetCredentials(api_url);
+    if (credentials) {
+      return credentials.password;
+    }
+  } catch (error) {
+    console.error("Failed to access Keychain", error);
+  }
+}
 export async function ApiConnectService<T>({
   url,
   params,
@@ -22,6 +32,8 @@ export async function ApiConnectService<T>({
   headers,
 }: Props): Promise<{ data: T | null; error: any }> {
   try {
+    const access_token = await retrieveTokenFromKeychain();
+
     const response = await fetch(`${url}`, {
       method,
       headers: {
@@ -36,7 +48,6 @@ export async function ApiConnectService<T>({
       body: method !== FetchMethod.GET ? JSON.stringify(body) : undefined,
     });
 
-    console.log(content_type);
     if (!response.ok) {
       const errorData = await response
         .json()

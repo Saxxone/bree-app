@@ -70,7 +70,6 @@ export default function Login() {
   const HandleSignIn = async () => {
     if (validateLogin()) {
       const response = await refetch();
-      console.log(response);
 
       if (response.data && response.data.success) {
         // // Assuming your API returns a success flag
