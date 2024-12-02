@@ -41,6 +41,7 @@ export interface Snack extends Error {
   title?: string;
   type: "error" | "info" | "warning" | "success";
   timeout?: number;
+  visible: boolean;
 }
 
 export interface Pagination {

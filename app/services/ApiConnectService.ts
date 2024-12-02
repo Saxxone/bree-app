@@ -1,9 +1,4 @@
-export enum FetchMethod {
-  GET = "GET",
-  POST = "POST",
-  PUT = "PUT",
-  DELETE = "DELETE",
-}
+import { FetchMethod } from "@/types/types";
 
 const access_token = "";
 
@@ -14,6 +9,7 @@ interface Props {
   method: FetchMethod;
   body?: any;
   content_type?: string;
+  headers?: Record<string, string>;
 }
 
 export async function ApiConnectService<T>({
@@ -23,13 +19,15 @@ export async function ApiConnectService<T>({
   method,
   body,
   content_type,
-}: Props): Promise<T> {
+  headers,
+}: Props): Promise<{ data: T | null; error: any }> {
   try {
     const response = await fetch(`${url}`, {
       method,
       headers: {
         "Content-Type": content_type ?? "application/json",
         Authorization: "Bearer " + access_token,
+        ...headers,
 
         ...(content_type === "multipart/form-data" && {
           enctype: "multipart/form-data",
@@ -38,15 +36,19 @@ export async function ApiConnectService<T>({
       body: method !== FetchMethod.GET ? JSON.stringify(body) : undefined,
     });
 
+    console.log(content_type);
     if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(
-        `Network response was not ok: ${response.status} - ${errorText}`,
-      );
+      const errorData = await response
+        .json()
+        .catch(() => ({ message: response.statusText }));
+
+      console.error("API error", response.status, errorData);
+      return { data: null, error: errorData };
     }
-    return response.json();
+    const data: T = await response.json();
+    return { data, error: null };
   } catch (error) {
-    console.error("Error fetching data:", error);
-    throw error;
+    console.error("Fetch error:", error);
+    return { data: null, error };
   }
 }

@@ -9,9 +9,12 @@ import "react-native-reanimated";
 import { SessionProvider } from "@/ctx";
 import { DarkTheme, LightTheme } from "@/constants/Theme";
 import { headerDark, headerLight } from "./styles/main";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
+
+const queryClient = new QueryClient();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -41,21 +44,23 @@ export default function RootLayout() {
   return (
     <SessionProvider>
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : LightTheme}>
-        <Stack screenOptions={header}>
-          <Stack.Screen
-            name="screens/(app)"
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Stack.Screen
-            name="screens/(auth)"
-            options={{
-              headerShown: false,
-            }}
-          />
-          <Slot />
-        </Stack>
+        <QueryClientProvider client={queryClient}>
+          <Stack screenOptions={header}>
+            <Stack.Screen
+              name="screens/(app)"
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="screens/(auth)"
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Slot />
+          </Stack>
+        </QueryClientProvider>
         <StatusBar style="auto" />
       </ThemeProvider>
     </SessionProvider>

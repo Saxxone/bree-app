@@ -123,8 +123,8 @@ const FormInput = memo(
 
         <View
           style={[
-            isInputValid ? null : styles.errorCont,
             styles.inputContainer,
+            isInputValid ? null : styles.errorCont,
             { backgroundColor: backgroundColor },
           ]}
         >
@@ -165,7 +165,7 @@ export default FormInput;
 
 const styles = StyleSheet.create({
   input: {
-    height: 24,
+    height: 56,
     fontFamily: "Outfit",
     fontSize: 16,
     fontWeight: "500",
@@ -180,7 +180,9 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   inputContainer: {
-    padding: 16,
+    paddingHorizontal: 16,
+    borderWidth: 1,
+    borderColor: "transparent",
     borderRadius: rounded_lg,
     width: "100%",
     flexDirection: "row",

@@ -57,12 +57,81 @@ export const purple_100 = "#f3e8ff";
 export const purple_50 = "#faf5ff";
 
 // violet
+export const violet_50 = "#f5f3ff";
+export const violet_100 = "#ede9fe";
+export const violet_200 = "#ddd6fe";
+export const violet_300 = "#c4b5fd";
 export const violet_400 = "#a78bfa";
+export const violet_500 = "#8b5cf6";
+export const violet_600 = "#7c3aed";
+export const violet_700 = "#6d28d9";
+export const violet_800 = "#5b21b6";
+export const violet_900 = "#4c1d95";
+export const violet_950 = "#2e1065";
 
-//error
-
-export const red_400 = "#f87171";
+//red
+export const red_900 = "#7f1d1d";
+export const red_800 = "#991b1b";
+export const red_700 = "#b91c1c";
+export const red_600 = "#dc2626";
 export const red_500 = "#ef4444";
+export const red_400 = "#f87171";
+export const red_300 = "#fca5a5";
+export const red_200 = "#fecaca";
+export const red_100 = "#fee2e2";
+export const red_50 = "#fef2f2";
+
+// rose
+export const rose_50 = "#fff1f2";
+export const rose_100 = "#ffe4e6";
+export const rose_200 = "#fecdd3";
+export const rose_300 = "#fda4af";
+export const rose_400 = "#fb7185";
+export const rose_500 = "#f43f5e";
+export const rose_600 = "#e11d48";
+export const rose_700 = "#be123c";
+export const rose_800 = "#9f1239";
+export const rose_900 = "#881337";
+export const rose_950 = "#4c0519";
+
+// blue
+export const blue_50 = "#eff6ff";
+export const blue_100 = "#dbeafe";
+export const blue_200 = "#bfdbfe";
+export const blue_300 = "#93c5fd";
+export const blue_400 = "#60a5fa";
+export const blue_500 = "#3b82f6";
+export const blue_600 = "#2563eb";
+export const blue_700 = "#1d4ed8";
+export const blue_800 = "#1e40af";
+export const blue_900 = "#1e3a8a";
+export const blue_950 = "#172554";
+
+// green
+export const green_50 = "#f0fdf4";
+export const green_100 = "#dcfce7";
+export const green_200 = "#bbf7d0";
+export const green_300 = "#86efac";
+export const green_400 = "#4ade80";
+export const green_500 = "#22c55e";
+export const green_600 = "#16a34a";
+export const green_700 = "#15803d";
+export const green_800 = "#166534";
+export const green_900 = "#14532d";
+export const green_950 = "#052e16";
+
+// amber
+export const amber_50 = "#fffbeb";
+export const amber_100 = "#fef3c7";
+export const amber_200 = "#fde68a";
+export const amber_300 = "#fcd34d";
+export const amber_400 = "#fbbf24";
+export const amber_500 = "#f59e0b";
+export const amber_600 = "#d97706";
+export const amber_700 = "#b45309";
+export const amber_800 = "#92400e";
+export const amber_900 = "#78350f";
+export const amber_950 = "#451a03";
 
 // radius
 

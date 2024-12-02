@@ -13,11 +13,19 @@ import { ValidationRule } from "@/hooks/useValidation";
 import { ApiConnectService } from "@/services/ApiConnectService";
 import { useQuery } from "@tanstack/react-query";
 import api_routes from "@/constants/ApiRoutes";
-import { FetchMethod } from "@/types/types";
+import { FetchMethod, Snack } from "@/types/types";
+import SnackBar from "@/components/app/SnackBar";
 
 export default function Login() {
   const { signIn } = useSession();
-  const [username, setUsername] = useState("");
+  const [snackBar, setSnackBar] = useState<Snack>({
+    visible: false,
+    title: "",
+    message: "",
+    type: "error",
+    statusCode: 200,
+  });
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [toggled, setToggled] = useState(true);
   const [inputErrors, setInputErrors] = useState<Record<string, string> | null>(
@@ -29,7 +37,7 @@ export default function Login() {
   };
 
   const validateLogin = () => {
-    if (!username || !password) {
+    if (!email || !password) {
       setInputErrors({ login: "Username and password are required." });
       return false;
     }
@@ -37,25 +45,54 @@ export default function Login() {
     return true;
   };
 
-  const { isPending, isError, data, error } = useQuery({
-    queryKey: ["login", username, password],
+  const { isPending, isError, data, error, refetch } = useQuery({
+    queryKey: ["login", email, password],
     queryFn: async () => {
+      const data = {
+        email: email.trim(),
+        password: password.trim(),
+      };
+
       if (validateLogin()) {
         return await ApiConnectService<any>({
           url: api_routes.login,
           method: FetchMethod.POST,
-          body: { username, password },
+          body: data,
         });
       } else {
         return undefined;
       }
     },
-    enabled: !!username && !!password,
+    enabled: false,
+    retry: false,
   });
 
-  const HandleSignIn = () => {
+  const HandleSignIn = async () => {
     if (validateLogin()) {
-      refetch();
+      const response = await refetch();
+      console.log(response);
+
+      if (response.data && response.data.success) {
+        // // Assuming your API returns a success flag
+        // signIn(); // Call signIn only if the API call is successful
+        // router.replace("/screens/(home)");
+      } else if (response.error) {
+        setSnackBar({
+          visible: true,
+          title: "Error",
+          statusCode: 404,
+          type: "error",
+          message: response.error.message || "Login failed. Please try again.",
+        });
+      } else {
+        setSnackBar({
+          visible: true,
+          title: "Error",
+          statusCode: 404,
+          type: "error",
+          message: "Login failed. Please try again.",
+        });
+      }
     }
   };
 
@@ -64,10 +101,6 @@ export default function Login() {
   }
 
   const validationRules: Record<string, ValidationRule[]> = {
-    email: [
-      { type: "required", message: "Email is required" },
-      { type: "email", message: "Invalid email format" },
-    ],
     password: [
       { type: "required", message: "Password is required." },
       {
@@ -81,19 +114,23 @@ export default function Login() {
 
   return (
     <View style={styles.container}>
-      <SpacerY size="xl" />
+      <SnackBar
+        snack={snackBar}
+        onClose={() => setSnackBar({ ...snackBar, visible: false })}
+      />
+      <SpacerY size="lg" />
       <AppText style={styles.h1}>Login your account</AppText>
 
       <SpacerY size="xxs" />
 
       <FormInput
         placeholder="Enter your email or username"
-        value={username}
+        value={email}
         validationRules={validationRules.username}
         autoComplete="username"
         keyboardType="email-address"
         inputMode="email"
-        onChangeText={setUsername}
+        onChangeText={setEmail}
         prependIcon="person-outline"
         onValidationError={handleValidationError}
       />
@@ -102,7 +139,7 @@ export default function Login() {
         validationRules={validationRules.password}
         value={password}
         autoComplete="password"
-        inputMode="none"
+        inputMode="text"
         onChangeText={setPassword}
         secureTextEntry={toggled}
         prependIcon="lock-closed-outline"
