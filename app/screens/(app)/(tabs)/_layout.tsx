@@ -1,14 +1,20 @@
 import { Tabs } from "expo-router";
-import { Icon, IconifyIcon } from "@iconify/react";
 import { useColorScheme } from "react-native";
 import { headerDark, headerLight } from "@/styles/main";
 import { useMemo } from "react";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function TabLayout() {
   const tabBarIcon = useMemo(() => {
-    return (icon: IconifyIcon | string) =>
+    return (
+        icon:
+          | "home-outline"
+          | "search-outline"
+          | "notifications-outline"
+          | "chatbubble-outline",
+      ) =>
       ({ color, focused }: { color: string; focused: boolean }) => (
-        <Icon icon={focused ? icon : icon} color={color} />
+        <Ionicons name={focused ? icon : icon} size={18} color={color} />
       );
   }, []);
 
@@ -20,28 +26,28 @@ export default function TabLayout() {
         name="(home)"
         options={{
           title: "Home",
-          tabBarIcon: tabBarIcon("line-md:home-simple-twotone"),
+          tabBarIcon: tabBarIcon("home-outline"),
         }}
       />
       <Tabs.Screen
         name="(explore)"
         options={{
           title: "Explore",
-          tabBarIcon: tabBarIcon("line-md:search-twotone"),
+          tabBarIcon: tabBarIcon("search-outline"),
         }}
       />
       <Tabs.Screen
         name="(notifications)"
         options={{
           title: "Notifications",
-          tabBarIcon: tabBarIcon("line-md:bell-twotone-loop"),
+          tabBarIcon: tabBarIcon("notifications-outline"),
         }}
       />
       <Tabs.Screen
         name="(messages)"
         options={{
           title: "Messages",
-          tabBarIcon: tabBarIcon("line-md:chat-bubble-twotone"),
+          tabBarIcon: tabBarIcon("chatbubble-outline"),
         }}
       />
     </Tabs>

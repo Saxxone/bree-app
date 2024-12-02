@@ -1,6 +1,6 @@
 import * as ImagePicker from "expo-image-picker";
 import { View } from "react-native";
-import { Button } from "@/components/app/Button";
+import Button from "@/components/form/Button";
 
 export default function Compose() {
   const pickImageAsync = async () => {
@@ -20,12 +20,10 @@ export default function Compose() {
   return (
     <View>
       <View>
-        <Button
-          theme="primary"
-          label="Choose a photo"
-          onPress={pickImageAsync}
-        />
-        <Button label="Use this photo" />
+        <Button theme="primary" onPress={pickImageAsync}>
+          Choose a photo
+        </Button>
+        <Button>Use this photo</Button>
       </View>
     </View>
   );

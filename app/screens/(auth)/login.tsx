@@ -36,20 +36,16 @@ export default function Login() {
         placeholder="Enter your email or username"
         value={username}
         onChangeText={setUsername}
-        prependIcon="line-md:person-twotone"
+        prependIcon="person-outline"
       />
       <FormInput
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
         secureTextEntry={toggled}
-        prependIcon="ic:twotone-lock"
+        prependIcon="lock-closed-outline"
         onAppendPressed={togglePasswordField}
-        appendIcon={
-          toggled
-            ? "line-md:watch-twotone-loop"
-            : "line-md:watch-off-twotone-loop"
-        }
+        appendIcon={toggled ? "eye-outline" : "eye-off-outline"}
       />
 
       <View style={style.flexend}>

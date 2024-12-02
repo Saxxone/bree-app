@@ -10,15 +10,15 @@ import {
 } from "react-native";
 import AppText from "@/components/app/AppText";
 import { gray_900, rounded_lg, white } from "@/constants/Colors";
-import { Icon, IconifyIcon } from "@iconify/react";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 interface Props {
   readonly value: string;
   readonly label?: string;
   readonly placeholder: string;
   readonly secureTextEntry?: boolean;
-  readonly prependIcon?: string | IconifyIcon;
-  readonly appendIcon?: string;
+  readonly prependIcon?: "lock-closed-outline" | "person-outline";
+  readonly appendIcon?: "eye-outline" | "eye-off-outline";
   readonly onChangeText: (text: string) => void;
   readonly onPrependPressed?: (event: GestureResponderEvent) => void;
   readonly onAppendPressed?: (event: GestureResponderEvent) => void;
@@ -62,7 +62,7 @@ const FormInput = memo(
 
       return (
         <Pressable onPress={onPrependPressed} style={styles.icon}>
-          <Icon icon={prependIcon} color={textColor.color} />
+          <Ionicons name={prependIcon} size={18} color={textColor.color} />
         </Pressable>
       );
     }, [prependIcon]);
@@ -72,7 +72,7 @@ const FormInput = memo(
 
       return (
         <Pressable onPress={onAppendPressed} style={styles.icon}>
-          <Icon icon={appendIcon} color={textColor.color} />
+          <Ionicons name={appendIcon} size={18} color={textColor.color} />
         </Pressable>
       );
     }, [appendIcon]);
