@@ -1,5 +1,5 @@
 import { Link, router } from "expo-router";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import { useSession } from "@/ctx";
 import { useState } from "react";
 import FormInput from "@/components/form/FormInput";
@@ -15,8 +15,16 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [toggled, setToggled] = useState(true);
+  const [inputErrors, setInputErrors] = useState<Record<string, string> | null>(
+    null,
+  );
+
+  const handleValidationError = (errors: Record<string, string> | null) => {
+    setInputErrors(errors);
+  };
 
   const handleSignIn = () => {
+    if (inputErrors) return;
     signIn();
     router.replace("/screens/(home)");
   };
@@ -35,17 +43,24 @@ export default function Login() {
       <FormInput
         placeholder="Enter your email or username"
         value={username}
+        autoComplete="username"
+        keyboardType="email-address"
+        inputMode="email"
         onChangeText={setUsername}
         prependIcon="person-outline"
+        onValidationError={handleValidationError}
       />
       <FormInput
         placeholder="Password"
         value={password}
+        autoComplete="password"
+        inputMode="none"
         onChangeText={setPassword}
         secureTextEntry={toggled}
         prependIcon="lock-closed-outline"
         onAppendPressed={togglePasswordField}
         appendIcon={toggled ? "eye-outline" : "eye-off-outline"}
+        onValidationError={handleValidationError}
       />
 
       <View style={style.flexend}>
@@ -53,6 +68,11 @@ export default function Login() {
           <AppText style={{ alignSelf: "flex-end" }}>Forgot password?</AppText>
         </Link>
       </View>
+
+      <Text>
+        {username}
+        {password}
+      </Text>
 
       <SpacerY size="xxs" />
 
