@@ -14,7 +14,7 @@ export default function TabLayout() {
           | "chatbubble-outline",
       ) =>
       ({ color, focused }: { color: string; focused: boolean }) => (
-        <Ionicons name={focused ? icon : icon} size={18} color={color} />
+        <Ionicons name={focused ? icon : icon} size={24} color={color} />
       );
   }, []);
 

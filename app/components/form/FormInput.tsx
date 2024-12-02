@@ -30,6 +30,8 @@ interface Props extends Omit<TextInputProps, "style"> {
   readonly secureTextEntry?: boolean;
   readonly prependIcon?: IconNames;
   readonly appendIcon?: IconNames;
+  readonly validationRules?: ValidationRule[];
+  readonly autoComplete?: "email" | "password" | "username";
   style?: StyleProp<ViewStyle>;
   inputStyle?: StyleProp<TextStyle>;
   readonly onChangeText: (text: string) => void;
@@ -49,6 +51,7 @@ const FormInput = memo(
     style,
     inputStyle,
     autoComplete,
+    validationRules,
     onPrependPressed,
     onAppendPressed,
     onChangeText,
@@ -80,45 +83,19 @@ const FormInput = memo(
 
     const { validate, errors, setErrors } = useValidation();
 
-    const validationRules: ValidationRule[] = useMemo(() => {
-      if (autoComplete === "email") {
-        return [
-          { type: "required", message: "Email is required" },
-          { type: "email", message: "Invalid email format" },
-        ];
-      } else if (autoComplete === "password") {
-        return [
-          { type: "required", message: "Password is required." },
-          {
-            type: "min",
-            value: 4,
-            message: "Password must be at least 4 characters.",
-          },
-        ];
-      } else if (autoComplete === "username") {
-        return [{ type: "required", message: "Username is required." }];
-      }
-      return [];
-    }, [autoComplete]);
-
     const validateForm = useCallback(() => {
-      const newErrors = validate(value, validationRules); // Call validate with rules
+      if (!validationRules) return;
+
+      const newErrors = validate(value, validationRules);
+
       setErrors(newErrors);
+
       setIsInputValid(Object.keys(newErrors).length === 0);
 
       if (onValidationError) {
         onValidationError(Object.keys(newErrors).length > 0 ? newErrors : null);
       }
-    }, [value, validationRules, onValidationError, validate]); // Correct dependencies
-
-    useEffect(() => {
-      validateForm();
-    }, [validateForm, value]); // Correct dependencies
-
-    const handleChangeText = (text: string) => {
-      onChangeText(text);
-      validateForm();
-    };
+    }, [value, validationRules, onValidationError, validate, setErrors]);
 
     const memoPrependIcon = useMemo(() => {
       if (!prependIcon) return null;
@@ -161,20 +138,21 @@ const FormInput = memo(
             ]}
             value={value}
             placeholderTextColor={mutedTextColor}
-            onChangeText={handleChangeText}
+            onChangeText={onChangeText}
             secureTextEntry={secureTextEntry}
             autoCapitalize="none"
             autoCorrect={false}
             multiline={false}
             numberOfLines={1}
+            onBlur={validateForm}
             {...otherTextInputProps}
           />
           {appendIcon ? memoAppendIcon : null}
         </View>
         <View>
           {Object.values(errors).map((error, index) => (
-            <AppText key={index} style={styles.error}>
-              {error as string}
+            <AppText key={`${index}-error-message`} style={styles.error}>
+              {error}
             </AppText>
           ))}
         </View>
@@ -193,7 +171,6 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     flex: 1,
     borderColor: "transparent",
-    outline: "none",
   },
   icon: {
     margin: 0,
@@ -215,7 +192,7 @@ const styles = StyleSheet.create({
     color: red_400,
     fontSize: 12,
     fontWeight: "300",
-    marginBottom: 12,
+    marginBottom: 4,
     marginTop: 4,
   },
   errorCont: {

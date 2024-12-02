@@ -1,14 +1,4 @@
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
-
-const queryClient = new QueryClient();
-
-enum FetchMethod {
+export enum FetchMethod {
   GET = "GET",
   POST = "POST",
   PUT = "PUT",
@@ -23,10 +13,10 @@ interface Props {
   query?: Record<string, string | number>;
   method: FetchMethod;
   body?: any;
-  content_type: string;
+  content_type?: string;
 }
 
-async function fetchData<T>({
+export async function ApiConnectService<T>({
   url,
   params,
   query,
@@ -38,7 +28,7 @@ async function fetchData<T>({
     const response = await fetch(`${url}`, {
       method,
       headers: {
-        "Content-Type": content_type,
+        "Content-Type": content_type ?? "application/json",
         Authorization: "Bearer " + access_token,
 
         ...(content_type === "multipart/form-data" && {
@@ -59,22 +49,4 @@ async function fetchData<T>({
     console.error("Error fetching data:", error);
     throw error;
   }
-}
-
-export async function useApiConnect<T>({
-  url,
-  params,
-  query,
-  method,
-  body,
-  content_type,
-  key,
-}: Props & { key: string }) {
-  const { isPending, isError, data, error } = useQuery({
-    queryKey: [key, params],
-    queryFn: async () =>
-      await fetchData<T>({ url, params, query, method, body, content_type }),
-  });
-
-  return { isPending, isError, data, error };
 }
