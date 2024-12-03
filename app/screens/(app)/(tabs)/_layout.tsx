@@ -14,7 +14,12 @@ export default function TabLayout() {
           | "chatbubble-outline",
       ) =>
       ({ color, focused }: { color: string; focused: boolean }) => (
-        <Ionicons name={focused ? icon : icon} size={24} color={color} />
+        <Ionicons
+          name={focused ? icon : icon}
+          size={24}
+          style={{ paddingVertical: 2 }}
+          color={color}
+        />
       );
   }, []);
 
@@ -25,28 +30,28 @@ export default function TabLayout() {
       <Tabs.Screen
         name="(home)"
         options={{
-          title: "Home",
+          title: "",
           tabBarIcon: tabBarIcon("home-outline"),
         }}
       />
       <Tabs.Screen
         name="(explore)"
         options={{
-          title: "Explore",
+          title: "",
           tabBarIcon: tabBarIcon("search-outline"),
         }}
       />
       <Tabs.Screen
         name="(notifications)"
         options={{
-          title: "Notifications",
+          title: "",
           tabBarIcon: tabBarIcon("notifications-outline"),
         }}
       />
       <Tabs.Screen
         name="(messages)"
         options={{
-          title: "Messages",
+          title: "",
           tabBarIcon: tabBarIcon("chatbubble-outline"),
         }}
       />

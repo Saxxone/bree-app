@@ -11,7 +11,7 @@ interface Props {
   headers?: Record<string, string>;
 }
 
-async function retrieveTokenFromKeychain() {
+export async function retrieveTokenFromKeychain() {
   const api_url = process.env.EXPO_PUBLIC_API_BASE_URL as string;
   try {
     const credentials = await Keychain.getInternetCredentials(api_url);

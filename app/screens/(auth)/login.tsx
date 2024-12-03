@@ -1,6 +1,6 @@
 import { Link, router } from "expo-router";
 import * as Keychain from "react-native-keychain";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, ActivityIndicator } from "react-native";
 import { useSession } from "@/ctx";
 import { useState } from "react";
 import FormInput from "@/components/form/FormInput";
@@ -47,7 +47,7 @@ export default function Login() {
     return true;
   };
 
-  const { isPending, isError, data, error, refetch } = useQuery({
+  const { isFetching, isError, data, error, refetch } = useQuery({
     queryKey: ["login", email, password],
     queryFn: async () => {
       const data = {
@@ -70,6 +70,8 @@ export default function Login() {
   });
 
   const HandleSignIn = async () => {
+    if (isFetching) return;
+
     if (validateLogin()) {
       const response = await refetch();
       const api_url = process.env.EXPO_PUBLIC_API_BASE_URL as string;
@@ -79,12 +81,9 @@ export default function Login() {
         await Keychain.setInternetCredentials(
           api_url,
           "access_token",
-          response?.data?.data?.access_token,
+          response?.data?.data?.access_token as string,
         );
-
-        // // Assuming your API returns a success flag
-        // signIn(); // Call signIn only if the API call is successful
-        // router.replace("/screens/(home)");
+        router.replace("/screens/(home)");
       } else if (response.error) {
         setSnackBar({
           visible: true,
@@ -158,7 +157,7 @@ export default function Login() {
       <SpacerY size="xxs" />
 
       <AppButton onPress={HandleSignIn} theme="primary">
-        Login
+        {isFetching ? <ActivityIndicator size="small" color="#fff" /> : "Login"}
       </AppButton>
 
       <View>
