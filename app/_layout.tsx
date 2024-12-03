@@ -1,20 +1,34 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from "@react-navigation/native";
+import { ThemeProvider } from "@react-navigation/native";
+import { useColorScheme } from "react-native";
 import { useFonts } from "expo-font";
-import { Stack } from "expo-router";
+import { Stack, Slot } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import "react-native-reanimated";
-
-import { useColorScheme } from "@/hooks/useColorScheme";
+import { SessionProvider } from "@/ctx";
+import { DarkTheme, LightTheme } from "@/constants/Theme";
+import { headerDark, headerLight } from "./styles/main";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
+const queryClient = new QueryClient();
+
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+  const header = colorScheme === "dark" ? headerDark : headerLight;
   const [loaded] = useFonts({
-    SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
+    "Outfit-Black": require("@/assets/fonts/outfit/Outfit-Black.ttf"),
+    "Outfit-Bold": require("@/assets/fonts/outfit/Outfit-Bold.ttf"),
+    "Outfit-ExtraBold": require("@/assets/fonts/outfit/Outfit-ExtraBold.ttf"),
+    "Outfit-ExtraLight": require("@/assets/fonts/outfit/Outfit-ExtraLight.ttf"),
+    "Outfit-Light": require("@/assets/fonts/outfit/Outfit-Light.ttf"),
+    "Outfit-Medium": require("@/assets/fonts/outfit/Outfit-Medium.ttf"),
+    "Outfit-Regular": require("@/assets/fonts/outfit/Outfit-Regular.ttf"),
+    "Outfit-SemiBold": require("@/assets/fonts/outfit/Outfit-SemiBold.ttf"),
+    "Outfit-Thin": require("@/assets/fonts/outfit/Outfit-Thin.ttf"),
   });
 
   useEffect(() => {
@@ -28,12 +42,27 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        {/* <Stack.Screen name="(tabs)" options={{ headerShown: false }} /> */}
-        <Stack.Screen name="index" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <SessionProvider>
+      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : LightTheme}>
+        <QueryClientProvider client={queryClient}>
+          <Stack screenOptions={header}>
+            <Stack.Screen
+              name="screens/(app)"
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Screen
+              name="screens/(auth)"
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Slot />
+          </Stack>
+        </QueryClientProvider>
+        <StatusBar style="auto" />
+      </ThemeProvider>
+    </SessionProvider>
   );
 }

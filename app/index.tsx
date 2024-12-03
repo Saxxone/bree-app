@@ -1,45 +1,27 @@
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
-import ParallaxScrollView from "@/components/ParallaxScrollView";
-
-import { Image, StyleSheet, Platform } from "react-native";
-import { ExternalLink } from "./components/ExternalLink";
+import { View } from "react-native";
+import { Link, router } from "expo-router";
+import { styles } from "@/styles/main";
+import AppText from "./components/app/AppText";
+import { retrieveTokenFromKeychain } from "@/services/ApiConnectService";
 
 export default function Index() {
-  return (
-    <ParallaxScrollView headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }} headerImage={<Image source={require("@/assets/images/bree.png")} style={styles.reactLogo} />}>
-      <ThemedView
-        style={{
-          flex: 1,
-          justifyContent: "center",
-          alignItems: "center",
-        }}>
-        <ExternalLink href="http://bree.social/">
-          <ThemedText type="title"> Visit our website </ThemedText>
-        </ExternalLink>
+  //TODO fix this page design and handle auth better
+  (async function getAuthStatus() {
+    const token = await retrieveTokenFromKeychain();
+    if (token) {
+      router.replace("/screens/(home)");
+    }
+  })();
 
-        <ThemedText>Bree</ThemedText>
-        <ThemedText>HMR IS QUITE FAST</ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+  return (
+    <View style={styles.container}>
+      <AppText>Home screen</AppText>
+      <Link href="/screens/(auth)/login" style={styles.button}>
+        <AppText>Go to Login screen</AppText>
+      </Link>
+      <Link href="/screens/(app)/compose" style={styles.button}>
+        <AppText>Compose a Post</AppText>
+      </Link>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: "absolute",
-  },
-});
