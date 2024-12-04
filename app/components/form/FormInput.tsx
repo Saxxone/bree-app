@@ -16,6 +16,7 @@ import {
 import AppText from "@/components/app/AppText";
 import { gray_900, red_400, rounded_lg, white } from "@/constants/Colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import createStyles from "@/services/ClassTransformer";
 
 type IconNames =
   | "lock-closed-outline"
@@ -101,7 +102,10 @@ const FormInput = memo(
       if (!prependIcon) return null;
 
       return (
-        <Pressable onPress={onPrependPressed} style={styles.icon}>
+        <Pressable
+          onPress={onPrependPressed}
+          style={createStyles("m-0 px-0.5")}
+        >
           <Ionicons name={prependIcon} size={18} color={textColor.color} />
         </Pressable>
       );
@@ -111,20 +115,22 @@ const FormInput = memo(
       if (!appendIcon) return null;
 
       return (
-        <Pressable onPress={onAppendPressed} style={styles.icon}>
+        <Pressable onPress={onAppendPressed} style={createStyles("m-0 px-0.5")}>
           <Ionicons name={appendIcon} size={18} color={textColor.color} />
         </Pressable>
       );
     }, [appendIcon, textColor]);
 
     return (
-      <View style={[styles.inputWrapper]}>
+      <View style={createStyles("mb-4")}>
         {label ? <AppText>{label}</AppText> : null}
 
         <View
           style={[
-            styles.inputContainer,
-            isInputValid ? null : styles.errorCont,
+            createStyles(
+              "px-4 border border-transparent rounded-lg w-full flex flex-wrap items-center gap-8",
+            ),
+            isInputValid ? null : createStyles("border-rose-500 border"),
             { backgroundColor: backgroundColor },
           ]}
         >
@@ -133,6 +139,7 @@ const FormInput = memo(
             placeholder={placeholder}
             style={[
               styles.input,
+              createStyles("flex-1 border-transparent"),
               textColor,
               { backgroundColor: backgroundColor },
             ]}
@@ -151,7 +158,10 @@ const FormInput = memo(
         </View>
         <View>
           {Object.values(errors).map((error, index) => (
-            <AppText key={`${index}-error-message`} style={styles.error}>
+            <AppText
+              key={`${index}-error-message`}
+              style={createStyles("my-1 text-red-400")}
+            >
               {error}
             </AppText>
           ))}
@@ -169,36 +179,5 @@ const styles = StyleSheet.create({
     fontFamily: "Outfit",
     fontSize: 16,
     fontWeight: "500",
-    flex: 1,
-    borderColor: "transparent",
-  },
-  icon: {
-    margin: 0,
-    paddingHorizontal: 2,
-  },
-  inputWrapper: {
-    marginBottom: 16,
-  },
-  inputContainer: {
-    paddingHorizontal: 16,
-    borderWidth: 1,
-    borderColor: "transparent",
-    borderRadius: rounded_lg,
-    width: "100%",
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "center",
-    gap: 8,
-  },
-  error: {
-    color: red_400,
-    fontSize: 12,
-    fontWeight: "300",
-    marginBottom: 4,
-    marginTop: 4,
-  },
-  errorCont: {
-    borderColor: red_400,
-    borderWidth: 1,
   },
 });

@@ -12,6 +12,8 @@ import {
   gray_600,
   gray_700,
   gray_800,
+  rose_500,
+  rose_100,
 } from "@/constants/Colors";
 
 const tailwindToRNMap: {
@@ -160,11 +162,43 @@ const tailwindToRNMap: {
   "gap-5": { gap: 20 },
 
   //padding
+  "p-0": { padding: 0 },
+  "p-0.5": { padding: 2 },
   "p-1": { padding: 4 },
   "p-2": { padding: 8 },
   "p-3": { padding: 12 },
   "p-4": { padding: 16 },
   "p-5": { padding: 20 },
+  "p-6": { padding: 24 },
+  "p-7": { padding: 28 },
+  "p-8": { padding: 32 },
+  "p-9": { padding: 36 },
+  "p-10": { padding: 40 },
+
+  "p-11": { padding: 44 },
+  "p-12": { padding: 48 },
+  "p-14": { padding: 56 },
+  "p-16": { padding: 64 },
+  "p-20": { padding: 80 },
+  "p-24": { padding: 96 },
+
+  //horizontal padding
+  "px-0": { paddingHorizontal: 0 },
+  "px-0.5": { paddingHorizontal: 2 },
+  "px-1": { paddingHorizontal: 4 },
+  "px-2": { paddingHorizontal: 8 },
+  "px-3": { paddingHorizontal: 12 },
+  "px-4": { paddingHorizontal: 16 },
+  "px-5": { paddingHorizontal: 20 },
+
+  //vertical padding
+  "py-0": { paddingVertical: 0 },
+  "py-0.5": { paddingVertical: 2 },
+  "py-1": { paddingVertical: 4 },
+  "py-2": { paddingVertical: 8 },
+  "py-3": { paddingVertical: 12 },
+  "py-4": { paddingVertical: 16 },
+  "py-5": { paddingVertical: 20 },
 
   //margins
   "m-1": { margin: 4 },
@@ -331,6 +365,35 @@ const tailwindToRNMap: {
 
   //cursor
   "cursor-pointer": { cursor: "pointer" },
+
+  //border and border colors
+  border: { borderWidth: 1, borderStyle: "solid" },
+  "border-b": { borderBottomWidth: 1, borderBottomStyle: "solid" },
+  "border-t": { borderTopWidth: 1, borderTopStyle: "solid" },
+  "border-l": { borderLeftWidth: 1, borderLeftStyle: "solid" },
+  "border-r": { borderRightWidth: 1, borderRightStyle: "solid" },
+  "border-transparent": { borderColor: "transparent" },
+  "border-ttransparent": { borderTopColor: "transparent" },
+  "border-btransparent": { borderBottomColor: "transparent" },
+  "border-ltransparent": { borderLeftColor: "transparent" },
+  "border-rtransparent": { borderRightColor: "transparent" },
+
+  "border-gray-100": { borderColor: gray_100 },
+  "border-gray-200": { borderColor: gray_200 },
+  "border-gray-300": { borderColor: gray_300 },
+  "border-gray-400": { borderColor: gray_400 },
+  "border-gray-500": { borderColor: gray_500 },
+  "border-gray-600": { borderColor: gray_600 },
+  "border-gray-700": { borderColor: gray_700 },
+  "border-gray-800": { borderColor: gray_800 },
+  "border-gray-900": { borderColor: gray_900 },
+  "border-white": { borderColor: white },
+  "border-violet-400": { borderColor: violet_400 },
+  "border-violet-700": { borderColor: violet_700 },
+
+  //rose border
+  "border-rose-100": { borderColor: rose_100 },
+  "border-rose-500": { borderColor: rose_500 },
 
   // Object Fit
   "object-contain": { resizeMode: "contain" },
