@@ -1,36 +1,46 @@
-import { memo } from "react";
-import { StyleSheet } from "react-native";
-import { useRef, useState } from "react";
-import { Video, ResizeMode } from "expo-av";
+import { useEvent } from "expo";
+import { useVideoPlayer, VideoView } from "expo-video";
+import { StyleSheet, View } from "react-native";
 
-type Props = {
-  readonly uri: string;
-};
+interface Props {
+  source: string;
+}
 
-const VideoViewer = memo(({ uri }: Props) => {
-  const video = useRef(null);
-  const [status, setStatus] = useState({});
+export default function VideoScreen({ source }: Props) {
+  const player = useVideoPlayer(source, (player) => {
+    player.loop = true;
+    player.play();
+  });
+
+  const { isPlaying } = useEvent(player, "playingChange", {
+    isPlaying: player.playing,
+  });
+
   return (
-    <Video
-      ref={video}
-      style={styles.video}
-      source={{
-        uri: uri,
-      }}
-      useNativeControls
-      resizeMode={ResizeMode.CONTAIN}
-      isLooping
-      onPlaybackStatusUpdate={(status) => setStatus(() => status)}
-    />
+    <View style={styles.contentContainer}>
+      <VideoView
+        style={styles.video}
+        player={player}
+        allowsFullscreen
+        allowsPictureInPicture
+      />
+    </View>
   );
-});
-
-export default VideoViewer;
+}
 
 const styles = StyleSheet.create({
+  contentContainer: {
+    flex: 1,
+    padding: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 50,
+  },
   video: {
-    width: 320,
-    height: 440,
-    borderRadius: 18,
+    width: 350,
+    height: 275,
+  },
+  controlsContainer: {
+    padding: 10,
   },
 });

@@ -18,7 +18,7 @@ const MediaViewer = memo(({ post }: Props) => {
       />
     ) : (
       <VideoViewer
-        uri={m as string}
+        source={m as string}
         key={`${m.toString()}-${index}-${post.id}`}
       />
     );

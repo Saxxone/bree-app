@@ -28,7 +28,8 @@ export const buttonPrimary: TextStyle = {
 
 export const media: ImageStyle = {
   width: "100%",
-  height: "100%",
+  height: 300,
+  objectFit: "cover",
   borderRadius: rounded_lg,
 };
 
