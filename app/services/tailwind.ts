@@ -409,7 +409,7 @@ const tailwindToRNMap: {
   //container
   container: {
     width: "100%",
-    maxWidth: 300,
+    maxWidth: "100vw",
     alignSelf: "center",
     paddingHorizontal: 8,
   },

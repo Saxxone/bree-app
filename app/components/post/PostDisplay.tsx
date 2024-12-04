@@ -25,7 +25,7 @@ const PostDisplay = memo(({ post }: Props) => {
   return (
     <View
       style={[
-        createStyles("p-3 mb-3 mx-2 rounded-lg cursor-pointer"),
+        createStyles("p-3 mb-3 rounded-lg cursor-pointer"),
         { backgroundColor: bg_color.backgroundColor },
       ]}
     >

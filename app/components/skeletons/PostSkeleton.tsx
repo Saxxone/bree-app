@@ -6,7 +6,7 @@ import createStyles from "@/services/ClassTransformer";
 import { DarkStyle, LightStyle } from "@/constants/Theme";
 
 const PostSkeleton = memo(() => {
-  const widths = ["w-40", "w-52", "w-80", "w-96", "w-full"];
+  const widths = ["w-40", "w-52", "w-full"];
 
   const random_widths = useMemo(() => {
     const shuffledWidths = [...widths];
@@ -33,11 +33,11 @@ const PostSkeleton = memo(() => {
   return (
     <View
       style={[
-        createStyles("block rounded-lg p-3 mb-2 cursor-pointer"),
+        createStyles("block rounded-lg p-3 mb-3 cursor-pointer"),
         { backgroundColor: bg_color.backgroundColor },
       ]}
     >
-      <View style={createStyles("flex items-center gap-4 mb-3")}>
+      <View style={createStyles("flex flex-row items-center gap-4 mb-4")}>
         <SkeletonLoader width="w-10" height="h-10" radius="rounded-full" />
         <View>
           <SkeletonLoader
