@@ -1,4 +1,3 @@
-import { posts } from "@/data/posts";
 import PostDisplay from "@/components/post/PostDisplay";
 import { RefreshControl, ScrollView, View } from "react-native";
 import { useQuery } from "@tanstack/react-query";

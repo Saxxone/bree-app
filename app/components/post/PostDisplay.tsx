@@ -1,12 +1,11 @@
 import { memo, useMemo } from "react";
 import { Post } from "@/types/post";
 import MediaViewer from "@/components/app/MediaViewer";
-import { Text, View, StyleSheet, Image, useColorScheme } from "react-native";
+import { View, Image, useColorScheme } from "react-native";
 import AppText from "../app/AppText";
-import { rounded_lg, violet_400 } from "@/constants/Colors";
+import { violet_400 } from "@/constants/Colors";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { DarkStyle, LightStyle } from "@/constants/Theme";
-import SpacerY from "../app/SpacerY";
 import createStyles from "@/services/ClassTransformer";
 
 type Props = {

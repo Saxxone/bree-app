@@ -91,6 +91,14 @@ const tailwindToRNMap: {
   "rounded-lg": { borderRadius: rounded_lg },
   "rounded-full": { borderRadius: "100%" },
 
+  //displays
+
+  block: { display: "block" },
+  inline: { display: "inline" },
+  "inline-block": { display: "inline-block" },
+  flex: { display: "flex" },
+  "inline-flex": { display: "inline-flex" },
+
   //flex
 
   "flex-1": { flex: 1 },
@@ -291,6 +299,35 @@ const tailwindToRNMap: {
   "h-min": { height: "min-content" },
   "h-max": { height: "max-content" },
   "h-fit": { height: "fit-content" },
+
+  //postioning
+  absolute: { position: "absolute" },
+  fixed: { position: "fixed" },
+  relative: { position: "relative" },
+  "top-0": { top: 0 },
+  "bottom-0": { bottom: 0 },
+  "left-0": { left: 0 },
+  "right-0": { right: 0 },
+  "top-1": { top: 4 },
+  "bottom-1": { bottom: 4 },
+  "left-1": { left: 4 },
+  "right-1": { right: 4 },
+  "top-2": { top: 8 },
+  "bottom-2": { bottom: 8 },
+  "left-2": { left: 8 },
+  "right-2": { right: 8 },
+  "top-3": { top: 12 },
+  "bottom-3": { bottom: 12 },
+  "left-3": { left: 12 },
+  "right-3": { right: 12 },
+  "top-4": { top: 16 },
+  "bottom-4": { bottom: 16 },
+  "left-4": { left: 16 },
+  "right-4": { right: 16 },
+  "top-5": { top: 20 },
+  "bottom-5": { bottom: 20 },
+  "left-5": { left: 20 },
+  "right-5": { right: 20 },
 
   //cursor
   "cursor-pointer": { cursor: "pointer" },

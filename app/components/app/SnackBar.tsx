@@ -15,6 +15,7 @@ import {
 } from "@/constants/Colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import createStyles from "@/services/ClassTransformer";
 
 interface Props {
   snack: Snack;
@@ -58,16 +59,20 @@ const SnackBar = memo(({ snack, onClose }: Props) => {
   }, [snack.visible, onClose]);
 
   return (
-    <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
+    <Animated.View
+      style={[
+        createStyles("absolute top-5 left-5 right-5"),
+        { opacity: fadeAnim },
+      ]}
+    >
       <SafeAreaView>
         <View style={[styles.generic, snackStyle]}>
           <View>
             <AppText
               style={{
                 color: snackStyle.color,
-                fontSize: 16,
-                wordWrap: "break-word",
               }}
+              className="break-word"
             >
               {snack.title}
             </AppText>
@@ -76,13 +81,13 @@ const SnackBar = memo(({ snack, onClose }: Props) => {
                 color: snackStyle.color,
                 fontSize: 14,
                 fontWeight: "400",
-                wordWrap: "break-word",
               }}
+              className="break-word"
             >
               {snack.message}
             </AppText>
           </View>
-          <Pressable style={{ marginLeft: "auto" }} onPress={onClose}>
+          <Pressable style={createStyles("ml-auto")} onPress={onClose}>
             <Ionicons name="close-outline" size={24} color={snackStyle.color} />
           </Pressable>
         </View>
@@ -94,13 +99,6 @@ const SnackBar = memo(({ snack, onClose }: Props) => {
 export default SnackBar;
 
 const styles = StyleSheet.create({
-  container: {
-    position: "absolute",
-    top: 20,
-    left: 20,
-    right: 20,
-    zIndex: 1,
-  },
   generic: {
     padding: 16,
     borderRadius: rounded_lg,

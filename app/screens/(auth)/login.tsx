@@ -17,6 +17,7 @@ import api_routes from "@/constants/ApiRoutes";
 import { FetchMethod, Snack } from "@/types/types";
 import SnackBar from "@/components/app/SnackBar";
 import { User } from "@/types/user";
+import createStyles from "@/services/ClassTransformer";
 
 export default function Login() {
   const { signIn } = useSession();
@@ -148,9 +149,9 @@ export default function Login() {
         onValidationError={handleValidationError}
       />
 
-      <View style={style.flexend}>
+      <View style={createStyles("justify-end flex-row w-full")}>
         <Link href={app_routes.forgotPassword}>
-          <AppText style={{ alignSelf: "flex-end" }}>Forgot password?</AppText>
+          <AppText style={createStyles("self-end")}>Forgot password?</AppText>
         </Link>
       </View>
 
@@ -170,7 +171,7 @@ export default function Login() {
 
       <SpacerY size="xxs" />
 
-      <View style={style.flexcenter}>
+      <View style={createStyles("flex-row justify-center w-full")}>
         <Link href={app_routes.register}>
           <AppText>Create new account?</AppText>
           <AppText style={{ color: primary }}> Sign up</AppText>
@@ -179,16 +180,3 @@ export default function Login() {
     </View>
   );
 }
-
-const style = StyleSheet.create({
-  flexend: {
-    justifyContent: "flex-end",
-    width: "100%",
-    flexDirection: "row",
-  },
-  flexcenter: {
-    justifyContent: "center",
-    width: "100%",
-    flexDirection: "row",
-  },
-});
