@@ -44,7 +44,7 @@ export default function HomeScreen() {
   });
 
   const Feed =
-    isFetching && !feedData.data ? (
+    isFetching && !feedData?.data ? (
       skeleton_posts.map((skeleton) => (
         <PostSkeleton key={"skeleton" + skeleton} />
       ))

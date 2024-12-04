@@ -53,6 +53,7 @@ const PostSkeleton = memo(() => {
         {random_widths.map((w) => (
           <SkeletonLoader
             width={w}
+            key={w + Math.random() + "skeleton"}
             height="h-3"
             radius="rounded-lg"
             className="mb-2"

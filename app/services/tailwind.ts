@@ -138,7 +138,7 @@ const tailwindToRNMap: {
 
   //grid
 
-  grid: { display: "flex", flexWrap: "wrap" },
+  grid: { display: "flex" },
   "grid-cols-1": { width: "100%" },
   "grid-cols-2": { width: "50%" },
   "grid-cols-3": { width: "33.333333%" },
@@ -153,7 +153,28 @@ const tailwindToRNMap: {
   "grid-cols-12": { width: "8.333333%" },
 
   "grid-rows-1": { height: "100%" },
-  "grid-rows-2": { height: "50%" },
+  "grid-rows-2": { height: "48%" },
+  "grid-rows-3": { height: "33.333333%" },
+  "grid-rows-4": { height: "25%" },
+  "grid-rows-5": { height: "20%" },
+  "grid-rows-6": { height: "16.666667%" },
+  "grid-rows-7": { height: "14.285714%" },
+  "grid-rows-8": { height: "12.5%" },
+  "grid-rows-9": { height: "11.111111%" },
+  "grid-rows-10": { height: "10%" },
+  "grid-rows-11": { height: "9.090909%" },
+  "grid-rows-12": { height: "8.333333%" },
+
+  "row-span-1": { height: "auto" }, // Default behavior
+  "row-span-2": { height: "calc(100% * 2)" },
+  "row-span-3": { height: "calc(100% * 3 / var(--grid-rows))" },
+  "row-span-4": { height: "calc(100% * 4 / var(--grid-rows))" },
+  "row-span-5": { height: "calc(100% * 5 / var(--grid-rows))" },
+  "row-span-6": { height: "calc(100% * 6 / var(--grid-rows))" },
+
+  // ... and so on for other row-span values
+
+  "gap-0": { gap: 0 },
 
   "gap-1": { gap: 4 },
   "gap-2": { gap: 8 },
@@ -288,7 +309,7 @@ const tailwindToRNMap: {
   "w-max": { width: "max-content" }, // Intrinsic maximum width
   "w-fit": { width: "fit-content" }, // Shrinks to fit content
 
-  //height
+  // heights
 
   "h-0": { height: 0 },
   "h-1": { height: 4 },
@@ -333,6 +354,7 @@ const tailwindToRNMap: {
   "h-min": { height: "min-content" },
   "h-max": { height: "max-content" },
   "h-fit": { height: "fit-content" },
+  "h-inherit": { height: "inherit" },
 
   //postioning
   absolute: { position: "absolute" },
@@ -401,6 +423,12 @@ const tailwindToRNMap: {
   "object-fill": { resizeMode: "stretch" },
   "object-none": { resizeMode: "center" },
   "object-scale-down": { resizeMode: "repeat" },
+
+  //overflow
+  "overflow-visible": { overflow: "visible" },
+  "overflow-hidden": { overflow: "hidden" },
+  "overflow-scroll": { overflow: "scroll" },
+  "overflow-auto": { overflow: "auto" },
 
   // ... Add more Tailwind classes and their React Native style equivalents
 

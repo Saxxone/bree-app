@@ -1,11 +1,12 @@
 import createStyles from "@/services/ClassTransformer";
 import { useEvent } from "expo";
 import { useVideoPlayer, VideoView } from "expo-video";
-import { useMemo } from "react";
 import { View } from "react-native";
 
 interface Props {
   source: string;
+  controls?: boolean;
+  autoplay?: boolean;
 }
 
 export default function VideoScreen({ source }: Props) {
@@ -25,6 +26,7 @@ export default function VideoScreen({ source }: Props) {
         allowsFullscreen
         allowsPictureInPicture
         contentFit="cover"
+        style={[createStyles("rounded-lg w-full h-full object-cover")]}
       />
     </View>
   );
