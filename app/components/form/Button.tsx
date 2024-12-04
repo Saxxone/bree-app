@@ -3,6 +3,7 @@ import { StyleSheet, Pressable } from "react-native";
 import AppText from "../app/AppText";
 
 import { rounded_lg, primary, white } from "@/constants/Colors";
+import createStyles from "@/services/ClassTransformer";
 
 type Props = {
   readonly theme?: "primary";
@@ -15,7 +16,9 @@ const AppButton = memo(({ onPress, theme, children }: Props) => {
     <Pressable
       onPress={onPress}
       style={[
-        styles.buttonContainer,
+        createStyles(
+          "w-full py-3 rounded-lg text-center px-4 rounded-lg items-center",
+        ),
         { backgroundColor: theme === "primary" ? primary : "transparent" },
       ]}
     >
@@ -33,15 +36,3 @@ const AppButton = memo(({ onPress, theme, children }: Props) => {
 });
 
 export default AppButton;
-
-const styles = StyleSheet.create({
-  buttonContainer: {
-    width: "100%",
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-    marginVertical: 16,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: rounded_lg,
-  },
-});

@@ -9,7 +9,7 @@ export interface Post {
   author: Partial<Author>;
   published: boolean;
   authorId: string;
-  media: string[] | File[];
+  media: string[];
   mediaTypes: MediaType[];
   likedBy: Partial<User>[];
   likedByMe: boolean;

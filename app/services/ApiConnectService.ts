@@ -35,7 +35,24 @@ export async function ApiConnectService<T>({
   try {
     const access_token = await retrieveTokenFromKeychain();
 
-    const response = await fetch(`${url}`, {
+    let fullUrl = url;
+
+    if (params) {
+      const paramParts = Object.entries(params)
+        .map(([key, value]) => `${key}=${value}`)
+        .join("&");
+      fullUrl += `/${paramParts}`; // Assuming params are path parameters
+    }
+
+    if (query) {
+      const queryParams = new URLSearchParams();
+      for (const [key, value] of Object.entries(query)) {
+        queryParams.append(key, value.toString());
+      }
+      fullUrl += `?${queryParams.toString()}`;
+    }
+
+    const response = await fetch(`${fullUrl}`, {
       method,
       headers: {
         "Content-Type": content_type ?? "application/json",

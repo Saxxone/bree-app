@@ -6,7 +6,9 @@ import {
   gray_400,
   gray_700,
   gray_800,
+  gray_900,
   primary,
+  white,
 } from "./Colors";
 import { StyleSheet } from "react-native";
 
@@ -41,6 +43,9 @@ export const DarkStyle = StyleSheet.create({
     backgroundColor: gray_800,
     color: gray_200,
   },
+  cardBackgroundColor: {
+    backgroundColor: gray_900,
+  },
   textColor: {
     color: gray_200,
   },
@@ -52,6 +57,9 @@ export const DarkStyle = StyleSheet.create({
 export const LightStyle = StyleSheet.create({
   backgroundColor: {
     backgroundColor: gray_100,
+  },
+  cardBackgroundColor: {
+    backgroundColor: white,
   },
   textColor: {
     color: gray_700,
