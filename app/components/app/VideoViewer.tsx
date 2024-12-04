@@ -1,6 +1,8 @@
+import createStyles from "@/services/ClassTransformer";
 import { useEvent } from "expo";
 import { useVideoPlayer, VideoView } from "expo-video";
-import { StyleSheet, View } from "react-native";
+import { useMemo } from "react";
+import { View } from "react-native";
 
 interface Props {
   source: string;
@@ -17,30 +19,13 @@ export default function VideoScreen({ source }: Props) {
   });
 
   return (
-    <View style={styles.contentContainer}>
+    <View style={createStyles("mx-auto flex items-center justify-center")}>
       <VideoView
-        style={styles.video}
         player={player}
         allowsFullscreen
         allowsPictureInPicture
+        contentFit="cover"
       />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  contentContainer: {
-    flex: 1,
-    padding: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    paddingHorizontal: 50,
-  },
-  video: {
-    width: 350,
-    height: 275,
-  },
-  controlsContainer: {
-    padding: 10,
-  },
-});

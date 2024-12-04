@@ -6,6 +6,8 @@ import AppText from "../app/AppText";
 import { rounded_lg, violet_400 } from "@/constants/Colors";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { DarkStyle, LightStyle } from "@/constants/Theme";
+import SpacerY from "../app/SpacerY";
+import createStyles from "@/services/ClassTransformer";
 
 type Props = {
   readonly post: Post;
@@ -13,7 +15,7 @@ type Props = {
 
 const PostDisplay = memo(({ post }: Props) => {
   const colorScheme = useColorScheme();
-  const bgColor = useMemo(
+  const bg_color = useMemo(
     () =>
       colorScheme === "dark"
         ? DarkStyle.cardBackgroundColor
@@ -23,14 +25,17 @@ const PostDisplay = memo(({ post }: Props) => {
 
   return (
     <View
-      style={[styles.wrapper, { backgroundColor: bgColor.backgroundColor }]}
+      style={[
+        createStyles("p-3 mb-3 mx-2 rounded-lg cursor-pointer"),
+        { backgroundColor: bg_color.backgroundColor },
+      ]}
     >
-      <View style={styles.flexRow}>
+      <View style={createStyles("flex-row items-start gap-2 mb-2")}>
         <Image
           source={{
             uri: post.author.img as string,
           }}
-          style={styles.avatar}
+          style={createStyles("avatar")}
         />
         <View>
           <AppText>{post.author.name}</AppText>
@@ -40,10 +45,11 @@ const PostDisplay = memo(({ post }: Props) => {
           name="verified"
           size={16}
           color={violet_400}
-          style={{ marginTop: 4 }}
+          style={createStyles("mt-1")}
         />
       </View>
-      <AppText style={{ marginTop: 8 }}>
+
+      <AppText className="break-word font-normal mb-2">
         {post.text || post.longPost?.content?.[0]?.text}
       </AppText>
       <MediaViewer post={post} />
@@ -52,24 +58,3 @@ const PostDisplay = memo(({ post }: Props) => {
 });
 
 export default PostDisplay;
-
-const styles = StyleSheet.create({
-  wrapper: {
-    borderRadius: rounded_lg,
-    padding: 12,
-    marginBottom: 8,
-    marginHorizontal: 8,
-    backgroundColor: "#fff",
-    cursor: "pointer",
-  },
-  avatar: {
-    width: 50,
-    height: 50,
-    borderRadius: 100,
-  },
-  flexRow: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    gap: 8,
-  },
-});

@@ -7,7 +7,7 @@ import { FetchMethod } from "@/types/types";
 import { ApiConnectService } from "@/services/ApiConnectService";
 import { Post } from "@/types/post";
 import AppText from "@/components/app/AppText";
-import { violet_400, violet_500 } from "@/constants/Colors";
+import { violet_500 } from "@/constants/Colors";
 
 export default function HomeScreen() {
   const {
@@ -31,8 +31,6 @@ export default function HomeScreen() {
     enabled: true,
     retry: false,
   });
-
-  console.log(feedData);
 
   const Feed = isFetching ? (
     <AppText>Loading...</AppText>
