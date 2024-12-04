@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { Image } from "expo-image";
-import createStyles from "@/services/ClassTransformer";
+import transformClasses from "@/services/ClassTransformer";
 
 type Props = {
   readonly source: string;
@@ -14,10 +14,7 @@ const ImageViewer = memo(({ source }: Props) => {
       }}
       autoplay={true}
       contentFit="cover"
-      style={[
-        createStyles("rounded-lg w-full h-full object-cover"),
-        { backgroundColor: "red" },
-      ]}
+      style={[transformClasses("rounded-lg w-full h-full object-cover")]}
     />
   );
 });

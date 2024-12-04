@@ -15,7 +15,7 @@ import {
 } from "@/constants/Colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import createStyles from "@/services/ClassTransformer";
+import transformClasses from "@/services/ClassTransformer";
 
 interface Props {
   snack: Snack;
@@ -61,7 +61,7 @@ const SnackBar = memo(({ snack, onClose }: Props) => {
   return (
     <Animated.View
       style={[
-        createStyles("absolute top-5 left-5 right-5"),
+        transformClasses("absolute top-5 left-5 right-5"),
         { opacity: fadeAnim },
       ]}
     >
@@ -87,7 +87,7 @@ const SnackBar = memo(({ snack, onClose }: Props) => {
               {snack.message}
             </AppText>
           </View>
-          <Pressable style={createStyles("ml-auto")} onPress={onClose}>
+          <Pressable style={transformClasses("ml-auto")} onPress={onClose}>
             <Ionicons name="close-outline" size={24} color={snackStyle.color} />
           </Pressable>
         </View>

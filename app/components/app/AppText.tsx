@@ -1,7 +1,7 @@
 import { memo, useMemo } from "react";
 import { Text, useColorScheme, StyleSheet, TextStyle } from "react-native";
 import { DarkStyle, LightStyle } from "@/constants/Theme";
-import createStyles from "@/services/ClassTransformer";
+import transformClasses from "@/services/ClassTransformer";
 
 interface Props {
   style?: TextStyle;
@@ -16,7 +16,7 @@ const AppText = memo(({ style, className, children, ...props }: Props) => {
     () => (colorScheme === "dark" ? DarkStyle.textColor : LightStyle.textColor),
     [colorScheme],
   );
-  const classes = useMemo(() => createStyles(className ?? ""), [className]);
+  const classes = useMemo(() => transformClasses(className ?? ""), [className]);
 
   return (
     <Text

@@ -1,5 +1,5 @@
 import PostDisplay from "@/components/post/PostDisplay";
-import { RefreshControl, ScrollView, View } from "react-native";
+import { FlatList, RefreshControl, ScrollView, View } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import api_routes from "@/constants/ApiRoutes";
 import { FetchMethod, Snack } from "@/types/types";
@@ -8,9 +8,9 @@ import { Post } from "@/types/post";
 import AppText from "@/components/app/AppText";
 import { violet_500 } from "@/constants/Colors";
 import PostSkeleton from "@/components/skeletons/PostSkeleton";
-import createStyles from "@/services/ClassTransformer";
+import transformClasses from "@/services/ClassTransformer";
 import SnackBar from "@/components/app/SnackBar";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 export default function HomeScreen() {
   const skeleton_posts = [1, 2, 3, 4, 5];
@@ -43,37 +43,48 @@ export default function HomeScreen() {
     retry: false,
   });
 
-  const Feed =
-    isFetching && !feedData?.data ? (
-      skeleton_posts.map((skeleton) => (
-        <PostSkeleton key={"skeleton" + skeleton} />
-      ))
-    ) : isError ? (
-      <View>
+  const Feed = useMemo(() => {
+    if (isFetching && !feedData?.data) {
+      return (
+        <View style={transformClasses("container")}>
+          {skeleton_posts.map((skeleton) => (
+            <PostSkeleton key={"skeleton" + skeleton} />
+          ))}
+        </View>
+      );
+    } else if (isError) {
+      return (
         <SnackBar
           snack={snackBar}
           onClose={() => setSnackBar({ ...snackBar, visible: false })}
         />
-      </View>
-    ) : feedData.data && feedData.data.length > 0 ? (
-      feedData.data.map((post) => <PostDisplay key={post.id} post={post} />)
-    ) : (
-      <View>
-        <AppText>No posts found.</AppText>
-      </View>
-    );
-  return (
-    <ScrollView
-      style={createStyles("container")}
-      refreshControl={
-        <RefreshControl
-          colors={[violet_500]}
-          refreshing={isFetching}
-          onRefresh={refetch}
-        />
-      }
-    >
-      {Feed}
-    </ScrollView>
-  );
+      );
+    } else if (feedData?.data && feedData.data.length > 0) {
+      return (
+        <View style={transformClasses("container")}>
+          <FlatList
+            data={feedData.data}
+            keyExtractor={(post) => post.id}
+            renderItem={({ item: post }) => (
+              <PostDisplay key={post.id} post={post} />
+            )}
+            refreshControl={
+              <RefreshControl
+                colors={[violet_500]}
+                refreshing={isFetching}
+                onRefresh={refetch}
+              />
+            }
+          />
+        </View>
+      );
+    } else {
+      return (
+        <View>
+          <AppText>No posts found.</AppText>
+        </View>
+      );
+    }
+  }, [isFetching, isError, feedData, snackBar, refetch]);
+  return <>{Feed}</>;
 }

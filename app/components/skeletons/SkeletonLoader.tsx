@@ -1,6 +1,6 @@
 import { Animated } from "react-native";
 import { gray_600, gray_700 } from "@/constants/Colors";
-import createStyles from "@/services/ClassTransformer";
+import transformClasses from "@/services/ClassTransformer";
 
 interface Props {
   width: string;
@@ -28,7 +28,7 @@ const SkeletonLoader = ({ width, height, radius, className }: Props) => {
   return (
     <Animated.View
       style={[
-        createStyles(`${width} ${height} ${radius} ${className}`),
+        transformClasses(`${width} ${height} ${radius} ${className}`),
         { backgroundColor },
       ]}
     />

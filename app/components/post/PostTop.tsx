@@ -1,5 +1,5 @@
 import { violet_400 } from "@/constants/Colors";
-import createStyles from "@/services/ClassTransformer";
+import transformClasses from "@/services/ClassTransformer";
 import { Post } from "@/types/post";
 import { MaterialIcons } from "@expo/vector-icons";
 import { memo } from "react";
@@ -12,12 +12,12 @@ interface Props {
 
 const PostTop = memo(({ post }: Props) => {
   return (
-    <View style={createStyles("flex-row items-start gap-2 mb-2")}>
+    <View style={transformClasses("flex-row items-start gap-2 mb-2")}>
       <Image
         source={{
           uri: post.author.img as string,
         }}
-        style={createStyles("avatar")}
+        style={transformClasses("avatar")}
       />
       <View>
         <AppText>{post.author.name}</AppText>
@@ -27,7 +27,7 @@ const PostTop = memo(({ post }: Props) => {
         name="verified"
         size={16}
         color={violet_400}
-        style={createStyles("mt-1")}
+        style={transformClasses("mt-1")}
       />
     </View>
   );

@@ -1,12 +1,14 @@
-import { memo, useMemo } from "react";
+import React, { memo, useMemo } from "react";
 import { Post } from "@/types/post";
 
 import { View, useColorScheme } from "react-native";
 import AppText from "../app/AppText";
 import { DarkStyle, LightStyle } from "@/constants/Theme";
-import createStyles from "@/services/ClassTransformer";
+import transformClasses from "@/services/ClassTransformer";
 import PostTop from "./PostTop";
 import DisplayPostMedia from "./DisplayPostMedia";
+
+import PagerView from "react-native-pager-view";
 
 type Props = {
   readonly post: Post;
@@ -25,7 +27,7 @@ const PostDisplay = memo(({ post }: Props) => {
   return (
     <View
       style={[
-        createStyles("p-3 mb-3 rounded-lg cursor-pointer"),
+        transformClasses("p-3 mb-3 rounded-lg cursor-pointer"),
         { backgroundColor: bg_color.backgroundColor },
       ]}
     >
@@ -33,7 +35,6 @@ const PostDisplay = memo(({ post }: Props) => {
       {post.type === "SHORT" ? (
         // SHORT POST DISPLAY
         <>
-          <AppText className="break-word font-normal mb-2">{post.text}</AppText>
           {post.media.length ? (
             <DisplayPostMedia
               media={post.media}
@@ -41,25 +42,29 @@ const PostDisplay = memo(({ post }: Props) => {
               postId={post.id}
             />
           ) : null}
+          <AppText className="break-word font-normal mt-2">{post.text}</AppText>
         </>
       ) : (
         // LONG POST DISPLAY
-        <>
+        <PagerView
+          initialPage={0}
+          style={[transformClasses("flex-1"), { height: 400 }]}
+        >
           {post.longPost?.content?.map((content, index) => {
             return (
               <View key={index}>
-                <AppText className="break-word font-normal mb-2">
-                  {content.text}
-                </AppText>
                 <DisplayPostMedia
                   media={content.media as string[]}
                   mediaTypes={content.mediaTypes as string[]}
                   postId={post.id}
                 />
+                <AppText className="break-word font-normal mt-2">
+                  {content.text}
+                </AppText>
               </View>
             );
           })}
-        </>
+        </PagerView>
       )}
     </View>
   );

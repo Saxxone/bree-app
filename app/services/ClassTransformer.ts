@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import tailwindToRNMap from "./tailwind";
 
-const createStyles = (className: string) => {
+const transformClasses = (className: string) => {
   let styles = {};
   const classes = className.split(" ");
 
@@ -14,4 +14,4 @@ const createStyles = (className: string) => {
   return StyleSheet.create(styles);
 };
 
-export default createStyles;
+export default transformClasses;

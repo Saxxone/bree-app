@@ -1,6 +1,6 @@
 import { memo, useMemo } from "react";
 import { Pressable, View, StyleSheet } from "react-native";
-import createStyles from "@/services/ClassTransformer";
+import transformClasses from "@/services/ClassTransformer";
 import ImageViewer from "../app/ImageViewer";
 import VideoViewer from "../app/VideoViewer";
 import AppText from "../app/AppText";
@@ -43,19 +43,23 @@ const SocialDisplayPostMedia = memo(({ media, mediaTypes, postId }: Props) => {
   return (
     <View
       style={[
-        createStyles("rounded-lg h-64 overflow-hidden flex flex-row flex-wrap"),
+        transformClasses(
+          "rounded-lg h-64 overflow-hidden flex flex-row flex-wrap",
+        ),
       ]}
     >
       {media.map((m, index) => (
         <View
           key={m + index}
-          style={[createStyles(dynamicGridClasses), dynamicGridRows(index)]}
+          style={[transformClasses(dynamicGridClasses), dynamicGridRows(index)]}
         >
           <Pressable
             key={m + index}
             onPress={() => selectMedia(index)}
             style={[
-              createStyles("overflow-hidden rounded-lg block cursor-pointer"),
+              transformClasses(
+                "overflow-hidden rounded-lg block cursor-pointer",
+              ),
             ]}
           >
             {mediaTypes?.[index] === "image" ? (
