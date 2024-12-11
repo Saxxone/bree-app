@@ -6,7 +6,8 @@ import { DarkStyle, LightStyle } from "@/constants/Theme";
 import transformClasses from "@/services/ClassTransformer";
 import PostTop from "./PostTop";
 import DisplayPostMedia from "./DisplayPostMedia";
-import PagerView from "react-native-pager-view";
+import PagerView, { PagerViewOnPageScrollEvent } from "react-native-pager-view";
+import { violet_400 } from "@/constants/Colors";
 
 type Props = {
   readonly post: Post;
@@ -22,6 +23,30 @@ const PostDisplay = memo(({ post }: Props) => {
     [color_scheme],
   );
   const [current_page, setCurrentPage] = useState(0);
+
+  const renderPageIndicator = () => {
+    if (!post.longPost?.content || post.longPost.content.length <= 1) {
+      return null; // Don't render if not a long post or only one page
+    }
+
+    return (
+      <View
+        style={transformClasses("flex-row items-center justify-center mt-2")}
+      >
+        {post.longPost.content.map((_, index) => (
+          <View
+            key={post.id + "-page-indicator-" + index}
+            style={[
+              transformClasses("rounded-full w-1 h-1 mx-1"),
+              index === current_page
+                ? transformClasses("bg-violet-400")
+                : transformClasses("bg-gray-300"),
+            ]}
+          />
+        ))}
+      </View>
+    );
+  };
 
   return (
     <View
@@ -45,12 +70,15 @@ const PostDisplay = memo(({ post }: Props) => {
         </>
       ) : (
         // LONG POST DISPLAY
-        <View style={[transformClasses("h-full")]}>
+        <View style={[transformClasses("h-72")]}>
           <PagerView
             initialPage={0}
-            style={[transformClasses("flex-1 h-70")]}
+            style={[transformClasses("flex-1 h-72")]}
             scrollEnabled={true}
             pageMargin={10}
+            onPageScroll={(e: PagerViewOnPageScrollEvent) =>
+              setCurrentPage(e.nativeEvent.position)
+            }
           >
             {post.longPost?.content?.map((content, index) => {
               return (
@@ -63,9 +91,7 @@ const PostDisplay = memo(({ post }: Props) => {
                     mediaTypes={content.mediaTypes as string[]}
                     postId={post.id}
                   />
-                  <AppText className="break-word font-normal mt-2">
-                    {post.id}
-                  </AppText>
+                  {renderPageIndicator()}
                   <AppText className="break-word font-normal mt-2">
                     {content.text}
                   </AppText>
@@ -73,7 +99,6 @@ const PostDisplay = memo(({ post }: Props) => {
               );
             })}
           </PagerView>
-          <AppText>{current_page}</AppText>
         </View>
       )}
     </View>

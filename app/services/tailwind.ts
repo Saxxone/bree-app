@@ -16,6 +16,10 @@ import {
   rose_100,
 } from "@/constants/Colors";
 
+/**
+ * @fileoverview This file provides a mapping of Tailwind CSS class names to their equivalent React Native style objects.  This allows us to use familiar Tailwind classes within React Native components, abstracting away the underlying style specifics.
+ */
+
 const tailwindToRNMap: {
   [key: string]: any;
 } = {
@@ -29,8 +33,17 @@ const tailwindToRNMap: {
   "bg-gray-800": { backgroundColor: gray_800 },
   "bg-gray-900": { backgroundColor: gray_900 },
 
+  "bg-violet-400": { backgroundColor: violet_400 },
+  "bg-violet-700": { backgroundColor: violet_700 },
+
+  "bg-rose-100": { backgroundColor: rose_100 },
+  "bg-rose-500": { backgroundColor: rose_500 },
+
+  "bg-white": { backgroundColor: white },
+
   "text-gray-100": { color: gray_100 },
   "text-gray-200": { color: gray_200 },
+  "text-gray-300": { color: gray_300 },
   // ... other gray text colors
   "text-gray-900": { color: gray_900 },
 
