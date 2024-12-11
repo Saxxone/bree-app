@@ -20,14 +20,14 @@ const PostSkeleton = memo(() => {
     }
     return shuffledWidths.slice(0, 3);
   }, [widths]);
-  const colorScheme = useColorScheme();
+  const color_scheme = useColorScheme();
 
   const bg_color = useMemo(
     () =>
-      colorScheme === "dark"
+      color_scheme === "dark"
         ? DarkStyle.cardBackgroundColor
         : LightStyle.cardBackgroundColor,
-    [colorScheme],
+    [color_scheme],
   );
 
   return (

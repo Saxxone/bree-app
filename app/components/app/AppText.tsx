@@ -11,10 +11,11 @@ interface Props {
 }
 
 const AppText = memo(({ style, className, children, ...props }: Props) => {
-  const colorScheme = useColorScheme();
+  const color_scheme = useColorScheme();
   const textColor = useMemo(
-    () => (colorScheme === "dark" ? DarkStyle.textColor : LightStyle.textColor),
-    [colorScheme],
+    () =>
+      color_scheme === "dark" ? DarkStyle.textColor : LightStyle.textColor,
+    [color_scheme],
   );
   const classes = useMemo(() => transformClasses(className ?? ""), [className]);
 

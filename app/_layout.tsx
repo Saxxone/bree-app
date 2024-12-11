@@ -17,8 +17,8 @@ SplashScreen.preventAutoHideAsync();
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const header = colorScheme === "dark" ? headerDark : headerLight;
+  const color_scheme = useColorScheme();
+  const header = color_scheme === "dark" ? headerDark : headerLight;
   const [loaded] = useFonts({
     "Outfit-Black": require("@/assets/fonts/outfit/Outfit-Black.ttf"),
     "Outfit-Bold": require("@/assets/fonts/outfit/Outfit-Bold.ttf"),
@@ -43,7 +43,7 @@ export default function RootLayout() {
 
   return (
     <SessionProvider>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : LightTheme}>
+      <ThemeProvider value={color_scheme === "dark" ? DarkTheme : LightTheme}>
         <QueryClientProvider client={queryClient}>
           <Stack screenOptions={header}>
             <Stack.Screen

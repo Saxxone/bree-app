@@ -444,7 +444,6 @@ const tailwindToRNMap: {
   container: {
     width: "100%",
     maxWidth: "100vw",
-    alignSelf: "center",
     paddingHorizontal: 8,
   },
   avatar: {

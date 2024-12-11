@@ -3,8 +3,8 @@ import { useColorScheme } from "react-native";
 import { headerDark, headerLight } from "@/styles/main";
 
 export default function AuthLayout() {
-  const colorScheme = useColorScheme();
-  const header = colorScheme === "dark" ? headerDark : headerLight;
+  const color_scheme = useColorScheme();
+  const header = color_scheme === "dark" ? headerDark : headerLight;
   return (
     <Stack screenOptions={header}>
       <Stack.Screen

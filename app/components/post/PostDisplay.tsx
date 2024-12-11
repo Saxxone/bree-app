@@ -1,13 +1,11 @@
-import React, { memo, useMemo } from "react";
+import React, { memo, useMemo, useState } from "react";
 import { Post } from "@/types/post";
-
 import { View, useColorScheme } from "react-native";
 import AppText from "../app/AppText";
 import { DarkStyle, LightStyle } from "@/constants/Theme";
 import transformClasses from "@/services/ClassTransformer";
 import PostTop from "./PostTop";
 import DisplayPostMedia from "./DisplayPostMedia";
-
 import PagerView from "react-native-pager-view";
 
 type Props = {
@@ -15,14 +13,15 @@ type Props = {
 };
 
 const PostDisplay = memo(({ post }: Props) => {
-  const colorScheme = useColorScheme();
+  const color_scheme = useColorScheme();
   const bg_color = useMemo(
     () =>
-      colorScheme === "dark"
+      color_scheme === "dark"
         ? DarkStyle.cardBackgroundColor
         : LightStyle.cardBackgroundColor,
-    [colorScheme],
+    [color_scheme],
   );
+  const [current_page, setCurrentPage] = useState(0);
 
   return (
     <View
@@ -46,25 +45,36 @@ const PostDisplay = memo(({ post }: Props) => {
         </>
       ) : (
         // LONG POST DISPLAY
-        <PagerView
-          initialPage={0}
-          style={[transformClasses("flex-1"), { height: 400 }]}
-        >
-          {post.longPost?.content?.map((content, index) => {
-            return (
-              <View key={index}>
-                <DisplayPostMedia
-                  media={content.media as string[]}
-                  mediaTypes={content.mediaTypes as string[]}
-                  postId={post.id}
-                />
-                <AppText className="break-word font-normal mt-2">
-                  {content.text}
-                </AppText>
-              </View>
-            );
-          })}
-        </PagerView>
+        <View style={[transformClasses("h-full")]}>
+          <PagerView
+            initialPage={0}
+            style={[transformClasses("flex-1 h-70")]}
+            scrollEnabled={true}
+            pageMargin={10}
+          >
+            {post.longPost?.content?.map((content, index) => {
+              return (
+                <View
+                  style={[transformClasses("px-1")]}
+                  key={post.id + "-long-post-" + index}
+                >
+                  <DisplayPostMedia
+                    media={content.media as string[]}
+                    mediaTypes={content.mediaTypes as string[]}
+                    postId={post.id}
+                  />
+                  <AppText className="break-word font-normal mt-2">
+                    {post.id}
+                  </AppText>
+                  <AppText className="break-word font-normal mt-2">
+                    {content.text}
+                  </AppText>
+                </View>
+              );
+            })}
+          </PagerView>
+          <AppText>{current_page}</AppText>
+        </View>
       )}
     </View>
   );

@@ -3,7 +3,6 @@ import { Pressable, View, StyleSheet } from "react-native";
 import transformClasses from "@/services/ClassTransformer";
 import ImageViewer from "../app/ImageViewer";
 import VideoViewer from "../app/VideoViewer";
-import AppText from "../app/AppText";
 
 interface Props {
   media: string[];

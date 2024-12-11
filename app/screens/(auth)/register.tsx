@@ -72,7 +72,7 @@ export default function Login() {
     if (validateLogin()) {
       const response = await refetch();
 
-      if (response.data && response.data.success) {
+      if (response.data) {
         // // Assuming your API returns a success flag
         // signIn(); // Call signIn only if the API call is successful
         // router.replace("/screens/(home)");

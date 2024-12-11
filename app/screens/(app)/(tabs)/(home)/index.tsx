@@ -21,13 +21,7 @@ export default function HomeScreen() {
     type: "error",
     message: "An error occured while fetching feed",
   });
-  const {
-    isFetching,
-    isError,
-    data: feedData,
-    error,
-    refetch,
-  } = useQuery<Post[]>({
+  const { isFetching, isError, data, error, refetch } = useQuery<Post[]>({
     queryKey: ["feed"],
     queryFn: async () => {
       return await ApiConnectService<Post[]>({
@@ -35,7 +29,7 @@ export default function HomeScreen() {
         method: FetchMethod.POST,
         query: {
           skip: 0,
-          take: 35,
+          take: 10,
         },
       });
     },
@@ -44,7 +38,7 @@ export default function HomeScreen() {
   });
 
   const Feed = useMemo(() => {
-    if (isFetching && !feedData?.data) {
+    if (isFetching && !data?.data) {
       return (
         <View style={transformClasses("container")}>
           {skeleton_posts.map((skeleton) => (
@@ -59,11 +53,11 @@ export default function HomeScreen() {
           onClose={() => setSnackBar({ ...snackBar, visible: false })}
         />
       );
-    } else if (feedData?.data && feedData.data.length > 0) {
+    } else if (data?.data && data.data.length > 0) {
       return (
         <View style={transformClasses("container")}>
           <FlatList
-            data={feedData.data}
+            data={data.data}
             keyExtractor={(post) => post.id}
             renderItem={({ item: post }) => (
               <PostDisplay key={post.id} post={post} />
@@ -85,6 +79,6 @@ export default function HomeScreen() {
         </View>
       );
     }
-  }, [isFetching, isError, feedData, snackBar, refetch]);
+  }, [isFetching, isError, data, snackBar, refetch]);
   return <>{Feed}</>;
 }

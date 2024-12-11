@@ -59,32 +59,32 @@ const FormInput = memo(
     onValidationError,
     ...otherTextInputProps
   }: Props) => {
-    const colorScheme = useColorScheme();
+    const color_scheme = useColorScheme();
 
     const textColor = useMemo(
       () =>
-        colorScheme === "dark" ? DarkStyle.textColor : LightStyle.textColor,
-      [colorScheme],
+        color_scheme === "dark" ? DarkStyle.textColor : LightStyle.textColor,
+      [color_scheme],
     );
 
     const mutedTextColor = useMemo(
       () =>
-        colorScheme === "dark"
+        color_scheme === "dark"
           ? DarkStyle.mutedTextColor.color
           : LightStyle.mutedTextColor.color,
-      [colorScheme],
+      [color_scheme],
     );
 
     const backgroundColor = useMemo(
-      () => (colorScheme === "dark" ? gray_900 : white),
-      [colorScheme],
+      () => (color_scheme === "dark" ? gray_900 : white),
+      [color_scheme],
     );
 
     const [isInputValid, setIsInputValid] = useState({});
 
     const { validate, errors, setErrors } = useValidation();
 
-    const validateForm = useCallback(() => {
+    const validateInput = useCallback(() => {
       if (!validationRules) return;
 
       const newErrors = validate(value, validationRules);
@@ -154,7 +154,7 @@ const FormInput = memo(
             autoCorrect={false}
             multiline={false}
             numberOfLines={1}
-            onBlur={validateForm}
+            onBlur={validateInput}
             {...otherTextInputProps}
           />
           {appendIcon ? memoAppendIcon : null}
