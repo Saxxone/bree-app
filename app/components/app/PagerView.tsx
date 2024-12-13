@@ -1,4 +1,4 @@
-import transformClasses from "@/services/ClassTransformer";
+import tailwind from "@/services/ClassTransformer";
 import React from "react";
 import {
   View,
@@ -27,9 +27,7 @@ const PageView = ({
 
   const renderItem = ({ item }: { item: React.ReactNode; index: number }) => {
     return (
-      <View style={[transformClasses("px-1"), { width: width - 40 }]}>
-        {item}
-      </View>
+      <View style={[tailwind("px-1"), { width: width - 40 }]}>{item}</View>
     );
   };
 
