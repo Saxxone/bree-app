@@ -100,12 +100,13 @@ const PostActions = memo(({ post, className }: Props) => {
             style={[
               action.active && action.key === "likeCount"
                 ? transformClasses("text-red-500")
-                : transformClasses(color),
+                : action.active && action.key !== "likeCount"
+                  ? transformClasses("text-purple-500")
+                  : transformClasses(color),
             ]}
           />
           {action.key && post[action.key as keyof Post] ? (
             <AppText style={transformClasses("ml-1 text-sm font-light")}>
-              {" "}
               {String(post[action.key as keyof Post])}
             </AppText>
           ) : null}
