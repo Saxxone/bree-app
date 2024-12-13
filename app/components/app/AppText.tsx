@@ -34,7 +34,7 @@ export default AppText;
 
 const styles = StyleSheet.create({
   default: {
-    fontFamily: "Outfit-SemiBold",
-    fontSize: 16,
+    fontFamily: "Outfit Regular",
+    fontSize: 15,
   },
 });
