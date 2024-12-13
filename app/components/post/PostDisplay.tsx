@@ -88,7 +88,7 @@ const PostDisplay = memo(({ post }: Props) => {
                   postId={post.id}
                 />
                 {PageViewIndicator()}
-                <AppText className="break-word font-normal mt-2">
+                <AppText className="break-word font-normal mt-2 max-h-96">
                   {content.text}
                 </AppText>
               </View>

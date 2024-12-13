@@ -379,6 +379,105 @@ const tailwindToRNMap: {
     minHeight: 288,
   },
 
+  //max height
+  "max-h-0": {
+    maxHeight: 0,
+  },
+  "max-h-1": {
+    maxHeight: 4,
+  },
+  "max-h-2": {
+    maxHeight: 8,
+  },
+  "max-h-3": {
+    maxHeight: 12,
+  },
+  "max-h-4": {
+    maxHeight: 16,
+  },
+  "max-h-5": {
+    maxHeight: 20,
+  },
+  "max-h-6": {
+    maxHeight: 24,
+  },
+  "max-h-7": {
+    maxHeight: 28,
+  },
+  "max-h-8": {
+    maxHeight: 32,
+  },
+  "max-h-9": {
+    maxHeight: 36,
+  },
+  "max-h-10": {
+    maxHeight: 40,
+  },
+  "max-h-11": {
+    maxHeight: 44,
+  },
+  "max-h-12": {
+    maxHeight: 48,
+  },
+  "max-h-14": {
+    maxHeight: 56,
+  },
+  "max-h-16": {
+    maxHeight: 64,
+  },
+  "max-h-20": {
+    maxHeight: 80,
+  },
+  "max-h-24": {
+    maxHeight: 96,
+  },
+  "max-h-28": {
+    maxHeight: 112,
+  },
+  "max-h-32": {
+    maxHeight: 128,
+  },
+  "max-h-36": {
+    maxHeight: 144,
+  },
+  "max-h-40": {
+    maxHeight: 160,
+  },
+  "max-h-44": {
+    maxHeight: 176,
+  },
+  "max-h-48": {
+    maxHeight: 192,
+  },
+  "max-h-52": {
+    maxHeight: 208,
+  },
+  "max-h-56": {
+    maxHeight: 224,
+  },
+  "max-h-60": {
+    maxHeight: 240,
+  },
+  "max-h-64": {
+    maxHeight: 256,
+  },
+  "max-h-72": {
+    maxHeight: 288,
+  },
+  "max-h-80": {
+    maxHeight: 320,
+  },
+  "max-h-96": {
+    maxHeight: 384,
+  },
+
+  "max-h-fit": {
+    maxHeight: "fit-content",
+  },
+  "max-h-full": {
+    maxHeight: "100%",
+  },
+
   "h-auto": { height: "auto" },
   "h-full": { height: "100%" },
   "h-screen": { height: "100vh" },

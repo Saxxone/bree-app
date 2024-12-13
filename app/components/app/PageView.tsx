@@ -13,12 +13,14 @@ interface Props {
   initialPage?: number;
   style?: object[];
   onPageScroll?: (e: number) => void;
+  defaultHorizontalScrollIndicator?: boolean;
 }
 
 const PageView = ({
   children,
   initialPage = 0,
   style,
+  defaultHorizontalScrollIndicator,
   onPageScroll,
 }: Props) => {
   const { width } = Dimensions.get("window");
@@ -27,10 +29,10 @@ const PageView = ({
     return <View style={{ width: width - 40, flex: 1 }}>{item}</View>;
   };
 
-  function onScroll(e: NativeSyntheticEvent<NativeScrollEvent>) {
+  function onScroll(e: NativeSyntheticEvent<NativeScrollEvent>): number | void {
     const screenWidth = Dimensions.get("window").width;
     const currentPage = Math.round(e.nativeEvent.contentOffset.x / screenWidth);
-    onPageScroll ? onPageScroll(currentPage) : null;
+    if (onPageScroll) onPageScroll(currentPage);
   }
 
   return (
@@ -40,10 +42,10 @@ const PageView = ({
         renderItem={renderItem}
         horizontal
         pagingEnabled
-        showsHorizontalScrollIndicator={false}
+        showsHorizontalScrollIndicator={defaultHorizontalScrollIndicator}
         initialScrollIndex={initialPage}
         onScroll={onScroll}
-        keyExtractor={(_, index) => `page-${index}`}
+        keyExtractor={(_, index) => `page-view-${index}`}
       />
     </View>
   );
