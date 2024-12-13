@@ -1,4 +1,4 @@
-import React, { memo, useMemo, useState } from "react";
+import React, { act, memo, useMemo, useState } from "react";
 import { Post } from "@/types/post";
 import { View, useColorScheme } from "react-native";
 import AppText from "../app/AppText";
@@ -10,13 +10,16 @@ import PagerView from "@/components/app/PagerView";
 import { Link } from "expo-router";
 import { app_routes } from "@/constants/AppRoutes";
 import PostActions from "./PostActions";
+import PostSkeleton from "../skeletons/PostSkeleton";
 
 type Props = {
   readonly post: Post;
-  ellipsis: boolean;
+  readonly actions: boolean;
+  readonly ellipsis: boolean;
+  readonly isFetching: boolean;
 };
 
-const PostDisplay = memo(({ post, ellipsis }: Props) => {
+const PostDisplay = memo(({ post, ellipsis, actions, isFetching }: Props) => {
   const color_scheme = useColorScheme();
   const bg_color = useMemo(
     () =>
@@ -51,7 +54,9 @@ const PostDisplay = memo(({ post, ellipsis }: Props) => {
     );
   };
 
-  return (
+  return isFetching ? (
+    <PostSkeleton />
+  ) : (
     <Link
       href={app_routes.post.view(post.id)}
       style={[
@@ -105,7 +110,7 @@ const PostDisplay = memo(({ post, ellipsis }: Props) => {
             })}
           </PagerView>
         )}
-        <PostActions post={post} />
+        {actions && <PostActions post={post} />}
       </View>
     </Link>
   );

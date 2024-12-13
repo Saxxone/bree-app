@@ -7,7 +7,6 @@ import { ApiConnectService } from "@/services/ApiConnectService";
 import { Post } from "@/types/post";
 import AppText from "@/components/app/AppText";
 import { violet_500 } from "@/constants/Colors";
-import PostSkeleton from "@/components/skeletons/PostSkeleton";
 import tailwindClasses from "@/services/ClassTransformer";
 import SnackBar from "@/components/app/SnackBar";
 import { useMemo, useState } from "react";
@@ -40,9 +39,15 @@ export default function HomeScreen() {
   const Feed = useMemo(() => {
     if (isFetching && !data?.data) {
       return (
-        <View style={tailwindClasses("container")}>
+        <View>
           {skeleton_posts.map((skeleton) => (
-            <PostSkeleton key={"skeleton" + skeleton} />
+            <PostDisplay
+              isFetching={isFetching}
+              key={"skeleton" + skeleton}
+              post={{} as Post}
+              ellipsis={true}
+              actions={true}
+            />
           ))}
         </View>
       );
@@ -60,7 +65,13 @@ export default function HomeScreen() {
             data={data.data}
             keyExtractor={(post) => post.id}
             renderItem={({ item: post }) => (
-              <PostDisplay key={post.id} post={post} ellipsis={true} />
+              <PostDisplay
+                key={post.id}
+                post={post}
+                ellipsis={true}
+                actions={true}
+                isFetching={isFetching}
+              />
             )}
             refreshControl={
               <RefreshControl

@@ -24,18 +24,8 @@ export default function AppLayout() {
   // This layout can be deferred because it's not the root layout.
   return (
     <Stack screenOptions={color_scheme === "dark" ? headerDark : headerLight}>
-      <Stack.Screen
-        name="(profile)"
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="compose"
-        options={{
-          headerShown: false,
-        }}
-      />
+      <Stack.Screen name="(profile)" />
+      <Stack.Screen name="compose" />
       <Stack.Screen
         name="(tabs)"
         options={{

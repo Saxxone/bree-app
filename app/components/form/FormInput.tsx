@@ -4,7 +4,6 @@ import { LightStyle, DarkStyle } from "@/constants/Theme";
 import {
   TextInput,
   Pressable,
-  StyleSheet,
   useColorScheme,
   View,
   GestureResponderEvent,
@@ -59,7 +58,7 @@ const FormInput = memo(
     onChangeText,
     onValidationError,
     className,
-    ...otherTextInputProps
+    ...props
   }: Props) => {
     const color_scheme = useColorScheme();
 
@@ -138,7 +137,7 @@ const FormInput = memo(
         <View
           style={[
             tailwindClasses(
-              "px-4 border border-transparent rounded-lg w-full flex flex-row items-center flex-wrap items-center gap-2",
+              "px-3 border border-transparent rounded-lg w-full flex flex-row items-center flex-wrap items-center gap-x-2",
             ),
             isInputValid ? null : tailwindClasses("border-rose-500 border"),
             { backgroundColor: backgroundColor },
@@ -148,7 +147,10 @@ const FormInput = memo(
           <TextInput
             placeholder={placeholder}
             style={[
-              tailwindClasses("flex-1 font-light h-14 px-1 border-transparent"),
+              tailwindClasses("flex-1 font-light border-transparent"),
+              props.multiline
+                ? tailwindClasses("h-32 bg-rose-500 mt-4")
+                : tailwindClasses("h-14"),
               textColor,
               { backgroundColor: backgroundColor },
             ]}
@@ -157,11 +159,10 @@ const FormInput = memo(
             onChangeText={onChangeText}
             secureTextEntry={secureTextEntry}
             autoCapitalize="none"
-            autoCorrect={false}
-            multiline={false}
-            numberOfLines={1}
+            autoCorrect={props.autoCorrect}
+            numberOfLines={props.multiline ? 6 : 1}
             onBlur={validateInput}
-            {...otherTextInputProps}
+            {...props}
           />
           {appendIcon ? memoAppendIcon : null}
         </View>

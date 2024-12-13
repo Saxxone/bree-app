@@ -75,7 +75,13 @@ export default function PostScreen() {
       return (
         <View style={tailwindClasses("container")}>
           {skeleton_posts.map((skeleton) => (
-            <PostSkeleton key={"post-skeleton" + skeleton} />
+            <PostDisplay
+              isFetching={is_fetching_post}
+              actions={false}
+              ellipsis={true}
+              post={{} as Post}
+              key={"post-skeleton" + skeleton}
+            />
           ))}
         </View>
       );
@@ -92,8 +98,9 @@ export default function PostScreen() {
           <PostDisplay
             key={post.data.id}
             ellipsis={false}
+            actions={true}
+            isFetching={is_fetching_post}
             post={post.data}
-            className="container"
           />
         </View>
       );
@@ -111,7 +118,13 @@ export default function PostScreen() {
       return (
         <View style={tailwindClasses("container")}>
           {skeleton_posts.map((skeleton) => (
-            <PostSkeleton key={"comment-skeleton" + skeleton} />
+            <PostDisplay
+              isFetching={is_fetching_comments}
+              actions={false}
+              ellipsis={true}
+              post={{} as Post}
+              key={"comment-skeleton" + skeleton}
+            />
           ))}
         </View>
       );
@@ -129,7 +142,13 @@ export default function PostScreen() {
             data={comments.data}
             keyExtractor={(post) => post.id}
             renderItem={({ item: post }) => (
-              <PostDisplay key={post.id} post={post} ellipsis={true} />
+              <PostDisplay
+                key={post.id}
+                actions={false}
+                isFetching={is_fetching_comments}
+                post={post}
+                ellipsis={true}
+              />
             )}
             refreshControl={
               <RefreshControl

@@ -90,6 +90,60 @@ const sizes = {
   "h-10.5": { height: 42 },
 
   //min heights
+  "min-h-0": {
+    minHeight: 0,
+  },
+  "min-h-1": {
+    minHeight: 4,
+  },
+  "min-h-2": {
+    minHeight: 8,
+  },
+  "min-h-3": {
+    minHeight: 12,
+  },
+  "min-h-4": {
+    minHeight: 16,
+  },
+  "min-h-5": {
+    minHeight: 20,
+  },
+  "min-h-6": {
+    minHeight: 24,
+  },
+  "min-h-7": {
+    minHeight: 28,
+  },
+  "min-h-8": {
+    minHeight: 32,
+  },
+  "min-h-9": {
+    minHeight: 36,
+  },
+  "min-h-10": {
+    minHeight: 40,
+  },
+  "min-h-11": {
+    minHeight: 44,
+  },
+  "min-h-12": {
+    minHeight: 48,
+  },
+  "min-h-14": {
+    minHeight: 56,
+  },
+  "min-h-16": {
+    minHeight: 64,
+  },
+  "min-h-20": {
+    minHeight: 80,
+  },
+  "min-h-24": {
+    minHeight: 96,
+  },
+  "min-h-28": {
+    minHeight: 112,
+  },
   "min-h-72": {
     minHeight: 288,
   },

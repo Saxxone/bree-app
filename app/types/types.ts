@@ -37,10 +37,11 @@ export interface Error {
   message: string;
 }
 
-export interface Snack extends Error {
+export interface Snack {
   title?: string;
   type: "error" | "info" | "warning" | "success";
   timeout?: number;
+  message: string;
   visible: boolean;
 }
 
