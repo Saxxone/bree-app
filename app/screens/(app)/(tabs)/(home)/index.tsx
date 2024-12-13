@@ -60,7 +60,7 @@ export default function HomeScreen() {
             data={data.data}
             keyExtractor={(post) => post.id}
             renderItem={({ item: post }) => (
-              <PostDisplay key={post.id} post={post} />
+              <PostDisplay key={post.id} post={post} ellipsis={true} />
             )}
             refreshControl={
               <RefreshControl

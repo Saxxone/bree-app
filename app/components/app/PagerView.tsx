@@ -27,7 +27,7 @@ const PageView = ({
 
   const renderItem = ({ item }: { item: React.ReactNode; index: number }) => {
     return (
-      <View style={[transformClasses("flex-1 px-1"), { width: width - 40 }]}>
+      <View style={[transformClasses("px-1"), { width: width - 40 }]}>
         {item}
       </View>
     );
@@ -40,20 +40,16 @@ const PageView = ({
   }
 
   return (
-    <View style={style}>
-      <FlatList
-        data={React.Children.toArray(children)}
-        renderItem={renderItem}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={
-          defaultHorizontalScrollIndicator ?? false
-        }
-        initialScrollIndex={initialPage}
-        onScroll={onScroll}
-        keyExtractor={(_, index) => `page-view-${index}`}
-      />
-    </View>
+    <FlatList
+      data={React.Children.toArray(children)}
+      renderItem={renderItem}
+      horizontal
+      pagingEnabled
+      showsHorizontalScrollIndicator={defaultHorizontalScrollIndicator ?? false}
+      initialScrollIndex={initialPage}
+      onScroll={onScroll}
+      keyExtractor={(_, index) => `page-view-${index}`}
+    />
   );
 };
 

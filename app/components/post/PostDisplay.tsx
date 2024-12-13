@@ -13,9 +13,10 @@ import PostActions from "./PostActions";
 
 type Props = {
   readonly post: Post;
+  ellipsis: boolean;
 };
 
-const PostDisplay = memo(({ post }: Props) => {
+const PostDisplay = memo(({ post, ellipsis }: Props) => {
   const color_scheme = useColorScheme();
   const bg_color = useMemo(
     () =>
@@ -81,7 +82,7 @@ const PostDisplay = memo(({ post }: Props) => {
             {post.longPost?.content?.map((content, index) => {
               return (
                 <View
-                  style={[transformClasses("")]}
+                  style={[transformClasses("rounded-md")]}
                   key={post.id + "-long-post-" + index}
                 >
                   <DisplayPostMedia
@@ -91,13 +92,19 @@ const PostDisplay = memo(({ post }: Props) => {
                     postId={post.id}
                   />
                   {PageViewIndicator()}
-                  {/* <View className="h-fit mt-2">{<AppText className="break-word font-light">{content.text}</AppText>}</View> */}
+
+                  <AppText
+                    className="break-word mt-2 font-light"
+                    numberOfLines={ellipsis ? 5 : 0}
+                  >
+                    {content.text}
+                  </AppText>
                 </View>
               );
             })}
           </PagerView>
         )}
-        <PostActions post={post} className="bg-red-500" />
+        <PostActions post={post} />
       </View>
     </Link>
   );

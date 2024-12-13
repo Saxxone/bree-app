@@ -7,28 +7,36 @@ interface Props {
   style?: TextStyle;
   readonly className?: string;
   children?: React.ReactNode;
+  numberOfLines?: number;
   onPress?: () => void;
 }
 
-const AppText = memo(({ style, className, children, ...props }: Props) => {
-  const color_scheme = useColorScheme();
-  const textColor = useMemo(
-    () =>
-      color_scheme === "dark" ? DarkStyle.textColor : LightStyle.textColor,
-    [color_scheme],
-  );
-  const classes = useMemo(() => transformClasses(className ?? ""), [className]);
+const AppText = memo(
+  ({ style, className, numberOfLines, children, ...props }: Props) => {
+    const color_scheme = useColorScheme();
+    const textColor = useMemo(
+      () =>
+        color_scheme === "dark" ? DarkStyle.textColor : LightStyle.textColor,
+      [color_scheme],
+    );
+    const classes = useMemo(
+      () => transformClasses(className ?? ""),
+      [className],
+    );
 
-  return (
-    <Text
-      style={[styles.default, textColor, style, classes]}
-      {...props}
-      onPress={props.onPress}
-    >
-      {children}
-    </Text>
-  );
-});
+    return (
+      <Text
+        style={[styles.default, textColor, style, classes]}
+        {...props}
+        ellipsizeMode="tail"
+        numberOfLines={numberOfLines}
+        onPress={props.onPress}
+      >
+        {children}
+      </Text>
+    );
+  },
+);
 
 export default AppText;
 
