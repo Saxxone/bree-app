@@ -1,13 +1,18 @@
 import React, { memo, useMemo, useState } from "react";
 import { Post } from "@/types/post";
-import { View, useColorScheme } from "react-native";
+import {
+  Dimensions,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  View,
+  useColorScheme,
+} from "react-native";
 import AppText from "../app/AppText";
 import { DarkStyle, LightStyle } from "@/constants/Theme";
 import transformClasses from "@/services/ClassTransformer";
 import PostTop from "./PostTop";
 import DisplayPostMedia from "./DisplayPostMedia";
-import PagerView, { PagerViewOnPageScrollEvent } from "react-native-pager-view";
-import { violet_400 } from "@/constants/Colors";
+import PagerView from "@/components/app/PageView";
 
 type Props = {
   readonly post: Post;
@@ -24,9 +29,9 @@ const PostDisplay = memo(({ post }: Props) => {
   );
   const [current_page, setCurrentPage] = useState(0);
 
-  const renderPageIndicator = () => {
+  const PageViewIndicator = () => {
     if (!post.longPost?.content || post.longPost.content.length <= 1) {
-      return null; // Don't render if not a long post or only one page
+      return null;
     }
 
     return (
@@ -70,36 +75,26 @@ const PostDisplay = memo(({ post }: Props) => {
         </>
       ) : (
         // LONG POST DISPLAY
-        <View style={[transformClasses("h-72")]}>
-          <PagerView
-            initialPage={0}
-            style={[transformClasses("flex-1 h-72")]}
-            scrollEnabled={true}
-            pageMargin={10}
-            onPageScroll={(e: PagerViewOnPageScrollEvent) =>
-              setCurrentPage(e.nativeEvent.position)
-            }
-          >
-            {post.longPost?.content?.map((content, index) => {
-              return (
-                <View
-                  style={[transformClasses("px-1")]}
-                  key={post.id + "-long-post-" + index}
-                >
-                  <DisplayPostMedia
-                    media={content.media as string[]}
-                    mediaTypes={content.mediaTypes as string[]}
-                    postId={post.id}
-                  />
-                  {renderPageIndicator()}
-                  <AppText className="break-word font-normal mt-2">
-                    {content.text}
-                  </AppText>
-                </View>
-              );
-            })}
-          </PagerView>
-        </View>
+        <PagerView initialPage={0} onPageScroll={(e) => setCurrentPage(e)}>
+          {post.longPost?.content?.map((content, index) => {
+            return (
+              <View
+                style={[transformClasses("px-1")]}
+                key={post.id + "-long-post-" + index}
+              >
+                <DisplayPostMedia
+                  media={content.media as string[]}
+                  mediaTypes={content.mediaTypes as string[]}
+                  postId={post.id}
+                />
+                {PageViewIndicator()}
+                <AppText className="break-word font-normal mt-2">
+                  {content.text}
+                </AppText>
+              </View>
+            );
+          })}
+        </PagerView>
       )}
     </View>
   );

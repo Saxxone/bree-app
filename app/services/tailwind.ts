@@ -14,6 +14,7 @@ import {
   gray_800,
   rose_500,
   rose_100,
+  violet_500,
 } from "@/constants/Colors";
 
 /**
@@ -34,7 +35,13 @@ const tailwindToRNMap: {
   "bg-gray-900": { backgroundColor: gray_900 },
 
   "bg-violet-400": { backgroundColor: violet_400 },
+  "bg-violet-500": { backgroundColor: violet_500 },
   "bg-violet-700": { backgroundColor: violet_700 },
+
+  //indigo
+  "bg-indigo-400": { backgroundColor: violet_400 },
+  "bg-indigo-500": { backgroundColor: violet_500 },
+  "bg-indigo-700": { backgroundColor: violet_700 },
 
   "bg-rose-100": { backgroundColor: rose_100 },
   "bg-rose-500": { backgroundColor: rose_500 },
@@ -359,7 +366,18 @@ const tailwindToRNMap: {
   "h-1.5": { height: 6 },
   "h-2.5": { height: 10 },
   "h-3.5": { height: 14 },
-  // ... and so on for other fractional values
+  "h-4.5": { height: 18 },
+  "h-5.5": { height: 22 },
+  "h-6.5": { height: 26 },
+  "h-7.5": { height: 30 },
+  "h-8.5": { height: 34 },
+  "h-9.5": { height: 38 },
+  "h-10.5": { height: 42 },
+
+  //min heights
+  "min-h-72": {
+    minHeight: 288,
+  },
 
   "h-auto": { height: "auto" },
   "h-full": { height: "100%" },
