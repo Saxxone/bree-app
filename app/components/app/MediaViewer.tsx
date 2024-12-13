@@ -10,17 +10,9 @@ type Props = {
 const MediaViewer = memo(({ post }: Props) => {
   const posts = post.media.map((m, index) => {
     return post.mediaTypes[index] === "image" ? (
-      <ImageViewer
-        imgSource={{
-          uri: m as string,
-        }}
-        key={`${m.toString()}-${index}-${post.id}`}
-      />
+      <ImageViewer source={m} key={`${m.toString()}-${index}-${post.id}`} />
     ) : (
-      <VideoViewer
-        source={m as string}
-        key={`${m.toString()}-${index}-${post.id}`}
-      />
+      <VideoViewer source={m} key={`${m.toString()}-${index}-${post.id}`} />
     );
   });
 

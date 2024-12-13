@@ -1,7 +1,7 @@
 import { memo, useMemo } from "react";
 import { Text, useColorScheme, StyleSheet, TextStyle } from "react-native";
 import { DarkStyle, LightStyle } from "@/constants/Theme";
-import createStyles from "@/services/ClassTransformer";
+import transformClasses from "@/services/ClassTransformer";
 
 interface Props {
   style?: TextStyle;
@@ -11,12 +11,13 @@ interface Props {
 }
 
 const AppText = memo(({ style, className, children, ...props }: Props) => {
-  const colorScheme = useColorScheme();
+  const color_scheme = useColorScheme();
   const textColor = useMemo(
-    () => (colorScheme === "dark" ? DarkStyle.textColor : LightStyle.textColor),
-    [colorScheme],
+    () =>
+      color_scheme === "dark" ? DarkStyle.textColor : LightStyle.textColor,
+    [color_scheme],
   );
-  const classes = useMemo(() => createStyles(className ?? ""), [className]);
+  const classes = useMemo(() => transformClasses(className ?? ""), [className]);
 
   return (
     <Text
@@ -33,7 +34,7 @@ export default AppText;
 
 const styles = StyleSheet.create({
   default: {
-    fontFamily: "Outfit-SemiBold",
-    fontSize: 16,
+    fontFamily: "Outfit Regular",
+    fontSize: 15,
   },
 });

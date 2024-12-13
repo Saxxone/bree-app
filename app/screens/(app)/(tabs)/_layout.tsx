@@ -23,8 +23,8 @@ export default function TabLayout() {
       );
   }, []);
 
-  const colorScheme = useColorScheme();
-  const header = colorScheme === "dark" ? headerDark : headerLight;
+  const color_scheme = useColorScheme();
+  const header = color_scheme === "dark" ? headerDark : headerLight;
   return (
     <Tabs screenOptions={header}>
       <Tabs.Screen

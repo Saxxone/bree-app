@@ -6,7 +6,7 @@ import { headerDark, headerLight } from "@/styles/main";
 
 export default function AppLayout() {
   const { session, isLoading } = useSession();
-  const colorScheme = useColorScheme();
+  const color_scheme = useColorScheme();
 
   // You can keep the splash screen open, or render a loading screen like we do here.
   if (isLoading) {
@@ -23,7 +23,7 @@ export default function AppLayout() {
 
   // This layout can be deferred because it's not the root layout.
   return (
-    <Stack screenOptions={colorScheme === "dark" ? headerDark : headerLight}>
+    <Stack screenOptions={color_scheme === "dark" ? headerDark : headerLight}>
       <Stack.Screen
         name="(profile)"
         options={{

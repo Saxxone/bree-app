@@ -17,18 +17,18 @@ SplashScreen.preventAutoHideAsync();
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const header = colorScheme === "dark" ? headerDark : headerLight;
+  const color_scheme = useColorScheme();
+  const header = color_scheme === "dark" ? headerDark : headerLight;
   const [loaded] = useFonts({
-    "Outfit-Black": require("@/assets/fonts/outfit/Outfit-Black.ttf"),
-    "Outfit-Bold": require("@/assets/fonts/outfit/Outfit-Bold.ttf"),
-    "Outfit-ExtraBold": require("@/assets/fonts/outfit/Outfit-ExtraBold.ttf"),
-    "Outfit-ExtraLight": require("@/assets/fonts/outfit/Outfit-ExtraLight.ttf"),
-    "Outfit-Light": require("@/assets/fonts/outfit/Outfit-Light.ttf"),
-    "Outfit-Medium": require("@/assets/fonts/outfit/Outfit-Medium.ttf"),
-    "Outfit-Regular": require("@/assets/fonts/outfit/Outfit-Regular.ttf"),
-    "Outfit-SemiBold": require("@/assets/fonts/outfit/Outfit-SemiBold.ttf"),
-    "Outfit-Thin": require("@/assets/fonts/outfit/Outfit-Thin.ttf"),
+    "Outfit Black": require("@/assets/fonts/outfit/Outfit-Black.ttf"),
+    "Outfit ExtraBold": require("@/assets/fonts/outfit/Outfit-ExtraBold.ttf"),
+    "Outfit Bold": require("@/assets/fonts/outfit/Outfit-Bold.ttf"),
+    "Outfit SemiBold": require("@/assets/fonts/outfit/Outfit-SemiBold.ttf"),
+    "Outfit Medium": require("@/assets/fonts/outfit/Outfit-Medium.ttf"),
+    "Outfit Regular": require("@/assets/fonts/outfit/Outfit-Regular.ttf"),
+    "Outfit Light": require("@/assets/fonts/outfit/Outfit-Light.ttf"),
+    "Outfit ExtraLight": require("@/assets/fonts/outfit/Outfit-ExtraLight.ttf"),
+    "Outfit Thin": require("@/assets/fonts/outfit/Outfit-Thin.ttf"),
   });
 
   useEffect(() => {
@@ -43,7 +43,7 @@ export default function RootLayout() {
 
   return (
     <SessionProvider>
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : LightTheme}>
+      <ThemeProvider value={color_scheme === "dark" ? DarkTheme : LightTheme}>
         <QueryClientProvider client={queryClient}>
           <Stack screenOptions={header}>
             <Stack.Screen

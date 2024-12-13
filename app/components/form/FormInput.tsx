@@ -16,7 +16,7 @@ import {
 import AppText from "@/components/app/AppText";
 import { gray_900, red_400, rounded_lg, white } from "@/constants/Colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import createStyles from "@/services/ClassTransformer";
+import transformClasses from "@/services/ClassTransformer";
 
 type IconNames =
   | "lock-closed-outline"
@@ -59,32 +59,32 @@ const FormInput = memo(
     onValidationError,
     ...otherTextInputProps
   }: Props) => {
-    const colorScheme = useColorScheme();
+    const color_scheme = useColorScheme();
 
     const textColor = useMemo(
       () =>
-        colorScheme === "dark" ? DarkStyle.textColor : LightStyle.textColor,
-      [colorScheme],
+        color_scheme === "dark" ? DarkStyle.textColor : LightStyle.textColor,
+      [color_scheme],
     );
 
     const mutedTextColor = useMemo(
       () =>
-        colorScheme === "dark"
+        color_scheme === "dark"
           ? DarkStyle.mutedTextColor.color
           : LightStyle.mutedTextColor.color,
-      [colorScheme],
+      [color_scheme],
     );
 
     const backgroundColor = useMemo(
-      () => (colorScheme === "dark" ? gray_900 : white),
-      [colorScheme],
+      () => (color_scheme === "dark" ? gray_900 : white),
+      [color_scheme],
     );
 
     const [isInputValid, setIsInputValid] = useState({});
 
     const { validate, errors, setErrors } = useValidation();
 
-    const validateForm = useCallback(() => {
+    const validateInput = useCallback(() => {
       if (!validationRules) return;
 
       const newErrors = validate(value, validationRules);
@@ -104,7 +104,7 @@ const FormInput = memo(
       return (
         <Pressable
           onPress={onPrependPressed}
-          style={createStyles("m-0 px-0.5")}
+          style={transformClasses("m-0 px-0.5")}
         >
           <Ionicons name={prependIcon} size={18} color={textColor.color} />
         </Pressable>
@@ -115,22 +115,25 @@ const FormInput = memo(
       if (!appendIcon) return null;
 
       return (
-        <Pressable onPress={onAppendPressed} style={createStyles("m-0 px-0.5")}>
+        <Pressable
+          onPress={onAppendPressed}
+          style={transformClasses("m-0 px-0.5")}
+        >
           <Ionicons name={appendIcon} size={18} color={textColor.color} />
         </Pressable>
       );
     }, [appendIcon, textColor]);
 
     return (
-      <View style={createStyles("mb-4")}>
+      <View style={transformClasses("mb-4")}>
         {label ? <AppText>{label}</AppText> : null}
 
         <View
           style={[
-            createStyles(
+            transformClasses(
               "px-4 border border-transparent rounded-lg w-full flex flex-wrap items-center gap-8",
             ),
-            isInputValid ? null : createStyles("border-rose-500 border"),
+            isInputValid ? null : transformClasses("border-rose-500 border"),
             { backgroundColor: backgroundColor },
           ]}
         >
@@ -139,7 +142,7 @@ const FormInput = memo(
             placeholder={placeholder}
             style={[
               styles.input,
-              createStyles("flex-1 border-transparent"),
+              transformClasses("flex-1 border-transparent"),
               textColor,
               { backgroundColor: backgroundColor },
             ]}
@@ -151,7 +154,7 @@ const FormInput = memo(
             autoCorrect={false}
             multiline={false}
             numberOfLines={1}
-            onBlur={validateForm}
+            onBlur={validateInput}
             {...otherTextInputProps}
           />
           {appendIcon ? memoAppendIcon : null}
@@ -160,7 +163,7 @@ const FormInput = memo(
           {Object.values(errors).map((error, index) => (
             <AppText
               key={`${index}-error-message`}
-              style={createStyles("my-1 text-red-400")}
+              style={transformClasses("my-1 text-red-400")}
             >
               {error}
             </AppText>

@@ -1,7 +1,7 @@
 import { memo, useMemo } from "react";
 import SkeletonLoader from "./SkeletonLoader";
 import { View, useColorScheme } from "react-native";
-import createStyles from "@/services/ClassTransformer";
+import transformClasses from "@/services/ClassTransformer";
 
 import { DarkStyle, LightStyle } from "@/constants/Theme";
 
@@ -20,24 +20,24 @@ const PostSkeleton = memo(() => {
     }
     return shuffledWidths.slice(0, 3);
   }, [widths]);
-  const colorScheme = useColorScheme();
+  const color_scheme = useColorScheme();
 
   const bg_color = useMemo(
     () =>
-      colorScheme === "dark"
+      color_scheme === "dark"
         ? DarkStyle.cardBackgroundColor
         : LightStyle.cardBackgroundColor,
-    [colorScheme],
+    [color_scheme],
   );
 
   return (
     <View
       style={[
-        createStyles("block rounded-lg p-3 mb-3 cursor-pointer"),
+        transformClasses("block rounded-lg p-3 mb-3 cursor-pointer"),
         { backgroundColor: bg_color.backgroundColor },
       ]}
     >
-      <View style={createStyles("flex flex-row items-center gap-4 mb-4")}>
+      <View style={transformClasses("flex flex-row items-center gap-4 mb-4")}>
         <SkeletonLoader width="w-10" height="h-10" radius="rounded-full" />
         <View>
           <SkeletonLoader
@@ -53,6 +53,7 @@ const PostSkeleton = memo(() => {
         {random_widths.map((w) => (
           <SkeletonLoader
             width={w}
+            key={w + Math.random() + "skeleton"}
             height="h-3"
             radius="rounded-lg"
             className="mb-2"

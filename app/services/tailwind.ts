@@ -14,7 +14,12 @@ import {
   gray_800,
   rose_500,
   rose_100,
+  violet_500,
 } from "@/constants/Colors";
+
+/**
+ * @fileoverview This file provides a mapping of Tailwind CSS class names to their equivalent React Native style objects.  This allows us to use familiar Tailwind classes within React Native components, abstracting away the underlying style specifics.
+ */
 
 const tailwindToRNMap: {
   [key: string]: any;
@@ -29,8 +34,23 @@ const tailwindToRNMap: {
   "bg-gray-800": { backgroundColor: gray_800 },
   "bg-gray-900": { backgroundColor: gray_900 },
 
+  "bg-violet-400": { backgroundColor: violet_400 },
+  "bg-violet-500": { backgroundColor: violet_500 },
+  "bg-violet-700": { backgroundColor: violet_700 },
+
+  //indigo
+  "bg-indigo-400": { backgroundColor: violet_400 },
+  "bg-indigo-500": { backgroundColor: violet_500 },
+  "bg-indigo-700": { backgroundColor: violet_700 },
+
+  "bg-rose-100": { backgroundColor: rose_100 },
+  "bg-rose-500": { backgroundColor: rose_500 },
+
+  "bg-white": { backgroundColor: white },
+
   "text-gray-100": { color: gray_100 },
   "text-gray-200": { color: gray_200 },
+  "text-gray-300": { color: gray_300 },
   // ... other gray text colors
   "text-gray-900": { color: gray_900 },
 
@@ -38,15 +58,15 @@ const tailwindToRNMap: {
   "text-violet-400": { color: violet_400 },
   "text-violet-700": { color: violet_700 },
 
-  "font-thin": { fontWeight: "100" },
-  "font-extralight": { fontWeight: "200" },
-  "font-light": { fontWeight: "300" },
-  "font-normal": { fontWeight: "400" },
-  "font-medium": { fontWeight: "500" },
-  "font-semibold": { fontWeight: "600" },
-  "font-bold": { fontWeight: "700" },
-  "font-extrabold": { fontWeight: "800" },
-  "font-black": { fontWeight: "900" },
+  "font-thin": { fontWeight: "100", fontFamily: "Outfit Thin" },
+  "font-extralight": { fontWeight: "200", fontFamily: "Outfit ExtraLight" },
+  "font-light": { fontWeight: "300", fontFamily: "Outfit Light" },
+  "font-normal": { fontWeight: "400", fontFamily: "Outfit Regular" },
+  "font-medium": { fontWeight: "500", fontFamily: "Outfit Medium" },
+  "font-semibold": { fontWeight: "600", fontFamily: "Outfit SemiBold" },
+  "font-bold": { fontWeight: "700", fontFamily: "Outfit Bold" },
+  "font-extrabold": { fontWeight: "800", fontFamily: "Outfit ExtraBold" },
+  "font-black": { fontWeight: "900", fontFamily: "Outfit Black" },
 
   // Font Sizes (adjust px values as needed for your design system)
   "text-xs": { fontSize: 12 },
@@ -138,7 +158,7 @@ const tailwindToRNMap: {
 
   //grid
 
-  grid: { display: "flex", flexWrap: "wrap" },
+  grid: { display: "flex" },
   "grid-cols-1": { width: "100%" },
   "grid-cols-2": { width: "50%" },
   "grid-cols-3": { width: "33.333333%" },
@@ -153,7 +173,28 @@ const tailwindToRNMap: {
   "grid-cols-12": { width: "8.333333%" },
 
   "grid-rows-1": { height: "100%" },
-  "grid-rows-2": { height: "50%" },
+  "grid-rows-2": { height: "48%" },
+  "grid-rows-3": { height: "33.333333%" },
+  "grid-rows-4": { height: "25%" },
+  "grid-rows-5": { height: "20%" },
+  "grid-rows-6": { height: "16.666667%" },
+  "grid-rows-7": { height: "14.285714%" },
+  "grid-rows-8": { height: "12.5%" },
+  "grid-rows-9": { height: "11.111111%" },
+  "grid-rows-10": { height: "10%" },
+  "grid-rows-11": { height: "9.090909%" },
+  "grid-rows-12": { height: "8.333333%" },
+
+  "row-span-1": { height: "auto" }, // Default behavior
+  "row-span-2": { height: "calc(100% * 2)" },
+  "row-span-3": { height: "calc(100% * 3 / var(--grid-rows))" },
+  "row-span-4": { height: "calc(100% * 4 / var(--grid-rows))" },
+  "row-span-5": { height: "calc(100% * 5 / var(--grid-rows))" },
+  "row-span-6": { height: "calc(100% * 6 / var(--grid-rows))" },
+
+  // ... and so on for other row-span values
+
+  "gap-0": { gap: 0 },
 
   "gap-1": { gap: 4 },
   "gap-2": { gap: 8 },
@@ -288,7 +329,7 @@ const tailwindToRNMap: {
   "w-max": { width: "max-content" }, // Intrinsic maximum width
   "w-fit": { width: "fit-content" }, // Shrinks to fit content
 
-  //height
+  // heights
 
   "h-0": { height: 0 },
   "h-1": { height: 4 },
@@ -325,7 +366,117 @@ const tailwindToRNMap: {
   "h-1.5": { height: 6 },
   "h-2.5": { height: 10 },
   "h-3.5": { height: 14 },
-  // ... and so on for other fractional values
+  "h-4.5": { height: 18 },
+  "h-5.5": { height: 22 },
+  "h-6.5": { height: 26 },
+  "h-7.5": { height: 30 },
+  "h-8.5": { height: 34 },
+  "h-9.5": { height: 38 },
+  "h-10.5": { height: 42 },
+
+  //min heights
+  "min-h-72": {
+    minHeight: 288,
+  },
+
+  //max height
+  "max-h-0": {
+    maxHeight: 0,
+  },
+  "max-h-1": {
+    maxHeight: 4,
+  },
+  "max-h-2": {
+    maxHeight: 8,
+  },
+  "max-h-3": {
+    maxHeight: 12,
+  },
+  "max-h-4": {
+    maxHeight: 16,
+  },
+  "max-h-5": {
+    maxHeight: 20,
+  },
+  "max-h-6": {
+    maxHeight: 24,
+  },
+  "max-h-7": {
+    maxHeight: 28,
+  },
+  "max-h-8": {
+    maxHeight: 32,
+  },
+  "max-h-9": {
+    maxHeight: 36,
+  },
+  "max-h-10": {
+    maxHeight: 40,
+  },
+  "max-h-11": {
+    maxHeight: 44,
+  },
+  "max-h-12": {
+    maxHeight: 48,
+  },
+  "max-h-14": {
+    maxHeight: 56,
+  },
+  "max-h-16": {
+    maxHeight: 64,
+  },
+  "max-h-20": {
+    maxHeight: 80,
+  },
+  "max-h-24": {
+    maxHeight: 96,
+  },
+  "max-h-28": {
+    maxHeight: 112,
+  },
+  "max-h-32": {
+    maxHeight: 128,
+  },
+  "max-h-36": {
+    maxHeight: 144,
+  },
+  "max-h-40": {
+    maxHeight: 160,
+  },
+  "max-h-44": {
+    maxHeight: 176,
+  },
+  "max-h-48": {
+    maxHeight: 192,
+  },
+  "max-h-52": {
+    maxHeight: 208,
+  },
+  "max-h-56": {
+    maxHeight: 224,
+  },
+  "max-h-60": {
+    maxHeight: 240,
+  },
+  "max-h-64": {
+    maxHeight: 256,
+  },
+  "max-h-72": {
+    maxHeight: 288,
+  },
+  "max-h-80": {
+    maxHeight: 320,
+  },
+  "max-h-96": {
+    maxHeight: 384,
+  },
+
+  "max-h-fit": {
+    maxHeight: "fit-content",
+  },
+  "max-h-full": {
+    maxHeight: "100%",
+  },
 
   "h-auto": { height: "auto" },
   "h-full": { height: "100%" },
@@ -333,6 +484,7 @@ const tailwindToRNMap: {
   "h-min": { height: "min-content" },
   "h-max": { height: "max-content" },
   "h-fit": { height: "fit-content" },
+  "h-inherit": { height: "inherit" },
 
   //postioning
   absolute: { position: "absolute" },
@@ -402,6 +554,18 @@ const tailwindToRNMap: {
   "object-none": { resizeMode: "center" },
   "object-scale-down": { resizeMode: "repeat" },
 
+  //overflow
+  "overflow-visible": { overflow: "visible" },
+  "overflow-hidden": { overflow: "hidden" },
+  "overflow-scroll": { overflow: "scroll" },
+  "overflow-auto": { overflow: "auto" },
+  "overflow-x-hidden": { overflowX: "hidden" },
+  "overflow-y-hidden": { overflowY: "hidden" },
+  "overflow-x-scroll": { overflowX: "scroll" },
+  "overflow-y-scroll": { overflowY: "scroll" },
+  "overflow-x-auto": { overflowX: "auto" },
+  "overflow-y-auto": { overflowY: "auto" },
+
   // ... Add more Tailwind classes and their React Native style equivalents
 
   //component class
@@ -410,7 +574,6 @@ const tailwindToRNMap: {
   container: {
     width: "100%",
     maxWidth: "100vw",
-    alignSelf: "center",
     paddingHorizontal: 8,
   },
   avatar: {
