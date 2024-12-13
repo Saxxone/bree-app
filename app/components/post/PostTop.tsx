@@ -1,5 +1,5 @@
 import { violet_400 } from "@/constants/Colors";
-import transformClasses from "@/services/ClassTransformer";
+import tailwindClasses from "@/services/ClassTransformer";
 import { Post } from "@/types/post";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { memo } from "react";
@@ -17,15 +17,15 @@ const PostTop = memo(({ post }: Props) => {
         <Ionicons
           name="arrow-undo"
           size={12}
-          style={transformClasses("text-gray-400 block mb-1")}
+          style={tailwindClasses("text-gray-400 block mb-1")}
         />
       ) : null}
-      <View style={transformClasses("flex-row items-start gap-2 mb-2")}>
+      <View style={tailwindClasses("flex-row items-start gap-2 mb-2")}>
         <Image
           source={{
             uri: post.author.img as string,
           }}
-          style={transformClasses("avatar")}
+          style={tailwindClasses("avatar")}
         />
         <View>
           <AppText>{post.author.name}</AppText>
@@ -35,7 +35,7 @@ const PostTop = memo(({ post }: Props) => {
           name="verified"
           size={16}
           color={violet_400}
-          style={transformClasses("mt-1")}
+          style={tailwindClasses("mt-0.5")}
         />
       </View>
     </>

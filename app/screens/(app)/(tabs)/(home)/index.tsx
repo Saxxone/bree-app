@@ -8,7 +8,7 @@ import { Post } from "@/types/post";
 import AppText from "@/components/app/AppText";
 import { violet_500 } from "@/constants/Colors";
 import PostSkeleton from "@/components/skeletons/PostSkeleton";
-import transformClasses from "@/services/ClassTransformer";
+import tailwindClasses from "@/services/ClassTransformer";
 import SnackBar from "@/components/app/SnackBar";
 import { useMemo, useState } from "react";
 
@@ -40,7 +40,7 @@ export default function HomeScreen() {
   const Feed = useMemo(() => {
     if (isFetching && !data?.data) {
       return (
-        <View style={transformClasses("container")}>
+        <View style={tailwindClasses("container")}>
           {skeleton_posts.map((skeleton) => (
             <PostSkeleton key={"skeleton" + skeleton} />
           ))}
@@ -55,7 +55,7 @@ export default function HomeScreen() {
       );
     } else if (data?.data && data.data.length > 0) {
       return (
-        <View style={transformClasses("container")}>
+        <View style={tailwindClasses("container")}>
           <FlatList
             data={data.data}
             keyExtractor={(post) => post.id}
@@ -74,7 +74,7 @@ export default function HomeScreen() {
       );
     } else {
       return (
-        <View style={[transformClasses("p-3 mb-3 ")]}>
+        <View style={[tailwindClasses("p-3 mb-3 ")]}>
           <AppText>No posts found.</AppText>
         </View>
       );

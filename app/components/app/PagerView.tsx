@@ -1,4 +1,4 @@
-import tailwind from "@/services/ClassTransformer";
+import tailwindClasses from "@/services/ClassTransformer";
 import React from "react";
 import {
   View,
@@ -19,7 +19,6 @@ interface Props {
 const PageView = ({
   children,
   initialPage = 0,
-  style,
   defaultHorizontalScrollIndicator,
   onPageScroll,
 }: Props) => {
@@ -27,7 +26,9 @@ const PageView = ({
 
   const renderItem = ({ item }: { item: React.ReactNode; index: number }) => {
     return (
-      <View style={[tailwind("px-1"), { width: width - 40 }]}>{item}</View>
+      <View style={[tailwindClasses("px-1"), { width: width - 56 }]}>
+        {item}
+      </View>
     );
   };
 

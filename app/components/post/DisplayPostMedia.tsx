@@ -1,6 +1,6 @@
 import { memo, useMemo } from "react";
 import { Pressable, View, StyleSheet } from "react-native";
-import transformClasses from "@/services/ClassTransformer";
+import tailwindClasses from "@/services/ClassTransformer";
 import ImageViewer from "../app/ImageViewer";
 import VideoViewer from "../app/VideoViewer";
 
@@ -14,7 +14,7 @@ interface Props {
 const SocialDisplayPostMedia = memo(
   ({ media, className, mediaTypes }: Props) => {
     const classes = useMemo(
-      () => transformClasses(className ?? ""),
+      () => tailwindClasses(className ?? ""),
       [className],
     );
 
@@ -49,7 +49,7 @@ const SocialDisplayPostMedia = memo(
     return (
       <View
         style={[
-          transformClasses(
+          tailwindClasses(
             "rounded-lg h-64 overflow-hidden flex flex-row flex-wrap",
           ),
           classes,
@@ -59,7 +59,7 @@ const SocialDisplayPostMedia = memo(
           <View
             key={m + index}
             style={[
-              transformClasses(dynamicGridClasses),
+              tailwindClasses(dynamicGridClasses),
               dynamicGridRows(index),
             ]}
           >
@@ -67,7 +67,7 @@ const SocialDisplayPostMedia = memo(
               key={m + index}
               onPress={() => selectMedia(index)}
               style={[
-                transformClasses(
+                tailwindClasses(
                   "overflow-hidden rounded-lg block cursor-pointer",
                 ),
               ]}

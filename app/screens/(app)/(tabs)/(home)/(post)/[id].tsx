@@ -7,7 +7,7 @@ import PostSkeleton from "@/components/skeletons/PostSkeleton";
 import api_routes from "@/constants/ApiRoutes";
 import { violet_500 } from "@/constants/Colors";
 import { ApiConnectService } from "@/services/ApiConnectService";
-import transformClasses from "@/services/ClassTransformer";
+import tailwindClasses from "@/services/ClassTransformer";
 import { Post } from "@/types/post";
 import { Snack, FetchMethod } from "@/types/types";
 import { useQuery } from "@tanstack/react-query";
@@ -16,7 +16,7 @@ import { useState, useMemo } from "react";
 export default function PostScreen() {
   const { id } = useLocalSearchParams();
 
-  const skeleton_posts = [1, 2, 3, 4, 5];
+  const skeleton_posts = [1, 2];
 
   const [snackBar, setSnackBar] = useState<Snack>({
     visible: false,
@@ -73,7 +73,7 @@ export default function PostScreen() {
   const Post = useMemo(() => {
     if (is_fetching_post && !post?.data) {
       return (
-        <View style={transformClasses("container")}>
+        <View style={tailwindClasses("container")}>
           {skeleton_posts.map((skeleton) => (
             <PostSkeleton key={"post-skeleton" + skeleton} />
           ))}
@@ -88,7 +88,7 @@ export default function PostScreen() {
       );
     } else if (post?.data && post.data.id) {
       return (
-        <View style={transformClasses("container")}>
+        <View style={tailwindClasses("container")}>
           <PostDisplay
             key={post.data.id}
             ellipsis={false}
@@ -99,7 +99,7 @@ export default function PostScreen() {
       );
     } else {
       return (
-        <View style={[transformClasses("p-3 mb-3 ")]}>
+        <View style={[tailwindClasses("p-3 mb-3 ")]}>
           <AppText>Post cannot be displayed.</AppText>
         </View>
       );
@@ -109,7 +109,7 @@ export default function PostScreen() {
   const Comments = useMemo(() => {
     if (is_fetching_comments && !comments?.data) {
       return (
-        <View style={transformClasses("container")}>
+        <View style={tailwindClasses("container")}>
           {skeleton_posts.map((skeleton) => (
             <PostSkeleton key={"comment-skeleton" + skeleton} />
           ))}
@@ -124,7 +124,7 @@ export default function PostScreen() {
       );
     } else if (comments?.data && comments.data.length > 0) {
       return (
-        <View style={transformClasses("container")}>
+        <View style={tailwindClasses("container")}>
           <FlatList
             data={comments.data}
             keyExtractor={(post) => post.id}
@@ -143,9 +143,9 @@ export default function PostScreen() {
       );
     } else {
       return (
-        <View style={[transformClasses("px-3 mb-3 ")]}>
+        <View style={[tailwindClasses("px-3 mb-3 ")]}>
           <AppText
-            style={transformClasses(
+            style={tailwindClasses(
               "text-center text-xl font-bold text-gray-500",
             )}
           >
@@ -164,7 +164,7 @@ export default function PostScreen() {
   return (
     <>
       {Post}
-      <View style={transformClasses("mt-4 ml-3")}>{Comments}</View>
+      <View style={tailwindClasses("mt-4 ml-3")}>{Comments}</View>
     </>
   );
 }

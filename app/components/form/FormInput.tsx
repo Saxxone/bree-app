@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useMemo, useState } from "react";
+import { memo, useCallback, useMemo, useState } from "react";
 import { ValidationRule, useValidation } from "@/hooks/useValidation";
 import { LightStyle, DarkStyle } from "@/constants/Theme";
 import {
@@ -14,9 +14,9 @@ import {
   TextStyle,
 } from "react-native";
 import AppText from "@/components/app/AppText";
-import { gray_900, red_400, rounded_lg, white } from "@/constants/Colors";
+import { gray_900, white } from "@/constants/Colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import transformClasses from "@/services/ClassTransformer";
+import tailwindClasses from "@/services/ClassTransformer";
 
 type IconNames =
   | "lock-closed-outline"
@@ -33,6 +33,7 @@ interface Props extends Omit<TextInputProps, "style"> {
   readonly appendIcon?: IconNames;
   readonly validationRules?: ValidationRule[];
   readonly autoComplete?: "email" | "password" | "username";
+  readonly className?: string;
   style?: StyleProp<ViewStyle>;
   inputStyle?: StyleProp<TextStyle>;
   readonly onChangeText: (text: string) => void;
@@ -57,9 +58,15 @@ const FormInput = memo(
     onAppendPressed,
     onChangeText,
     onValidationError,
+    className,
     ...otherTextInputProps
   }: Props) => {
     const color_scheme = useColorScheme();
+
+    const classes = useMemo(
+      () => tailwindClasses(className ?? ""),
+      [className],
+    );
 
     const textColor = useMemo(
       () =>
@@ -104,7 +111,7 @@ const FormInput = memo(
       return (
         <Pressable
           onPress={onPrependPressed}
-          style={transformClasses("m-0 px-0.5")}
+          style={tailwindClasses("m-0 px-0.5")}
         >
           <Ionicons name={prependIcon} size={18} color={textColor.color} />
         </Pressable>
@@ -117,7 +124,7 @@ const FormInput = memo(
       return (
         <Pressable
           onPress={onAppendPressed}
-          style={transformClasses("m-0 px-0.5")}
+          style={tailwindClasses("m-0 px-0.5")}
         >
           <Ionicons name={appendIcon} size={18} color={textColor.color} />
         </Pressable>
@@ -125,15 +132,15 @@ const FormInput = memo(
     }, [appendIcon, textColor]);
 
     return (
-      <View style={transformClasses("mb-4")}>
+      <View style={[tailwindClasses("mb-4"), classes, style]}>
         {label ? <AppText>{label}</AppText> : null}
 
         <View
           style={[
-            transformClasses(
-              "px-4 border border-transparent rounded-lg w-full flex flex-wrap items-center gap-8",
+            tailwindClasses(
+              "px-4 border border-transparent rounded-lg w-full flex flex-row items-center flex-wrap items-center gap-2",
             ),
-            isInputValid ? null : transformClasses("border-rose-500 border"),
+            isInputValid ? null : tailwindClasses("border-rose-500 border"),
             { backgroundColor: backgroundColor },
           ]}
         >
@@ -141,8 +148,7 @@ const FormInput = memo(
           <TextInput
             placeholder={placeholder}
             style={[
-              styles.input,
-              transformClasses("flex-1 border-transparent"),
+              tailwindClasses("flex-1 font-light h-14 px-1 border-transparent"),
               textColor,
               { backgroundColor: backgroundColor },
             ]}
@@ -163,7 +169,7 @@ const FormInput = memo(
           {Object.values(errors).map((error, index) => (
             <AppText
               key={`${index}-error-message`}
-              style={transformClasses("my-1 text-red-400")}
+              style={tailwindClasses("my-1 text-red-400")}
             >
               {error}
             </AppText>
@@ -175,12 +181,3 @@ const FormInput = memo(
 );
 
 export default FormInput;
-
-const styles = StyleSheet.create({
-  input: {
-    height: 56,
-    fontFamily: "Outfit",
-    fontSize: 16,
-    fontWeight: "500",
-  },
-});

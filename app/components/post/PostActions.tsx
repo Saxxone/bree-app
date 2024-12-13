@@ -1,9 +1,11 @@
 import { useMemo, memo } from "react";
 import { Post } from "@/types/post";
 import { Pressable, View, useColorScheme } from "react-native";
-import transformClasses from "@/services/ClassTransformer";
+import tailwindClasses from "@/services/ClassTransformer";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AppText from "../app/AppText";
+import { router } from "expo-router";
+import { app_routes } from "@/constants/AppRoutes";
 
 type Props = {
   readonly post: Post;
@@ -23,7 +25,7 @@ interface Action {
 }
 
 const PostActions = memo(({ post, className }: Props) => {
-  const classes = useMemo(() => transformClasses(className ?? ""), [className]);
+  const classes = useMemo(() => tailwindClasses(className ?? ""), [className]);
   const color_scheme = useColorScheme();
   const color = color_scheme === "dark" ? "text-gray-300" : "text-gray-500";
 
@@ -34,7 +36,10 @@ const PostActions = memo(({ post, className }: Props) => {
   }
 
   function comment() {
-    console.log("comment");
+    router.push({
+      pathname: app_routes.post.compose,
+      params: { id: post.id, comment: 1 },
+    });
   }
 
   function sharePost() {
@@ -76,7 +81,7 @@ const PostActions = memo(({ post, className }: Props) => {
   return (
     <View
       style={[
-        transformClasses("flex flex-row w-full items-center mt-2"),
+        tailwindClasses("flex flex-row w-full items-center mt-2"),
         classes,
       ]}
     >
@@ -88,25 +93,31 @@ const PostActions = memo(({ post, className }: Props) => {
             action.command();
           }}
           style={[
-            transformClasses("px-1 flex flex-row items-center cursor-pointer"),
+            tailwindClasses("px-1 flex flex-row items-center cursor-pointer"),
             index === 2
-              ? transformClasses("ml-auto mr-1")
-              : transformClasses("mr-1"),
+              ? tailwindClasses("ml-auto mr-1")
+              : tailwindClasses("mr-1"),
           ]}
         >
           <Ionicons
-            name={action.icon}
+            name={
+              action.active && action.key === "likeCount"
+                ? "heart"
+                : action.active && action.key === "bookmarkCount"
+                  ? "bookmark"
+                  : action.icon
+            }
             size={16}
             style={[
               action.active && action.key === "likeCount"
-                ? transformClasses("text-red-500")
+                ? tailwindClasses("text-red-500")
                 : action.active && action.key !== "likeCount"
-                  ? transformClasses("text-purple-500")
-                  : transformClasses(color),
+                  ? tailwindClasses("text-purple-500")
+                  : tailwindClasses(color),
             ]}
           />
           {action.key && post[action.key as keyof Post] ? (
-            <AppText style={transformClasses("ml-1 text-sm font-light")}>
+            <AppText style={tailwindClasses("ml-1 text-sm font-light")}>
               {String(post[action.key as keyof Post])}
             </AppText>
           ) : null}

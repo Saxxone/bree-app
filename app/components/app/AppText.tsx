@@ -1,7 +1,7 @@
 import { memo, useMemo } from "react";
 import { Text, useColorScheme, StyleSheet, TextStyle } from "react-native";
 import { DarkStyle, LightStyle } from "@/constants/Theme";
-import transformClasses from "@/services/ClassTransformer";
+import tailwindClasses from "@/services/ClassTransformer";
 
 interface Props {
   style?: TextStyle;
@@ -20,7 +20,7 @@ const AppText = memo(
       [color_scheme],
     );
     const classes = useMemo(
-      () => transformClasses(className ?? ""),
+      () => tailwindClasses(className ?? ""),
       [className],
     );
 

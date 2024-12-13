@@ -1,6 +1,7 @@
 import * as ImagePicker from "expo-image-picker";
 import { View } from "react-native";
 import Button from "@/components/form/Button";
+import tailwindClasses from "@/services/ClassTransformer";
 
 export default function Compose() {
   const pickImageAsync = async () => {
@@ -18,7 +19,7 @@ export default function Compose() {
   };
 
   return (
-    <View>
+    <View style={tailwindClasses("container")}>
       <View>
         <Button theme="primary" onPress={pickImageAsync}>
           Choose a photo

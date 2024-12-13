@@ -31,6 +31,12 @@ export default function AppLayout() {
         }}
       />
       <Stack.Screen
+        name="compose"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="(tabs)"
         options={{
           headerShown: false,

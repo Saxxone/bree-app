@@ -4,7 +4,8 @@ const components = {
   container: {
     width: "100%",
     maxWidth: "100vw",
-    paddingHorizontal: 8,
+    paddingHorizontal: 16,
+    paddingVertical: 16,
   },
   avatar: {
     width: 50,

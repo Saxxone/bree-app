@@ -1,4 +1,4 @@
-import transformClasses from "@/services/ClassTransformer";
+import tailwindClasses from "@/services/ClassTransformer";
 import { useEvent } from "expo";
 import { useVideoPlayer, VideoView } from "expo-video";
 import { View } from "react-native";
@@ -20,7 +20,7 @@ export default function VideoScreen({ source }: Props) {
   });
 
   return (
-    <View style={transformClasses("mx-auto flex items-center justify-center")}>
+    <View style={tailwindClasses("mx-auto flex items-center justify-center")}>
       <VideoView
         player={player}
         allowsFullscreen
@@ -28,7 +28,7 @@ export default function VideoScreen({ source }: Props) {
         allowsVideoFrameAnalysis
         startsPictureInPictureAutomatically={isPlaying}
         contentFit="cover"
-        style={[transformClasses("rounded-lg w-full h-full object-cover")]}
+        style={[tailwindClasses("rounded-lg w-full h-full object-cover")]}
       />
     </View>
   );

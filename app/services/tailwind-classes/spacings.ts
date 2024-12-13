@@ -45,6 +45,10 @@ const spacings = {
   "m-4": { margin: 16 },
   "m-5": { margin: 20 },
 
+  "mt-0.5": { marginTop: 2 },
+  "mb-0.5": { marginBottom: 2 },
+  "ml-0.5": { marginLeft: 2 },
+  "mr-0.5": { marginRight: 2 },
   "mt-1": { marginTop: 4 },
   "mb-1": { marginBottom: 4 },
   "ml-1": { marginLeft: 4 },
@@ -80,6 +84,37 @@ const spacings = {
 
   "mr-auto": { marginRight: "auto" },
   "ml-auto": { marginLeft: "auto" },
+
+  "gap-1": {
+    gap: 4,
+  },
+  "gap-2": {
+    gap: 8,
+  },
+  "gap-3": {
+    gap: 12,
+  },
+  "gap-4": {
+    gap: 16,
+  },
+  "gap-5": {
+    gap: 20,
+  },
+  "gap-6": {
+    gap: 24,
+  },
+  "gap-7": {
+    gap: 28,
+  },
+  "gap-8": {
+    gap: 32,
+  },
+  "gap-9": {
+    gap: 36,
+  },
+  "gap-10": {
+    gap: 40,
+  },
 };
 
 export default spacings;

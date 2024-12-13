@@ -3,7 +3,7 @@ import { Post } from "@/types/post";
 import { View, useColorScheme } from "react-native";
 import AppText from "../app/AppText";
 import { DarkStyle, LightStyle } from "@/constants/Theme";
-import transformClasses from "@/services/ClassTransformer";
+import tailwindClasses from "@/services/ClassTransformer";
 import PostTop from "./PostTop";
 import DisplayPostMedia from "./DisplayPostMedia";
 import PagerView from "@/components/app/PagerView";
@@ -34,16 +34,16 @@ const PostDisplay = memo(({ post, ellipsis }: Props) => {
 
     return (
       <View
-        style={transformClasses("flex-row items-center justify-center mt-2")}
+        style={tailwindClasses("flex-row items-center justify-center mt-2")}
       >
         {post.longPost.content.map((_, index) => (
           <View
             key={post.id + "-page-indicator-" + index}
             style={[
-              transformClasses("rounded-full w-1 h-1 mx-1"),
+              tailwindClasses("rounded-full w-1 h-1 mx-1"),
               index === current_page
-                ? transformClasses("bg-indigo-500")
-                : transformClasses("bg-gray-300"),
+                ? tailwindClasses("bg-indigo-500")
+                : tailwindClasses("bg-gray-300"),
             ]}
           />
         ))}
@@ -55,11 +55,11 @@ const PostDisplay = memo(({ post, ellipsis }: Props) => {
     <Link
       href={app_routes.post.view(post.id)}
       style={[
-        transformClasses("p-3 mb-3 rounded-lg cursor-pointer"),
+        tailwindClasses("p-3 mb-3 rounded-lg cursor-pointer"),
         { backgroundColor: bg_color.backgroundColor },
       ]}
     >
-      <View style={transformClasses("rounded-lg")}>
+      <View style={tailwindClasses("rounded-lg")}>
         <PostTop post={post} />
         {post.type === "SHORT" ? (
           // SHORT POST DISPLAY
@@ -82,7 +82,7 @@ const PostDisplay = memo(({ post, ellipsis }: Props) => {
             {post.longPost?.content?.map((content, index) => {
               return (
                 <View
-                  style={[transformClasses("rounded-md")]}
+                  style={[tailwindClasses("rounded-md")]}
                   key={post.id + "-long-post-" + index}
                 >
                   <DisplayPostMedia
@@ -91,6 +91,7 @@ const PostDisplay = memo(({ post, ellipsis }: Props) => {
                     mediaTypes={content.mediaTypes as string[]}
                     postId={post.id}
                   />
+
                   {PageViewIndicator()}
 
                   <AppText

@@ -4,7 +4,6 @@ import { memo, useEffect, useRef } from "react";
 import AppText from "./AppText";
 import {
   blue_700,
-  rounded_lg,
   rose_500,
   amber_700,
   blue_200,
@@ -15,7 +14,7 @@ import {
 } from "@/constants/Colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import transformClasses from "@/services/ClassTransformer";
+import tailwindClasses from "@/services/ClassTransformer";
 
 interface Props {
   snack: Snack;
@@ -61,12 +60,19 @@ const SnackBar = memo(({ snack, onClose }: Props) => {
   return (
     <Animated.View
       style={[
-        transformClasses("absolute top-5 left-5 right-5"),
+        tailwindClasses("absolute top-5 left-5 right-5"),
         { opacity: fadeAnim },
       ]}
     >
       <SafeAreaView>
-        <View style={[styles.generic, snackStyle]}>
+        <View
+          style={[
+            tailwindClasses(
+              "p-4 rounded-lg flex-row items-center justify-start",
+            ),
+            snackStyle,
+          ]}
+        >
           <View>
             <AppText
               style={{
@@ -87,7 +93,7 @@ const SnackBar = memo(({ snack, onClose }: Props) => {
               {snack.message}
             </AppText>
           </View>
-          <Pressable style={transformClasses("ml-auto")} onPress={onClose}>
+          <Pressable style={tailwindClasses("ml-auto")} onPress={onClose}>
             <Ionicons name="close-outline" size={24} color={snackStyle.color} />
           </Pressable>
         </View>
@@ -99,13 +105,6 @@ const SnackBar = memo(({ snack, onClose }: Props) => {
 export default SnackBar;
 
 const styles = StyleSheet.create({
-  generic: {
-    padding: 16,
-    borderRadius: rounded_lg,
-    justifyContent: "flex-start",
-    flexDirection: "row",
-    alignItems: "flex-start",
-  },
   info: {
     backgroundColor: blue_200,
     color: blue_700,

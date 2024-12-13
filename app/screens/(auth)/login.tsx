@@ -1,10 +1,9 @@
 import { Link, router } from "expo-router";
 import * as Keychain from "react-native-keychain";
-import { View, StyleSheet, ActivityIndicator } from "react-native";
+import { View, ActivityIndicator } from "react-native";
 import { useSession } from "@/ctx";
 import { useState } from "react";
 import FormInput from "@/components/form/FormInput";
-import { styles } from "@/styles/main";
 import AppText from "@/components/app/AppText";
 import SpacerY from "@/components/app/SpacerY";
 import AppButton from "@/components/form/Button";
@@ -17,7 +16,7 @@ import api_routes from "@/constants/ApiRoutes";
 import { FetchMethod, Snack } from "@/types/types";
 import SnackBar from "@/components/app/SnackBar";
 import { User } from "@/types/user";
-import transformClasses from "@/services/ClassTransformer";
+import tailwindClasses from "@/services/ClassTransformer";
 
 export default function Login() {
   const { signIn } = useSession();
@@ -84,7 +83,7 @@ export default function Login() {
           "access_token",
           response?.data?.data?.access_token as string,
         );
-        router.replace("/screens/(home)");
+        router.replace(app_routes.home);
       } else if (response.error) {
         setSnackBar({
           visible: true,
@@ -114,13 +113,15 @@ export default function Login() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={tailwindClasses("container")}>
       <SnackBar
         snack={snackBar}
         onClose={() => setSnackBar({ ...snackBar, visible: false })}
       />
       <SpacerY size="lg" />
-      <AppText style={styles.h1}>Login your account</AppText>
+      <AppText style={tailwindClasses("text-3xl font-bold")}>
+        Login your account
+      </AppText>
 
       <SpacerY size="xxs" />
 
@@ -149,9 +150,9 @@ export default function Login() {
         onValidationError={handleValidationError}
       />
 
-      <View style={transformClasses("justify-end flex-row w-full")}>
+      <View style={tailwindClasses("justify-end flex-row w-full")}>
         <Link href={app_routes.forgotPassword}>
-          <AppText style={transformClasses("self-end")}>
+          <AppText style={tailwindClasses("self-end")}>
             Forgot password?
           </AppText>
         </Link>
@@ -173,7 +174,7 @@ export default function Login() {
 
       <SpacerY size="xxs" />
 
-      <View style={transformClasses("flex-row justify-center w-full")}>
+      <View style={tailwindClasses("flex-row justify-center w-full")}>
         <Link href={app_routes.register}>
           <AppText>Create new account?</AppText>
           <AppText style={{ color: primary }}> Sign up</AppText>

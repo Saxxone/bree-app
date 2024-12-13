@@ -1,7 +1,7 @@
 import { memo, useMemo } from "react";
 import SkeletonLoader from "./SkeletonLoader";
 import { View, useColorScheme } from "react-native";
-import transformClasses from "@/services/ClassTransformer";
+import tailwindClasses from "@/services/ClassTransformer";
 
 import { DarkStyle, LightStyle } from "@/constants/Theme";
 
@@ -33,11 +33,11 @@ const PostSkeleton = memo(() => {
   return (
     <View
       style={[
-        transformClasses("block rounded-lg p-3 mb-3 cursor-pointer"),
+        tailwindClasses("block rounded-lg p-3 mb-3 cursor-pointer"),
         { backgroundColor: bg_color.backgroundColor },
       ]}
     >
-      <View style={transformClasses("flex flex-row items-center gap-4 mb-4")}>
+      <View style={tailwindClasses("flex flex-row items-center gap-4 mb-4")}>
         <SkeletonLoader width="w-10" height="h-10" radius="rounded-full" />
         <View>
           <SkeletonLoader

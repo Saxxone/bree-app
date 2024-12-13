@@ -7,9 +7,7 @@ import tailwindToRNMap from "./tailwind";
  * @param {string} className A string of space-separated Tailwind CSS class names.
  * @returns {object} A React Native stylesheet object created using `StyleSheet.create()`.
  */
-const transformClasses = (
-  className: string,
-): StyleSheet.NamedStyles<object> => {
+const tailwindClasses = (className: string): StyleSheet.NamedStyles<object> => {
   let styles = {};
   const classes = className.split(" ");
 
@@ -22,4 +20,4 @@ const transformClasses = (
   return StyleSheet.create(styles);
 };
 
-export default transformClasses;
+export default tailwindClasses;
