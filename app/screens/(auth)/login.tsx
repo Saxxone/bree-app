@@ -25,7 +25,6 @@ export default function Login() {
     title: "",
     message: "",
     type: "error",
-    statusCode: 200,
   });
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -88,7 +87,6 @@ export default function Login() {
         setSnackBar({
           visible: true,
           title: "Error",
-          statusCode: 404,
           type: "error",
           message: response.error.message || "Login failed. Please try again.",
         });

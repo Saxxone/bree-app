@@ -1,6 +1,5 @@
-import { Pressable, View } from "react-native";
+import { View } from "react-native";
 import tailwindClasses from "@/services/ClassTransformer";
-import AppButton from "@/components/form/Button";
 import PostDisplay from "@/components/post/PostDisplay";
 import { Post, PostType } from "@/types/post";
 import { Ionicons } from "@expo/vector-icons";
@@ -12,6 +11,8 @@ import { ValidationRule } from "@/hooks/useValidation";
 import { useState } from "react";
 import FilePicker from "@/components/app/FilePicker";
 import AppText from "@/components/app/AppText";
+import SnackBar from "@/components/app/SnackBar";
+import { Snack } from "@/types/types";
 
 export default function Compose() {
   const [post, setPost] = useState<Post>({
@@ -21,6 +22,13 @@ export default function Compose() {
     media: [],
     comments: [],
     likeCount: 0,
+  });
+
+  const [snackBar, setSnackBar] = useState<Snack>({
+    visible: false,
+    title: "",
+    message: "",
+    type: "error",
   });
   const [inputErrors, setInputErrors] = useState<Record<string, string> | null>(
     null,
@@ -110,6 +118,10 @@ export default function Compose() {
 
       <FilePicker onSelected={setPostMedia} />
 
+      <SnackBar
+        snack={snackBar}
+        onClose={() => setSnackBar({ ...snackBar, visible: false })}
+      />
       <View>
         {inputErrors
           ? Object.values(inputErrors).map((error, index) => (

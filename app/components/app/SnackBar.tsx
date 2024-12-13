@@ -60,7 +60,7 @@ const SnackBar = memo(({ snack, onClose }: Props) => {
   return (
     <Animated.View
       style={[
-        tailwindClasses("absolute top-5 left-5 right-5"),
+        tailwindClasses("absolute top-2 left-5 right-5"),
         { opacity: fadeAnim },
       ]}
     >

@@ -4,6 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useState } from "react";
 import { Pressable } from "react-native";
+import SnackBar from "./SnackBar";
 
 interface Props {
   onSelected: (media: string[]) => void;
@@ -38,16 +39,22 @@ export default function FilePicker({ onSelected, ...props }: Props) {
     }
   };
   return (
-    <Pressable onPress={pickImageAsync}>
-      {props.children ? (
-        props.children
-      ) : (
-        <Ionicons
-          name="images"
-          size={16}
-          style={[tailwindClasses("text-gray-400 p-2")]}
-        />
-      )}
-    </Pressable>
+    <>
+      <SnackBar
+        snack={snackBar}
+        onClose={() => setSnackBar({ ...snackBar, visible: false })}
+      />
+      <Pressable onPress={pickImageAsync}>
+        {props.children ? (
+          props.children
+        ) : (
+          <Ionicons
+            name="images"
+            size={16}
+            style={[tailwindClasses("text-gray-400 p-2")]}
+          />
+        )}
+      </Pressable>
+    </>
   );
 }
