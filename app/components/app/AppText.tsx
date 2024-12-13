@@ -5,7 +5,7 @@ import transformClasses from "@/services/ClassTransformer";
 
 interface Props {
   style?: TextStyle;
-  className?: string;
+  readonly className?: string;
   children?: React.ReactNode;
   onPress?: () => void;
 }

@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import transformClasses from "@/services/ClassTransformer";
+import React from "react";
 import {
   View,
   FlatList,
   Dimensions,
-  ViewStyle,
   NativeSyntheticEvent,
   NativeScrollEvent,
 } from "react-native";
@@ -26,7 +26,11 @@ const PageView = ({
   const { width } = Dimensions.get("window");
 
   const renderItem = ({ item }: { item: React.ReactNode; index: number }) => {
-    return <View style={{ width: width - 40, flex: 1 }}>{item}</View>;
+    return (
+      <View style={[transformClasses("flex-1 px-1"), { width: width - 40 }]}>
+        {item}
+      </View>
+    );
   };
 
   function onScroll(e: NativeSyntheticEvent<NativeScrollEvent>): number | void {
@@ -42,7 +46,9 @@ const PageView = ({
         renderItem={renderItem}
         horizontal
         pagingEnabled
-        showsHorizontalScrollIndicator={defaultHorizontalScrollIndicator}
+        showsHorizontalScrollIndicator={
+          defaultHorizontalScrollIndicator ?? false
+        }
         initialScrollIndex={initialPage}
         onScroll={onScroll}
         keyExtractor={(_, index) => `page-view-${index}`}

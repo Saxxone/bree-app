@@ -29,7 +29,7 @@ export default function HomeScreen() {
         method: FetchMethod.POST,
         query: {
           skip: 0,
-          take: 10,
+          take: 40,
         },
       });
     },
@@ -74,7 +74,7 @@ export default function HomeScreen() {
       );
     } else {
       return (
-        <View>
+        <View style={[transformClasses("p-3 mb-3 ")]}>
           <AppText>No posts found.</AppText>
         </View>
       );

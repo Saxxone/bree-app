@@ -6,7 +6,7 @@ interface Props {
   width: string;
   height: string;
   radius: string;
-  className?: string;
+  readonly className?: string;
 }
 
 const SkeletonLoader = ({ width, height, radius, className }: Props) => {

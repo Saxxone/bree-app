@@ -8,7 +8,7 @@ import { styles } from "@/styles/main";
 import AppText from "@/components/app/AppText";
 import SpacerY from "@/components/app/SpacerY";
 import AppButton from "@/components/form/Button";
-import { app_routes } from "@/constants/Routes";
+import { app_routes } from "@/constants/AppRoutes";
 import { primary } from "@/constants/Colors";
 import { ValidationRule } from "@/hooks/useValidation";
 import { ApiConnectService } from "@/services/ApiConnectService";

@@ -9,7 +9,8 @@ export const app_routes: Record<string, any> = {
     home: "/screens/(app)/(home)",
     compose: "/screens/compose",
     edit: (id: string) => `/screens/(app)/(home)/post/${id}/edit`,
-    view: (id: string) => `/screens/(app)/(home)/post/${id}`,
-    view_media: "/screens/(app)/(home)/post/media",
+    view: (id: string) => `/screens/(app)/(tabs)/(home)/(post)/${id}`,
+    view_media: (id: string) =>
+      `/screens/(app)/(tabs)/(home)/(post)/media/${id}`,
   },
 };
