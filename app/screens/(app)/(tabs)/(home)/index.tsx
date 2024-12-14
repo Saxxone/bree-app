@@ -10,6 +10,9 @@ import { violet_500 } from "@/constants/Colors";
 import tailwindClasses from "@/services/ClassTransformer";
 import SnackBar from "@/components/app/SnackBar";
 import { useMemo, useState } from "react";
+import { Link } from "expo-router";
+import { app_routes } from "@/constants/AppRoutes";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function HomeScreen() {
   const [snackBar, setSnackBar] = useState<Snack>({
@@ -68,10 +71,26 @@ export default function HomeScreen() {
         </View>
       ) : (
         <View style={[tailwindClasses("p-3 mb-3 ")]}>
-          <Text>No posts found.</Text>
+          <Text className="text-center text-gray-500">No posts found.</Text>
         </View>
       );
     }
   }, [isFetching, isError, data, snackBar, refetch]);
-  return <>{Feed}</>;
+  return (
+    <>
+      {Feed}
+      <Link
+        href={app_routes.post.compose}
+        style={tailwindClasses("absolute bottom-32 z-50 right-3")}
+      >
+        <View
+          style={tailwindClasses(
+            "justify-center bg-indigo-500 flex items-center text-white shadow-xl p-4 border rounded-full w-14 h-14",
+          )}
+        >
+          <Ionicons name="pencil-outline" size={24} color="white" />
+        </View>
+      </Link>
+    </>
+  );
 }

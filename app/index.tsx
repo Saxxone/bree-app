@@ -9,8 +9,9 @@ export default function Index() {
   //TODO fix this page design and handle auth better
   (async function getAuthStatus() {
     const token = await retrieveTokenFromKeychain();
+    console.log(token);
     if (token) {
-      router.replace(app_routes.posts.home);
+      router.replace(app_routes.post.home);
     }
   })();
 

@@ -80,7 +80,7 @@ export default function Login() {
           "access_token",
           response?.data?.data?.access_token as string,
         );
-        router.replace(app_routes.home);
+        router.replace(app_routes.post.home);
       } else if (error) {
         setSnackBar({
           visible: true,
