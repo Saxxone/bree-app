@@ -69,23 +69,23 @@ export default function PostScreen() {
         />
       );
     } else {
-      return post?.data?.id ? (
-        <View style={tailwindClasses("container")}>
-          <PostDisplay
-            key={post.data.id}
-            ellipsis={false}
-            actions={true}
-            isFetching={is_fetching_post}
-            post={post.data}
-          />
-        </View>
-      ) : (
+      return is_post_error ? (
         <View style={[tailwindClasses("p-3 mb-3 ")]}>
           <Text>Post cannot be displayed.</Text>
         </View>
+      ) : (
+        <View style={tailwindClasses("container")}>
+          <PostDisplay
+            key={post?.data?.id}
+            ellipsis={false}
+            actions={true}
+            isFetching={is_fetching_post}
+            post={post?.data}
+          />
+        </View>
       );
     }
-  }, [is_fetching_post, is_post_error, post, snackBar, refetchPost]);
+  }, [is_fetching_post, is_post_error, post, snackBar]);
 
   const Comments = useMemo(() => {
     if (is_comments_error) {

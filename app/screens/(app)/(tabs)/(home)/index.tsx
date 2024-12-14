@@ -46,7 +46,11 @@ export default function HomeScreen() {
         />
       );
     } else {
-      return data?.data && data.data.length > 0 ? (
+      return isError ? (
+        <View style={[tailwindClasses("p-3 mb-3 ")]}>
+          <Text className="text-center text-gray-500">No posts found.</Text>
+        </View>
+      ) : (
         <View style={tailwindClasses("container")}>
           <FlatList
             data={data.data}
@@ -68,10 +72,6 @@ export default function HomeScreen() {
               />
             }
           />
-        </View>
-      ) : (
-        <View style={[tailwindClasses("p-3 mb-3 ")]}>
-          <Text className="text-center text-gray-500">No posts found.</Text>
         </View>
       );
     }

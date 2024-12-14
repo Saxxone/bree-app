@@ -14,7 +14,7 @@ import PostSkeleton from "../skeletons/PostSkeleton";
 import PagerViewIndicator from "../app/PagerViewIndicator";
 
 type Props = {
-  readonly post: Post;
+  readonly post?: Post | null;
   readonly actions: boolean;
   readonly ellipsis: boolean;
   readonly isFetching: boolean;
@@ -31,13 +31,11 @@ const PostDisplay = memo(({ post, ellipsis, actions, isFetching }: Props) => {
   );
   const [currentPage, setCurrentPage] = useState(0);
 
-  return isFetching ? (
-    <PostSkeleton />
-  ) : (
+  return !isFetching && post ? (
     <Link
       href={app_routes.post.view(post.id)}
       style={[
-        tailwindClasses("p-3 mb-3 rounded-lg cursor-pointer"),
+        tailwindClasses("px-3 pt-3 pb-2 mb-3 rounded-lg cursor-pointer"),
         { backgroundColor: bg_color.backgroundColor },
       ]}
     >
@@ -54,7 +52,7 @@ const PostDisplay = memo(({ post, ellipsis, actions, isFetching }: Props) => {
                 postId={post.id}
               />
             ) : null}
-            <Text className="break-word font-normal mt-2">{post.text}</Text>
+            <Text className="break-word font-normal ">{post.text}</Text>
           </>
         ) : (
           // LONG POST DISPLAY
@@ -88,6 +86,8 @@ const PostDisplay = memo(({ post, ellipsis, actions, isFetching }: Props) => {
         {actions && <PostActions post={post} />}
       </View>
     </Link>
+  ) : (
+    <PostSkeleton />
   );
 });
 

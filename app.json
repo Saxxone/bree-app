@@ -34,7 +34,7 @@
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
-        },
+        }
       ],
       [
         "expo-video",
@@ -42,7 +42,8 @@
           "supportsBackgroundPlayback": true,
           "supportsPictureInPicture": true
         }
-      ]
+      ],
+      "expo-localization"
     ],
     "experiments": {
       "typedRoutes": true

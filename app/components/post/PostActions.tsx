@@ -38,7 +38,7 @@ const PostActions = memo(({ post, className }: Props) => {
   function comment() {
     router.push({
       pathname: app_routes.post.compose,
-      params: { id: post.id, comment: 1 },
+      params: { id: post.id, is_comment: 1 },
     });
   }
 
@@ -108,7 +108,7 @@ const PostActions = memo(({ post, className }: Props) => {
               action.command();
             }}
             style={[
-              tailwindClasses("px-1 flex flex-row items-center cursor-pointer"),
+              tailwindClasses("p-1 flex flex-row items-center cursor-pointer"),
               index === 2
                 ? tailwindClasses("ml-auto mr-1")
                 : tailwindClasses("mr-1"),

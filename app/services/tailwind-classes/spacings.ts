@@ -29,6 +29,19 @@ const spacings = {
   "px-4": { paddingHorizontal: 16 },
   "px-5": { paddingHorizontal: 20 },
 
+  "pr-0.5": { paddingRight: 2 },
+  "pl-0.5": { paddingLeft: 2 },
+  "pr-1": { paddingRight: 4 },
+  "pl-1": { paddingLeft: 4 },
+  "pr-2": { paddingRight: 8 },
+  "pl-2": { paddingLeft: 8 },
+  "pr-3": { paddingRight: 12 },
+  "pl-3": { paddingLeft: 12 },
+  "pr-4": { paddingRight: 16 },
+  "pl-4": { paddingLeft: 16 },
+  "pr-5": { paddingRight: 20 },
+  "pl-5": { paddingLeft: 20 },
+
   //vertical padding
   "py-0": { paddingVertical: 0 },
   "py-0.5": { paddingVertical: 2 },
@@ -37,6 +50,21 @@ const spacings = {
   "py-3": { paddingVertical: 12 },
   "py-4": { paddingVertical: 16 },
   "py-5": { paddingVertical: 20 },
+
+  "pt-0": { paddingTop: 0 },
+  "pb-0": { paddingBottom: 0 },
+  "pt-0.5": { paddingTop: 2 },
+  "pb-0.5": { paddingBottom: 2 },
+  "pt-1": { paddingTop: 4 },
+  "pb-1": { paddingBottom: 4 },
+  "pt-2": { paddingTop: 8 },
+  "pb-2": { paddingBottom: 8 },
+  "pt-3": { paddingTop: 12 },
+  "pb-3": { paddingBottom: 12 },
+  "pt-4": { paddingTop: 16 },
+  "pb-4": { paddingBottom: 16 },
+  "pt-5": { paddingTop: 20 },
+  "pb-5": { paddingBottom: 20 },
 
   //margins
   "m-1": { margin: 4 },
