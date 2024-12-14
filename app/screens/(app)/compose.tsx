@@ -24,18 +24,19 @@ export default function Compose() {
     likeCount: 0,
   });
 
-  const [snackBar, setSnackBar] = useState<Snack>({
+  const [snack_bar, setSnackBar] = useState<Snack>({
     visible: false,
     title: "",
     message: "",
     type: "error",
   });
-  const [inputErrors, setInputErrors] = useState<Record<string, string> | null>(
-    null,
-  );
+  const [input_errors, setInputErrors] = useState<Record<
+    string,
+    string
+  > | null>(null);
 
   //TODO make validation for one of two values to be present, i.e either media or text is required
-  const validationRules: Record<string, ValidationRule[]> = {
+  const validation_rules: Record<string, ValidationRule[]> = {
     post: [
       { type: "required", message: "Password is required." },
       {
@@ -101,7 +102,7 @@ export default function Compose() {
           <FormInput
             placeholder="What's on your mind?"
             value={post.text as string}
-            validationRules={validationRules.post}
+            validationRules={validation_rules.post}
             autoComplete="username"
             keyboardType="email-address"
             inputMode="text"
@@ -119,12 +120,12 @@ export default function Compose() {
       <FilePicker onSelected={setPostMedia} />
 
       <SnackBar
-        snack={snackBar}
-        onClose={() => setSnackBar({ ...snackBar, visible: false })}
+        snack={snack_bar}
+        onClose={() => setSnackBar({ ...snack_bar, visible: false })}
       />
       <View>
-        {inputErrors
-          ? Object.values(inputErrors).map((error, index) => (
+        {input_errors
+          ? Object.values(input_errors).map((error, index) => (
               <AppText key={`${index}-error-message`}>{error}</AppText>
             ))
           : null}

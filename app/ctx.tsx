@@ -26,7 +26,7 @@ export function useSession() {
 }
 
 export function SessionProvider({ children }: PropsWithChildren) {
-  const [[isLoading, session], setSession] = useStorageState("session");
+  const [[is_loading, session], setSession] = useStorageState("session");
 
   return (
     <AuthContext.Provider
@@ -39,7 +39,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
           setSession(null);
         },
         session,
-        isLoading,
+        isLoading: is_loading,
       }}
     >
       {children}

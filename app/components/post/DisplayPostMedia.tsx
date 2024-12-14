@@ -12,7 +12,7 @@ interface Props {
 }
 
 const SocialDisplayPostMedia = memo(
-  ({ media, className, mediaTypes }: Props) => {
+  ({ media, className, mediaTypes, postId }: Props) => {
     const classes = useMemo(
       () => tailwindClasses(className ?? ""),
       [className],

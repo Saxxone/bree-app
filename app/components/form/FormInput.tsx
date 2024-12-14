@@ -67,13 +67,13 @@ const FormInput = memo(
       [className],
     );
 
-    const textColor = useMemo(
+    const text_color = useMemo(
       () =>
         color_scheme === "dark" ? DarkStyle.textColor : LightStyle.textColor,
       [color_scheme],
     );
 
-    const mutedTextColor = useMemo(
+    const muted_text_color = useMemo(
       () =>
         color_scheme === "dark"
           ? DarkStyle.mutedTextColor.color
@@ -81,26 +81,28 @@ const FormInput = memo(
       [color_scheme],
     );
 
-    const backgroundColor = useMemo(
+    const background_color = useMemo(
       () => (color_scheme === "dark" ? gray_900 : white),
       [color_scheme],
     );
 
-    const [isInputValid, setIsInputValid] = useState({});
+    const [is_input_valid, setIsInputValid] = useState({});
 
     const { validate, errors, setErrors } = useValidation();
 
     const validateInput = useCallback(() => {
       if (!validationRules) return;
 
-      const newErrors = validate(value, validationRules);
+      const new_errors = validate(value, validationRules);
 
-      setErrors(newErrors);
+      setErrors(new_errors);
 
-      setIsInputValid(Object.keys(newErrors).length === 0);
+      setIsInputValid(Object.keys(new_errors).length === 0);
 
       if (onValidationError) {
-        onValidationError(Object.keys(newErrors).length > 0 ? newErrors : null);
+        onValidationError(
+          Object.keys(new_errors).length > 0 ? new_errors : null,
+        );
       }
     }, [value, validationRules, onValidationError, validate, setErrors]);
 
@@ -112,10 +114,10 @@ const FormInput = memo(
           onPress={onPrependPressed}
           style={tailwindClasses("m-0 px-0.5")}
         >
-          <Ionicons name={prependIcon} size={18} color={textColor.color} />
+          <Ionicons name={prependIcon} size={18} color={text_color.color} />
         </Pressable>
       );
-    }, [prependIcon, textColor]);
+    }, [prependIcon, text_color]);
 
     const memoAppendIcon = useMemo(() => {
       if (!appendIcon) return null;
@@ -125,10 +127,10 @@ const FormInput = memo(
           onPress={onAppendPressed}
           style={tailwindClasses("m-0 px-0.5")}
         >
-          <Ionicons name={appendIcon} size={18} color={textColor.color} />
+          <Ionicons name={appendIcon} size={18} color={text_color.color} />
         </Pressable>
       );
-    }, [appendIcon, textColor]);
+    }, [appendIcon, text_color]);
 
     return (
       <View style={[tailwindClasses("mb-4"), classes, style]}>
@@ -139,8 +141,8 @@ const FormInput = memo(
             tailwindClasses(
               "px-3 border border-transparent rounded-lg w-full flex flex-row items-center flex-wrap items-center gap-x-2",
             ),
-            isInputValid ? null : tailwindClasses("border-rose-500 border"),
-            { backgroundColor: backgroundColor },
+            is_input_valid ? null : tailwindClasses("border-rose-500 border"),
+            { backgroundColor: background_color },
           ]}
         >
           {prependIcon ? memoPrependIcon : null}
@@ -151,11 +153,11 @@ const FormInput = memo(
               props.multiline
                 ? tailwindClasses("h-32 bg-rose-500 mt-4")
                 : tailwindClasses("h-14"),
-              textColor,
-              { backgroundColor: backgroundColor },
+              text_color,
+              { backgroundColor: background_color },
             ]}
             value={value}
-            placeholderTextColor={mutedTextColor}
+            placeholderTextColor={muted_text_color}
             onChangeText={onChangeText}
             secureTextEntry={secureTextEntry}
             autoCapitalize="none"

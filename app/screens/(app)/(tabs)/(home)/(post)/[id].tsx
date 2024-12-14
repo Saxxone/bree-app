@@ -21,7 +21,6 @@ export default function PostScreen() {
   const [snackBar, setSnackBar] = useState<Snack>({
     visible: false,
     title: "Error",
-    statusCode: 404,
     type: "error",
     message: "An error occured while fetching feed",
   });

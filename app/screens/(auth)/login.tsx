@@ -20,7 +20,7 @@ import tailwindClasses from "@/services/ClassTransformer";
 
 export default function Login() {
   const { signIn } = useSession();
-  const [snackBar, setSnackBar] = useState<Snack>({
+  const [snack_bar, setSnackBar] = useState<Snack>({
     visible: false,
     title: "",
     message: "",
@@ -29,9 +29,10 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [toggled, setToggled] = useState(true);
-  const [inputErrors, setInputErrors] = useState<Record<string, string> | null>(
-    null,
-  );
+  const [input_errors, setInputErrors] = useState<Record<
+    string,
+    string
+  > | null>(null);
 
   const handleValidationError = (errors: Record<string, string> | null) => {
     setInputErrors(errors);
@@ -113,8 +114,8 @@ export default function Login() {
   return (
     <View style={tailwindClasses("container")}>
       <SnackBar
-        snack={snackBar}
-        onClose={() => setSnackBar({ ...snackBar, visible: false })}
+        snack={snack_bar}
+        onClose={() => setSnackBar({ ...snack_bar, visible: false })}
       />
       <SpacerY size="lg" />
       <AppText style={tailwindClasses("text-3xl font-bold")}>
@@ -163,8 +164,8 @@ export default function Login() {
       </AppButton>
 
       <View>
-        {inputErrors
-          ? Object.values(inputErrors).map((error, index) => (
+        {input_errors
+          ? Object.values(input_errors).map((error, index) => (
               <AppText key={`${index}-error-message`}>{error}</AppText>
             ))
           : null}

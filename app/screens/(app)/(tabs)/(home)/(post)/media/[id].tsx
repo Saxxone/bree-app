@@ -7,5 +7,16 @@ export default function PostMedia() {
   const { id } = useLocalSearchParams();
   const post = posts.find((post) => post.id === id);
 
-  return <View>{post && <PostDisplay post={post} />}</View>;
+  return (
+    <View>
+      {post && (
+        <PostDisplay
+          post={post}
+          ellipsis={true}
+          actions={false}
+          isFetching={false}
+        />
+      )}
+    </View>
+  );
 }

@@ -7,12 +7,12 @@ import { Pressable } from "react-native";
 import SnackBar from "./SnackBar";
 
 interface Props {
-  onSelected: (media: string[]) => void;
-  children?: React.ReactNode;
+  readonly onSelected: (media: string[]) => void;
+  readonly children?: React.ReactNode;
 }
 
 export default function FilePicker({ onSelected, ...props }: Props) {
-  const [snackBar, setSnackBar] = useState<Snack>({
+  const [snack_bar, setSnackBar] = useState<Snack>({
     visible: false,
     title: "",
     message: "",
@@ -41,8 +41,8 @@ export default function FilePicker({ onSelected, ...props }: Props) {
   return (
     <>
       <SnackBar
-        snack={snackBar}
-        onClose={() => setSnackBar({ ...snackBar, visible: false })}
+        snack={snack_bar}
+        onClose={() => setSnackBar({ ...snack_bar, visible: false })}
       />
       <Pressable onPress={pickImageAsync}>
         {props.children ? (

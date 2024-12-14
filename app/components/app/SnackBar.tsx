@@ -22,37 +22,37 @@ interface Props {
 }
 
 const SnackBar = memo(({ snack, onClose }: Props) => {
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  const snackStyle = styles[snack.type];
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const fade_anim = useRef(new Animated.Value(0)).current;
+  const snack_style = styles[snack.type];
+  const timer_ref = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (snack.visible) {
-      Animated.timing(fadeAnim, {
+      Animated.timing(fade_anim, {
         toValue: 1,
         duration: 200,
         useNativeDriver: true,
       }).start();
 
-      timerRef.current = setTimeout(() => {
+      timer_ref.current = setTimeout(() => {
         onClose();
       }, 3000);
     } else {
-      Animated.timing(fadeAnim, {
+      Animated.timing(fade_anim, {
         toValue: 0,
         duration: 200,
         useNativeDriver: true,
       }).start();
 
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
-        timerRef.current = null;
+      if (timer_ref.current) {
+        clearTimeout(timer_ref.current);
+        timer_ref.current = null;
       }
     }
 
     return () => {
-      if (timerRef.current) {
-        clearTimeout(timerRef.current);
+      if (timer_ref.current) {
+        clearTimeout(timer_ref.current);
       }
     };
   }, [snack.visible, onClose]);
@@ -61,7 +61,7 @@ const SnackBar = memo(({ snack, onClose }: Props) => {
     <Animated.View
       style={[
         tailwindClasses("absolute top-2 left-5 right-5"),
-        { opacity: fadeAnim },
+        { opacity: fade_anim },
       ]}
     >
       <SafeAreaView>
@@ -70,13 +70,13 @@ const SnackBar = memo(({ snack, onClose }: Props) => {
             tailwindClasses(
               "p-4 rounded-lg flex-row items-center justify-start",
             ),
-            snackStyle,
+            snack_style,
           ]}
         >
           <View>
             <AppText
               style={{
-                color: snackStyle.color,
+                color: snack_style.color,
               }}
               className="break-word"
             >
@@ -84,7 +84,7 @@ const SnackBar = memo(({ snack, onClose }: Props) => {
             </AppText>
             <AppText
               style={{
-                color: snackStyle.color,
+                color: snack_style.color,
                 fontSize: 14,
                 fontWeight: "400",
               }}
@@ -94,7 +94,11 @@ const SnackBar = memo(({ snack, onClose }: Props) => {
             </AppText>
           </View>
           <Pressable style={tailwindClasses("ml-auto")} onPress={onClose}>
-            <Ionicons name="close-outline" size={24} color={snackStyle.color} />
+            <Ionicons
+              name="close-outline"
+              size={24}
+              color={snack_style.color}
+            />
           </Pressable>
         </View>
       </SafeAreaView>
