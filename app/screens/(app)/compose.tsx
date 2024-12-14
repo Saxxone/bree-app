@@ -17,6 +17,7 @@ import { useLocalSearchParams } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import api_routes from "@/constants/ApiRoutes";
 import { ApiConnectService } from "@/services/ApiConnectService";
+import Button from "@/components/form/Button";
 
 export default function Compose() {
   const { id, is_comment } = useLocalSearchParams();
@@ -117,6 +118,15 @@ export default function Compose() {
 
   const post_type: PostType = "SHORT";
 
+  const [isPosting, setIsPosting] = useState(false); // State to track posting status
+
+  function attemptCreatePost(type: "draft" | "publish") {
+    setIsPosting(true); // Disable buttons while posting
+
+    console.log("Attempting to create post of type:", type);
+    // ... your API call logic ...
+  }
+
   return (
     <View style={tailwindClasses("container")}>
       {useMemo(() => {
@@ -166,6 +176,43 @@ export default function Compose() {
       )}
 
       <FilePicker onSelected={setPostMedia} />
+
+      <View
+        style={tailwindClasses(
+          "mt-4 flex flex-row items-center space-4 justify-end",
+        )}
+      >
+        <Button
+          disabled={isPosting || is_fetching_parent || !!inputErrors}
+          className="btn-primary-outline btn-md text-white !px-8 rounded-lg"
+          onPress={() => attemptCreatePost("draft")}
+        >
+          {isPosting ? (
+            <Ionicons
+              name="refresh"
+              size={16}
+              color="white"
+              style={tailwindClasses("mt-2")}
+            />
+          ) : null}
+          {"Draft"}
+        </Button>
+        <Button
+          disabled={isPosting || is_fetching_parent || !!inputErrors}
+          className="btn-primary btn-md font-regular text-white !px-8 rounded-lg"
+          onPress={() => attemptCreatePost("publish")}
+        >
+          {isPosting ? (
+            <Ionicons
+              name="refresh"
+              size={16}
+              color="white"
+              style={tailwindClasses("mt-2")}
+            />
+          ) : null}
+          {is_comment ? "Reply" : "Post"}
+        </Button>
+      </View>
 
       <SnackBar
         snack={snackBar}

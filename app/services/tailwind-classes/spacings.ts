@@ -143,6 +143,52 @@ const spacings = {
   "gap-10": {
     gap: 40,
   },
+
+  "space-1": {
+    gap: 4,
+  },
+  "space-2": {
+    gap: 8,
+  },
+  "space-3": {
+    gap: 12,
+  },
+  "space-4": {
+    gap: 16,
+  },
+  "space-5": {
+    gap: 20,
+  },
+  "space-6": {
+    gap: 24,
+  },
+  "space-7": {
+    gap: 28,
+  },
+  "space-8": {
+    gap: 32,
+  },
+  "space-9": {
+    gap: 36,
+  },
+  "space-10": {
+    gap: 40,
+  },
+  "space-x-1": {
+    gapHorizontal: 4,
+  },
+  "space-x-2": {
+    gapHorizontal: 8,
+  },
+  "space-x-3": {
+    gapHorizontal: 12,
+  },
+  "space-x-4": {
+    gapHorizontal: 16,
+  },
+  "space-x-5": {
+    gapHorizontal: 20,
+  },
 };
 
 export default spacings;

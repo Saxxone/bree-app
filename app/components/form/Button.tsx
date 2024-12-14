@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import { Pressable } from "react-native";
 import Text from "../app/Text";
 
@@ -9,30 +9,39 @@ type Props = {
   readonly theme?: "primary";
   readonly onPress?: () => void;
   readonly children: React.ReactNode;
+  readonly disabled?: boolean;
+  readonly className?: string;
 };
 
-const AppButton = memo(({ onPress, theme, children }: Props) => {
-  return (
-    <Pressable
-      onPress={onPress}
-      style={[
-        tailwindClasses(
-          "w-full py-3 rounded-lg text-center px-4 rounded-lg items-center",
-        ),
-        { backgroundColor: theme === "primary" ? primary : "transparent" },
-      ]}
-    >
-      <Text
-        style={{
-          fontFamily: "Outfit-SemiBold",
-          textTransform: "capitalize",
-          color: white,
-        }}
+const AppButton = memo(
+  ({ onPress, theme, children, className, disabled }: Props) => {
+    const classes = useMemo(
+      () => tailwindClasses(className ?? ""),
+      [className],
+    );
+
+    function handleOnPress() {
+      if (onPress && !disabled) {
+        onPress();
+      }
+    }
+    return (
+      <Pressable
+        onPress={handleOnPress}
+        style={[
+          tailwindClasses(
+            "py-3 rounded-lg text-center px-4 rounded-lg items-center",
+          ),
+          { backgroundColor: theme === "primary" ? primary : null },
+          classes,
+        ]}
       >
-        {children}
-      </Text>
-    </Pressable>
-  );
-});
+        <Text style={tailwindClasses("text-center capitalize")}>
+          {children}
+        </Text>
+      </Pressable>
+    );
+  },
+);
 
 export default AppButton;

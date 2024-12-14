@@ -53,7 +53,7 @@ export default function HomeScreen() {
       ) : (
         <View style={tailwindClasses("container")}>
           <FlatList
-            data={data.data}
+            data={data?.data}
             keyExtractor={(post) => post.id}
             renderItem={({ item: post }) => (
               <PostDisplay
