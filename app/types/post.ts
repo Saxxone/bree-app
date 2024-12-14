@@ -25,7 +25,6 @@ export interface Post {
   longPost: Partial<LongPost> | null | undefined;
   longPostId: string | null | undefined;
   deletedAt: DateString | null;
-  postType: PostType;
 }
 export type PostType = "LONG" | "SHORT";
 

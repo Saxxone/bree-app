@@ -1,5 +1,5 @@
 import { memo, useMemo } from "react";
-import { Pressable, View, StyleSheet } from "react-native";
+import { Pressable, View } from "react-native";
 import tailwindClasses from "@/services/ClassTransformer";
 import ImageViewer from "../app/ImageViewer";
 import VideoViewer from "../app/VideoViewer";
@@ -32,10 +32,7 @@ const SocialDisplayPostMedia = memo(
     }, [media]);
 
     function dynamicGridRows(index: number) {
-      if (index === 0 && media.length === 3)
-        return StyleSheet.create({
-          s: {},
-        });
+      if (index === 0 && media.length === 3) return "row-span-2";
       if (index >= 1 && index <= 2 && media.length === 3) return "row-span-1";
       else return "";
     }
@@ -60,7 +57,7 @@ const SocialDisplayPostMedia = memo(
             key={m + index}
             style={[
               tailwindClasses(dynamicGridClasses),
-              dynamicGridRows(index),
+              tailwindClasses(dynamicGridRows(index)),
             ]}
           >
             <Pressable

@@ -16,24 +16,46 @@ import { Snack } from "@/types/types";
 
 export default function Compose() {
   const [post, setPost] = useState<Post>({
-    id: "",
-    text: "",
-    postType: "SHORT",
-    media: [],
-    comments: [],
+    id: "78dc3aeb-3d62-4156-aeed-7bde5998dce5",
+    text: "I'll be tinkering with Raspberry Pi and Arduino.  I look forward to all the cool stuff I'll build.\n\nI love robotics a lot.  Let's see what happens ❤️",
+    media: [
+      "https://pbs.bree.social/1000258433-95de6daf4c4ec23cdb14267d1038c1c35.jpg",
+    ],
+    mediaTypes: ["image"],
+    published: true,
+    authorId: "e1fb38c2-c10b-43c2-a6bc-3d286eccfc85",
     likeCount: 0,
+    bookmarkCount: 0,
+    parentId: null,
+    commentCount: 0,
+    createdAt: "2024-12-10T02:25:41.743Z",
+    updatedAt: "2024-12-10T02:25:41.743Z",
+    deletedAt: null,
+    type: "SHORT",
+    longPostId: null,
+    likedBy: [],
+    bookmarkedBy: [],
+    author: {
+      id: "e1fb38c2-c10b-43c2-a6bc-3d286eccfc85",
+      name: "Stephen Udoekpo",
+      img: "https://pbs.bree.social/a5f541cf-5845-49a0-bf5d-f22528ff8315.jpg",
+      username: "saxxone17@gmail.com",
+    },
+    longPost: null,
+    likedByMe: false,
+    bookmarkedByMe: false,
   });
 
-  const [snack_bar, setSnackBar] = useState<Snack>({
+  const [snackBar, setSnackBar] = useState<Snack>({
     visible: false,
     title: "",
     message: "",
     type: "error",
   });
-  const [input_errors, setInputErrors] = useState<Record<
-    string,
-    string
-  > | null>(null);
+
+  const [inputErrors, setInputErrors] = useState<Record<string, string> | null>(
+    null,
+  );
 
   //TODO make validation for one of two values to be present, i.e either media or text is required
   const validation_rules: Record<string, ValidationRule[]> = {
@@ -51,16 +73,16 @@ export default function Compose() {
     setInputErrors(errors);
   };
 
-  const validatePost = () => {
-    if (!post) {
-      setInputErrors({
-        post: "Post text or media is required to create a post.",
-      });
-      return false;
-    }
-    setInputErrors(null);
-    return true;
-  };
+  // const validatePost = () => {
+  //   if (!post) {
+  //     setInputErrors({
+  //       post: "Post text or media is required to create a post.",
+  //     });
+  //     return false;
+  //   }
+  //   setInputErrors(null);
+  //   return true;
+  // };
 
   function setPostText(v: string) {
     setPost({ ...post, text: v });
@@ -74,7 +96,36 @@ export default function Compose() {
   const has_parent = true;
   const is_fetching = true;
   const post_type: PostType = "SHORT";
-  const parent_post: Post = {};
+  const parent_post: Post = {
+    id: "78dc3aeb-3d62-4156-aeed-7bde5998dce5",
+    text: "I'll be tinkering with Raspberry Pi and Arduino.  I look forward to all the cool stuff I'll build.\n\nI love robotics a lot.  Let's see what happens ❤️",
+    media: [
+      "https://pbs.bree.social/1000258433-95de6daf4c4ec23cdb14267d1038c1c35.jpg",
+    ],
+    mediaTypes: ["image"],
+    published: true,
+    authorId: "e1fb38c2-c10b-43c2-a6bc-3d286eccfc85",
+    likeCount: 0,
+    bookmarkCount: 0,
+    parentId: null,
+    commentCount: 0,
+    createdAt: "2024-12-10T02:25:41.743Z",
+    updatedAt: "2024-12-10T02:25:41.743Z",
+    deletedAt: null,
+    type: "SHORT",
+    longPostId: null,
+    likedBy: [],
+    bookmarkedBy: [],
+    author: {
+      id: "e1fb38c2-c10b-43c2-a6bc-3d286eccfc85",
+      name: "Stephen Udoekpo",
+      img: "https://pbs.bree.social/a5f541cf-5845-49a0-bf5d-f22528ff8315.jpg",
+      username: "saxxone17@gmail.com",
+    },
+    longPost: null,
+    likedByMe: false,
+    bookmarkedByMe: false,
+  };
 
   return (
     <View style={tailwindClasses("container")}>
@@ -120,12 +171,12 @@ export default function Compose() {
       <FilePicker onSelected={setPostMedia} />
 
       <SnackBar
-        snack={snack_bar}
-        onClose={() => setSnackBar({ ...snack_bar, visible: false })}
+        snack={snackBar}
+        onClose={() => setSnackBar({ ...snackBar, visible: false })}
       />
       <View>
-        {input_errors
-          ? Object.values(input_errors).map((error, index) => (
+        {inputErrors
+          ? Object.values(inputErrors).map((error, index) => (
               <AppText key={`${index}-error-message`}>{error}</AppText>
             ))
           : null}

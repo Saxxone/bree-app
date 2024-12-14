@@ -3,7 +3,6 @@ import PostDisplay from "@/components/post/PostDisplay";
 import { FlatList, RefreshControl, View } from "react-native";
 import AppText from "@/components/app/AppText";
 import SnackBar from "@/components/app/SnackBar";
-import PostSkeleton from "@/components/skeletons/PostSkeleton";
 import api_routes from "@/constants/ApiRoutes";
 import { violet_500 } from "@/constants/Colors";
 import { ApiConnectService } from "@/services/ApiConnectService";
@@ -16,8 +15,6 @@ import { useState, useMemo } from "react";
 export default function PostScreen() {
   const { id } = useLocalSearchParams();
 
-  const skeleton_posts = [1, 2];
-
   const [snackBar, setSnackBar] = useState<Snack>({
     visible: false,
     title: "Error",
@@ -29,18 +26,13 @@ export default function PostScreen() {
     isFetching: is_fetching_post,
     isError: is_post_error,
     data: post,
-    error: post_error,
     refetch: refetchPost,
-  } = useQuery<Post[]>({
+  } = useQuery({
     queryKey: ["post"],
     queryFn: async () => {
-      return await ApiConnectService<Post[]>({
+      return await ApiConnectService<Post>({
         url: api_routes.posts.getPostById(id as string),
         method: FetchMethod.GET,
-        query: {
-          skip: 0,
-          take: 10,
-        },
       });
     },
     enabled: true,
@@ -51,9 +43,8 @@ export default function PostScreen() {
     isFetching: is_fetching_comments,
     isError: is_comments_error,
     data: comments,
-    error: comments_error,
     refetch: refetchComments,
-  } = useQuery<Post[]>({
+  } = useQuery({
     queryKey: ["comments"],
     queryFn: async () => {
       return await ApiConnectService<Post[]>({
@@ -70,29 +61,15 @@ export default function PostScreen() {
   });
 
   const Post = useMemo(() => {
-    if (is_fetching_post && !post?.data) {
-      return (
-        <View style={tailwindClasses("container")}>
-          {skeleton_posts.map((skeleton) => (
-            <PostDisplay
-              isFetching={is_fetching_post}
-              actions={false}
-              ellipsis={true}
-              post={{} as Post}
-              key={"post-skeleton" + skeleton}
-            />
-          ))}
-        </View>
-      );
-    } else if (is_post_error) {
+    if (is_post_error) {
       return (
         <SnackBar
           snack={snackBar}
           onClose={() => setSnackBar({ ...snackBar, visible: false })}
         />
       );
-    } else if (post?.data && post.data.id) {
-      return (
+    } else {
+      return post?.data?.id ? (
         <View style={tailwindClasses("container")}>
           <PostDisplay
             key={post.data.id}
@@ -102,9 +79,7 @@ export default function PostScreen() {
             post={post.data}
           />
         </View>
-      );
-    } else {
-      return (
+      ) : (
         <View style={[tailwindClasses("p-3 mb-3 ")]}>
           <AppText>Post cannot be displayed.</AppText>
         </View>
@@ -113,29 +88,15 @@ export default function PostScreen() {
   }, [is_fetching_post, is_post_error, post, snackBar, refetchPost]);
 
   const Comments = useMemo(() => {
-    if (is_fetching_comments && !comments?.data) {
-      return (
-        <View style={tailwindClasses("container")}>
-          {skeleton_posts.map((skeleton) => (
-            <PostDisplay
-              isFetching={is_fetching_comments}
-              actions={false}
-              ellipsis={true}
-              post={{} as Post}
-              key={"comment-skeleton" + skeleton}
-            />
-          ))}
-        </View>
-      );
-    } else if (is_comments_error) {
+    if (is_comments_error) {
       return (
         <SnackBar
           snack={snackBar}
           onClose={() => setSnackBar({ ...snackBar, visible: false })}
         />
       );
-    } else if (comments?.data && comments.data.length > 0) {
-      return (
+    } else {
+      return comments?.data && comments?.data?.length > 0 ? (
         <View style={tailwindClasses("container")}>
           <FlatList
             data={comments.data}
@@ -158,9 +119,7 @@ export default function PostScreen() {
             }
           />
         </View>
-      );
-    } else {
-      return (
+      ) : (
         <View style={[tailwindClasses("px-3 mb-3 ")]}>
           <AppText
             style={tailwindClasses(

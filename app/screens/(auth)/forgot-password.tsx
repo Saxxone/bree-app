@@ -1,6 +1,5 @@
 import { Link } from "expo-router";
 import { View } from "react-native";
-import { useSession } from "@/ctx";
 import { useState } from "react";
 import FormInput from "@/components/form/FormInput";
 import AppText from "@/components/app/AppText";
@@ -17,8 +16,7 @@ import SnackBar from "@/components/app/SnackBar";
 import tailwindClasses from "@/services/ClassTransformer";
 
 export default function Login() {
-  const { signIn } = useSession();
-  const [snack_bar, setSnackBar] = useState<Snack>({
+  const [snackBar, setSnackBar] = useState<Snack>({
     visible: false,
     title: "",
     message: "",
@@ -27,10 +25,9 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [toggled, setToggled] = useState(true);
-  const [input_errors, setInputErrors] = useState<Record<
-    string,
-    string
-  > | null>(null);
+  const [inputErrors, setInputErrors] = useState<Record<string, string> | null>(
+    null,
+  );
 
   const handleValidationError = (errors: Record<string, string> | null) => {
     setInputErrors(errors);
@@ -45,7 +42,7 @@ export default function Login() {
     return true;
   };
 
-  const { isPending, isError, data, error, refetch } = useQuery({
+  const { error, refetch } = useQuery({
     queryKey: ["login", email, password],
     queryFn: async () => {
       const data = {
@@ -75,12 +72,12 @@ export default function Login() {
         // // Assuming your API returns a success flag
         // signIn(); // Call signIn only if the API call is successful
         // router.replace(app_routes.home);
-      } else if (response.error) {
+      } else if (error) {
         setSnackBar({
           visible: true,
           title: "Error",
           type: "error",
-          message: response.error.message || "Login failed. Please try again.",
+          message: error.message || "Login failed. Please try again.",
         });
       } else {
         setSnackBar({
@@ -112,8 +109,8 @@ export default function Login() {
   return (
     <View style={tailwindClasses("container")}>
       <SnackBar
-        snack={snack_bar}
-        onClose={() => setSnackBar({ ...snack_bar, visible: false })}
+        snack={snackBar}
+        onClose={() => setSnackBar({ ...snackBar, visible: false })}
       />
       <SpacerY size="lg" />
       <AppText style={tailwindClasses("text-3xl font-bold")}>
@@ -162,8 +159,8 @@ export default function Login() {
       </AppButton>
 
       <View>
-        {input_errors
-          ? Object.values(input_errors).map((error, index) => (
+        {inputErrors
+          ? Object.values(inputErrors).map((error, index) => (
               <AppText key={`${index}-error-message`}>{error}</AppText>
             ))
           : null}

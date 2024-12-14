@@ -12,14 +12,13 @@ import SnackBar from "@/components/app/SnackBar";
 import { useMemo, useState } from "react";
 
 export default function HomeScreen() {
-  const skeleton_posts = [1, 2, 3, 4, 5];
   const [snackBar, setSnackBar] = useState<Snack>({
     visible: false,
     title: "Error",
     type: "error",
     message: "An error occured while fetching feed",
   });
-  const { isFetching, isError, data, error, refetch } = useQuery<Post[]>({
+  const { isFetching, isError, data, refetch } = useQuery({
     queryKey: ["feed"],
     queryFn: async () => {
       return await ApiConnectService<Post[]>({
@@ -36,29 +35,15 @@ export default function HomeScreen() {
   });
 
   const Feed = useMemo(() => {
-    if (isFetching && !data?.data) {
-      return (
-        <View>
-          {skeleton_posts.map((skeleton) => (
-            <PostDisplay
-              isFetching={isFetching}
-              key={"skeleton" + skeleton}
-              post={{} as Post}
-              ellipsis={true}
-              actions={true}
-            />
-          ))}
-        </View>
-      );
-    } else if (isError) {
+    if (isError) {
       return (
         <SnackBar
           snack={snackBar}
           onClose={() => setSnackBar({ ...snackBar, visible: false })}
         />
       );
-    } else if (data?.data && data.data.length > 0) {
-      return (
+    } else {
+      return data?.data && data.data.length > 0 ? (
         <View style={tailwindClasses("container")}>
           <FlatList
             data={data.data}
@@ -81,9 +66,7 @@ export default function HomeScreen() {
             }
           />
         </View>
-      );
-    } else {
-      return (
+      ) : (
         <View style={[tailwindClasses("p-3 mb-3 ")]}>
           <AppText>No posts found.</AppText>
         </View>

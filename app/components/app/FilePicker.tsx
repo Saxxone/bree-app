@@ -12,7 +12,7 @@ interface Props {
 }
 
 export default function FilePicker({ onSelected, ...props }: Props) {
-  const [snack_bar, setSnackBar] = useState<Snack>({
+  const [snackBar, setSnackBar] = useState<Snack>({
     visible: false,
     title: "",
     message: "",
@@ -41,8 +41,8 @@ export default function FilePicker({ onSelected, ...props }: Props) {
   return (
     <>
       <SnackBar
-        snack={snack_bar}
-        onClose={() => setSnackBar({ ...snack_bar, visible: false })}
+        snack={snackBar}
+        onClose={() => setSnackBar({ ...snackBar, visible: false })}
       />
       <Pressable onPress={pickImageAsync}>
         {props.children ? (
