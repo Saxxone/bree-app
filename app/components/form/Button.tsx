@@ -1,8 +1,8 @@
 import { memo } from "react";
-import { StyleSheet, Pressable } from "react-native";
-import AppText from "../app/AppText";
+import { Pressable } from "react-native";
+import Text from "../app/Text";
 
-import { rounded_lg, primary, white } from "@/constants/Colors";
+import { primary, white } from "@/constants/Colors";
 import tailwindClasses from "@/services/ClassTransformer";
 
 type Props = {
@@ -22,7 +22,7 @@ const AppButton = memo(({ onPress, theme, children }: Props) => {
         { backgroundColor: theme === "primary" ? primary : "transparent" },
       ]}
     >
-      <AppText
+      <Text
         style={{
           fontFamily: "Outfit-SemiBold",
           textTransform: "capitalize",
@@ -30,7 +30,7 @@ const AppButton = memo(({ onPress, theme, children }: Props) => {
         }}
       >
         {children}
-      </AppText>
+      </Text>
     </Pressable>
   );
 });

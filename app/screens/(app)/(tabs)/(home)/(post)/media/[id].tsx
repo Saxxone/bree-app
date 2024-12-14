@@ -1,6 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
 import { View } from "react-native";
-import AppText from "@/components/app/AppText";
+import Text from "@/components/app/Text";
 
 export default function PostMedia() {
   // const { id } = useLocalSearchParams();
@@ -8,7 +8,7 @@ export default function PostMedia() {
 
   return (
     <View>
-      <AppText>Post</AppText>
+      <Text>Post</Text>
     </View>
   );
 }

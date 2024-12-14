@@ -3,7 +3,7 @@ import * as Keychain from "react-native-keychain";
 import { View, ActivityIndicator } from "react-native";
 import { useState } from "react";
 import FormInput from "@/components/form/FormInput";
-import AppText from "@/components/app/AppText";
+import Text from "@/components/app/Text";
 import SpacerY from "@/components/app/SpacerY";
 import AppButton from "@/components/form/Button";
 import { app_routes } from "@/constants/AppRoutes";
@@ -115,9 +115,9 @@ export default function Login() {
         onClose={() => setSnackBar({ ...snackBar, visible: false })}
       />
       <SpacerY size="lg" />
-      <AppText style={tailwindClasses("text-3xl font-bold")}>
+      <Text style={tailwindClasses("text-3xl font-bold")}>
         Login your account
-      </AppText>
+      </Text>
 
       <SpacerY size="xxs" />
 
@@ -148,9 +148,7 @@ export default function Login() {
 
       <View style={tailwindClasses("justify-end flex-row w-full")}>
         <Link href={app_routes.forgotPassword}>
-          <AppText style={tailwindClasses("self-end")}>
-            Forgot password?
-          </AppText>
+          <Text style={tailwindClasses("self-end")}>Forgot password?</Text>
         </Link>
       </View>
 
@@ -163,7 +161,7 @@ export default function Login() {
       <View>
         {inputErrors
           ? Object.values(inputErrors).map((error, index) => (
-              <AppText key={`${index}-error-message`}>{error}</AppText>
+              <Text key={`${index}-error-message`}>{error}</Text>
             ))
           : null}
       </View>
@@ -172,8 +170,8 @@ export default function Login() {
 
       <View style={tailwindClasses("flex-row justify-center w-full")}>
         <Link href={app_routes.register}>
-          <AppText>Create new account?</AppText>
-          <AppText style={{ color: primary }}> Sign up</AppText>
+          <Text>Create new account?</Text>
+          <Text style={{ color: primary }}> Sign up</Text>
         </Link>
       </View>
     </View>

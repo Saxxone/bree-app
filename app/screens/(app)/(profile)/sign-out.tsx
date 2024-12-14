@@ -1,20 +1,20 @@
 import { View } from "react-native";
 import { useSession } from "@/ctx";
 import tailwindClasses from "@/services/ClassTransformer";
-import AppText from "@/components/app/AppText";
+import Text from "@/components/app/Text";
 
 export default function Index() {
   const { signOut } = useSession();
   return (
     <View style={tailwindClasses("container")}>
-      <AppText
+      <Text
         onPress={() => {
           // The `app/(app)/_layout.tsx` will redirect to the sign-in screen.
           signOut();
         }}
       >
         Sign Out
-      </AppText>
+      </Text>
     </View>
   );
 }

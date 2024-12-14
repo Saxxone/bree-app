@@ -12,7 +12,7 @@ import {
   ViewStyle,
   TextStyle,
 } from "react-native";
-import AppText from "@/components/app/AppText";
+import Text from "@/components/app/Text";
 import { gray_900, white } from "@/constants/Colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import tailwindClasses from "@/services/ClassTransformer";
@@ -86,7 +86,7 @@ const FormInput = memo(
       [color_scheme],
     );
 
-    const [is_input_valid, setIsInputValid] = useState({});
+    const [isInputValid, setIsInputValid] = useState({});
 
     const { validate, errors, setErrors } = useValidation();
 
@@ -134,14 +134,14 @@ const FormInput = memo(
 
     return (
       <View style={[tailwindClasses("mb-4"), classes, style]}>
-        {label ? <AppText>{label}</AppText> : null}
+        {label ? <Text>{label}</Text> : null}
 
         <View
           style={[
             tailwindClasses(
               "px-3 border border-transparent rounded-lg w-full flex flex-row items-center flex-wrap items-center gap-x-2",
             ),
-            is_input_valid ? null : tailwindClasses("border-rose-500 border"),
+            isInputValid ? null : tailwindClasses("border-rose-500 border"),
             { backgroundColor: background_color },
           ]}
         >
@@ -170,12 +170,12 @@ const FormInput = memo(
         </View>
         <View>
           {Object.values(errors).map((error, index) => (
-            <AppText
-              key={`${index}-error-message`}
+            <Text
+              key={`${errors.name}-error-message`}
               style={tailwindClasses("my-1 text-red-400")}
             >
               {error}
-            </AppText>
+            </Text>
           ))}
         </View>
       </View>

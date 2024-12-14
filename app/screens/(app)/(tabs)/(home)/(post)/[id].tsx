@@ -1,7 +1,7 @@
 import { useLocalSearchParams } from "expo-router";
 import PostDisplay from "@/components/post/PostDisplay";
 import { FlatList, RefreshControl, View } from "react-native";
-import AppText from "@/components/app/AppText";
+import Text from "@/components/app/Text";
 import SnackBar from "@/components/app/SnackBar";
 import api_routes from "@/constants/ApiRoutes";
 import { violet_500 } from "@/constants/Colors";
@@ -81,7 +81,7 @@ export default function PostScreen() {
         </View>
       ) : (
         <View style={[tailwindClasses("p-3 mb-3 ")]}>
-          <AppText>Post cannot be displayed.</AppText>
+          <Text>Post cannot be displayed.</Text>
         </View>
       );
     }
@@ -121,13 +121,13 @@ export default function PostScreen() {
         </View>
       ) : (
         <View style={[tailwindClasses("px-3 mb-3 ")]}>
-          <AppText
+          <Text
             style={tailwindClasses(
               "text-center text-xl font-bold text-gray-500",
             )}
           >
             .
-          </AppText>
+          </Text>
         </View>
       );
     }

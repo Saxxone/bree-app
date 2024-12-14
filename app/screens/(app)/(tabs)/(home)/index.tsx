@@ -5,7 +5,7 @@ import api_routes from "@/constants/ApiRoutes";
 import { FetchMethod, Snack } from "@/types/types";
 import { ApiConnectService } from "@/services/ApiConnectService";
 import { Post } from "@/types/post";
-import AppText from "@/components/app/AppText";
+import Text from "@/components/app/Text";
 import { violet_500 } from "@/constants/Colors";
 import tailwindClasses from "@/services/ClassTransformer";
 import SnackBar from "@/components/app/SnackBar";
@@ -68,7 +68,7 @@ export default function HomeScreen() {
         </View>
       ) : (
         <View style={[tailwindClasses("p-3 mb-3 ")]}>
-          <AppText>No posts found.</AppText>
+          <Text>No posts found.</Text>
         </View>
       );
     }

@@ -1,5 +1,5 @@
 import { memo } from "react";
-import AppText from "../app/AppText";
+import Text from "../app/Text";
 import FilePicker from "../app/FilePicker";
 import FilePreview from "./FilePreview";
 
@@ -9,15 +9,13 @@ const LongPostBuilder = memo(() => {
     content.push(media);
   }
   return (
-    <>
-      <FilePicker onSelected={setPostMedia}>
-        {content.length ? (
-          <FilePreview removable={false} />
-        ) : (
-          <AppText>Select Files to Upload</AppText>
-        )}
-      </FilePicker>
-    </>
+    <FilePicker onSelected={setPostMedia}>
+      {content.length ? (
+        <FilePreview removable={false} />
+      ) : (
+        <Text>Select Files to Upload</Text>
+      )}
+    </FilePicker>
   );
 });
 

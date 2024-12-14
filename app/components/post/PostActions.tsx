@@ -3,7 +3,7 @@ import { Post } from "@/types/post";
 import { Pressable, View, useColorScheme } from "react-native";
 import tailwindClasses from "@/services/ClassTransformer";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import AppText from "../app/AppText";
+import Text from "../app/Text";
 import { router } from "expo-router";
 import { app_routes } from "@/constants/AppRoutes";
 
@@ -15,7 +15,9 @@ type IconName =
   | "heart-outline"
   | "arrow-undo-outline"
   | "share-social-outline"
-  | "bookmark-outline";
+  | "bookmark-outline"
+  | "heart"
+  | "bookmark";
 
 interface Action {
   icon: IconName;
@@ -28,8 +30,6 @@ const PostActions = memo(({ post, className }: Props) => {
   const classes = useMemo(() => tailwindClasses(className ?? ""), [className]);
   const color_scheme = useColorScheme();
   const color = color_scheme === "dark" ? "text-gray-300" : "text-gray-500";
-
-  console.log(color);
 
   function likePost() {
     console.log("like");
@@ -85,44 +85,44 @@ const PostActions = memo(({ post, className }: Props) => {
         classes,
       ]}
     >
-      {actions.map((action, index) => (
-        <Pressable
-          key={action.icon + action.key + post.id}
-          onPress={(e) => {
-            e.stopPropagation();
-            action.command();
-          }}
-          style={[
-            tailwindClasses("px-1 flex flex-row items-center cursor-pointer"),
-            index === 2
-              ? tailwindClasses("ml-auto mr-1")
-              : tailwindClasses("mr-1"),
-          ]}
-        >
-          <Ionicons
-            name={
-              action.active && action.key === "likeCount"
-                ? "heart"
-                : action.active && action.key === "bookmarkCount"
-                  ? "bookmark"
-                  : action.icon
-            }
-            size={16}
+      {actions.map((action, index) => {
+        let iconColorStyle;
+        if (action.active && action.key === "likeCount") {
+          iconColorStyle = tailwindClasses("text-red-500");
+        } else if (action.active && action.key !== "likeCount") {
+          iconColorStyle = tailwindClasses("text-purple-500");
+        } else {
+          iconColorStyle = tailwindClasses(color);
+        }
+
+        let icon: IconName;
+        if (action.active && action.key === "likeCount") icon = "heart";
+        else if (action.active && action.key !== "likeCount") icon = "bookmark";
+        else icon = action.icon;
+
+        return (
+          <Pressable
+            key={action.icon + action.key + post.id}
+            onPress={(e) => {
+              e.stopPropagation();
+              action.command();
+            }}
             style={[
-              action.active && action.key === "likeCount"
-                ? tailwindClasses("text-red-500")
-                : action.active && action.key !== "likeCount"
-                  ? tailwindClasses("text-purple-500")
-                  : tailwindClasses(color),
+              tailwindClasses("px-1 flex flex-row items-center cursor-pointer"),
+              index === 2
+                ? tailwindClasses("ml-auto mr-1")
+                : tailwindClasses("mr-1"),
             ]}
-          />
-          {action.key && post[action.key as keyof Post] ? (
-            <AppText style={tailwindClasses("ml-1 text-sm font-light")}>
-              {String(post[action.key as keyof Post])}
-            </AppText>
-          ) : null}
-        </Pressable>
-      ))}
+          >
+            <Ionicons name={icon} size={16} style={[iconColorStyle]} />
+            {action.key && post[action.key] ? (
+              <Text style={tailwindClasses("ml-1 text-sm font-light")}>
+                {String(post[action.key])}
+              </Text>
+            ) : null}
+          </Pressable>
+        );
+      })}
     </View>
   );
 });

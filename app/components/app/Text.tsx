@@ -1,5 +1,10 @@
 import { memo, useMemo } from "react";
-import { Text, useColorScheme, StyleSheet, TextStyle } from "react-native";
+import {
+  Text as AppText,
+  useColorScheme,
+  StyleSheet,
+  TextStyle,
+} from "react-native";
 import { DarkStyle, LightStyle } from "@/constants/Theme";
 import tailwindClasses from "@/services/ClassTransformer";
 
@@ -11,7 +16,7 @@ interface Props {
   onPress?: () => void;
 }
 
-const AppText = memo(
+const Text = memo(
   ({ style, className, numberOfLines, children, ...props }: Props) => {
     const color_scheme = useColorScheme();
     const textColor = useMemo(
@@ -25,7 +30,7 @@ const AppText = memo(
     );
 
     return (
-      <Text
+      <AppText
         style={[styles.default, textColor, style, classes]}
         {...props}
         ellipsizeMode="tail"
@@ -33,12 +38,12 @@ const AppText = memo(
         onPress={props.onPress}
       >
         {children}
-      </Text>
+      </AppText>
     );
   },
 );
 
-export default AppText;
+export default Text;
 
 const styles = StyleSheet.create({
   default: {

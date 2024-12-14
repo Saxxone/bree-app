@@ -1,7 +1,7 @@
 import type { Snack } from "~/types/types";
 import { View, StyleSheet, Animated, Pressable } from "react-native";
 import { memo, useEffect, useRef } from "react";
-import AppText from "./AppText";
+import Text from "./Text";
 import {
   blue_700,
   rose_500,
@@ -74,15 +74,15 @@ const SnackBar = memo(({ snack, onClose }: Props) => {
           ]}
         >
           <View>
-            <AppText
+            <Text
               style={{
                 color: snack_style.color,
               }}
               className="break-word"
             >
               {snack.title}
-            </AppText>
-            <AppText
+            </Text>
+            <Text
               style={{
                 color: snack_style.color,
                 fontSize: 14,
@@ -91,7 +91,7 @@ const SnackBar = memo(({ snack, onClose }: Props) => {
               className="break-word"
             >
               {snack.message}
-            </AppText>
+            </Text>
           </View>
           <Pressable style={tailwindClasses("ml-auto")} onPress={onClose}>
             <Ionicons

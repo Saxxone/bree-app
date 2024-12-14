@@ -1,7 +1,7 @@
-import React, { act, memo, useMemo, useState } from "react";
+import React, { memo, useMemo, useState } from "react";
 import { Post } from "@/types/post";
 import { View, useColorScheme } from "react-native";
-import AppText from "../app/AppText";
+import Text from "../app/Text";
 import { DarkStyle, LightStyle } from "@/constants/Theme";
 import tailwindClasses from "@/services/ClassTransformer";
 import PostTop from "./PostTop";
@@ -11,6 +11,7 @@ import { Link } from "expo-router";
 import { app_routes } from "@/constants/AppRoutes";
 import PostActions from "./PostActions";
 import PostSkeleton from "../skeletons/PostSkeleton";
+import PagerViewIndicator from "../app/PagerViewIndicator";
 
 type Props = {
   readonly post: Post;
@@ -28,31 +29,7 @@ const PostDisplay = memo(({ post, ellipsis, actions, isFetching }: Props) => {
         : LightStyle.cardBackgroundColor,
     [color_scheme],
   );
-  const [current_page, setCurrentPage] = useState(0);
-
-  const PageViewIndicator = () => {
-    if (!post.longPost?.content || post.longPost.content.length <= 1) {
-      return null;
-    }
-
-    return (
-      <View
-        style={tailwindClasses("flex-row items-center justify-center mt-2")}
-      >
-        {post.longPost.content.map((_, index) => (
-          <View
-            key={post.id + "-page-indicator-" + index}
-            style={[
-              tailwindClasses("rounded-full w-1 h-1 mx-1"),
-              index === current_page
-                ? tailwindClasses("bg-indigo-500")
-                : tailwindClasses("bg-gray-300"),
-            ]}
-          />
-        ))}
-      </View>
-    );
-  };
+  const [currentPage, setCurrentPage] = useState(0);
 
   return isFetching ? (
     <PostSkeleton />
@@ -77,9 +54,7 @@ const PostDisplay = memo(({ post, ellipsis, actions, isFetching }: Props) => {
                 postId={post.id}
               />
             ) : null}
-            <AppText className="break-word font-normal mt-2">
-              {post.text}
-            </AppText>
+            <Text className="break-word font-normal mt-2">{post.text}</Text>
           </>
         ) : (
           // LONG POST DISPLAY
@@ -97,14 +72,14 @@ const PostDisplay = memo(({ post, ellipsis, actions, isFetching }: Props) => {
                     postId={post.id}
                   />
 
-                  {PageViewIndicator()}
+                  <PagerViewIndicator currentPage={currentPage} post={post} />
 
-                  <AppText
+                  <Text
                     className="break-word mt-2 font-light"
                     numberOfLines={ellipsis ? 5 : 0}
                   >
                     {content.text}
-                  </AppText>
+                  </Text>
                 </View>
               );
             })}

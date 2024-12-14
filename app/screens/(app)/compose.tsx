@@ -10,7 +10,7 @@ import FormInput from "@/components/form/FormInput";
 import { ValidationRule } from "@/hooks/useValidation";
 import { useState } from "react";
 import FilePicker from "@/components/app/FilePicker";
-import AppText from "@/components/app/AppText";
+import Text from "@/components/app/Text";
 import SnackBar from "@/components/app/SnackBar";
 import { Snack } from "@/types/types";
 
@@ -177,7 +177,7 @@ export default function Compose() {
       <View>
         {inputErrors
           ? Object.values(inputErrors).map((error, index) => (
-              <AppText key={`${index}-error-message`}>{error}</AppText>
+              <Text key={`${index}-error-message`}>{error}</Text>
             ))
           : null}
       </View>

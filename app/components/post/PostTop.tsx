@@ -3,7 +3,7 @@ import tailwindClasses from "@/services/ClassTransformer";
 import { Post } from "@/types/post";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { memo } from "react";
-import AppText from "../app/AppText";
+import Text from "../app/Text";
 import { View, Image } from "react-native";
 
 interface Props {
@@ -28,8 +28,8 @@ const PostTop = memo(({ post }: Props) => {
           style={tailwindClasses("avatar")}
         />
         <View>
-          <AppText>{post.author.name}</AppText>
-          <AppText>{post.author?.username}</AppText>
+          <Text>{post.author.name}</Text>
+          <Text>{post.author?.username}</Text>
         </View>
         <MaterialIcons
           name="verified"
