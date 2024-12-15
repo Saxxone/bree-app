@@ -2,7 +2,7 @@ import { memo, useMemo } from "react";
 import { Pressable } from "react-native";
 import Text from "../app/Text";
 
-import { primary, white } from "@/constants/Colors";
+import { primary } from "@/constants/Colors";
 import tailwindClasses from "@/services/ClassTransformer";
 
 type Props = {
@@ -11,10 +11,11 @@ type Props = {
   readonly children: React.ReactNode;
   readonly disabled?: boolean;
   readonly className?: string;
+  readonly style?: object;
 };
 
 const AppButton = memo(
-  ({ onPress, theme, children, className, disabled }: Props) => {
+  ({ onPress, theme, children, className, disabled, style }: Props) => {
     const classes = useMemo(
       () => tailwindClasses(className ?? ""),
       [className],
@@ -33,6 +34,8 @@ const AppButton = memo(
             "py-3 rounded-lg text-center px-4 rounded-lg items-center",
           ),
           { backgroundColor: theme === "primary" ? primary : null },
+          disabled && tailwindClasses("opacity-50 button:disabled"),
+          style,
           classes,
         ]}
       >

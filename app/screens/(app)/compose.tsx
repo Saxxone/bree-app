@@ -131,9 +131,13 @@ export default function Compose() {
     setPlaceholderFiles(newFiles);
   }
 
-  const post_type: PostType = "SHORT";
-
   const [isPosting, setIsPosting] = useState(false);
+  const [postType, setPostType] = useState<PostType>("LONG");
+
+  function attributePostType(type: PostType) {
+    console.log(type);
+    setPostType(type);
+  }
 
   function attemptCreatePost(type: "draft" | "publish") {
     setIsPosting(true); // Disable buttons while posting
@@ -165,9 +169,11 @@ export default function Compose() {
         );
       }, [is_comment, parent_post, is_fetching_parent, refetchParentPost])}
 
-      {!is_comment && <SelectPostType />}
+      {!is_comment && (
+        <SelectPostType type={postType} onSelected={attributePostType} />
+      )}
 
-      {post_type === "SHORT" ? (
+      {postType === "SHORT" ? (
         <>
           <FilePreview
             removable={true}
@@ -194,7 +200,7 @@ export default function Compose() {
         <LongPostBuilder />
       )}
 
-      <FilePicker onSelected={setPostMedia} />
+      <FilePicker onSelected={setPostMedia} maxFiles={4} />
 
       <View
         style={tailwindClasses(
@@ -207,14 +213,6 @@ export default function Compose() {
             className="btn-primary-outline btn-md text-white !px-8 rounded-lg"
             onPress={() => attemptCreatePost("draft")}
           >
-            {isPosting ? (
-              <Ionicons
-                name="refresh"
-                size={16}
-                color="white"
-                style={tailwindClasses("mt-2")}
-              />
-            ) : null}
             {"Draft"}
           </Button>
         )}
@@ -223,14 +221,6 @@ export default function Compose() {
           className="btn-primary btn-md font-regular text-white !px-8 rounded-lg"
           onPress={() => attemptCreatePost("publish")}
         >
-          {isPosting ? (
-            <Ionicons
-              name="refresh"
-              size={16}
-              color="white"
-              style={tailwindClasses("mt-2")}
-            />
-          ) : null}
           {is_comment ? "Reply" : "Post"}
         </Button>
       </View>

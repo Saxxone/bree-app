@@ -2,7 +2,7 @@ import tailwindClasses from "@/services/ClassTransformer";
 import { Snack } from "@/types/types";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Pressable } from "react-native";
 import SnackBar from "./SnackBar";
 
@@ -12,6 +12,9 @@ interface Props {
     files: ImagePicker.ImagePickerAsset[];
   }) => void; // Correct type for onSelected
   readonly children?: React.ReactNode;
+  readonly className?: string;
+  readonly disabled?: boolean;
+  readonly maxFiles?: number;
 }
 
 export default function FilePicker({ onSelected, ...props }: Props) {
@@ -25,7 +28,7 @@ export default function FilePicker({ onSelected, ...props }: Props) {
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       allowsMultipleSelection: true,
-      selectionLimit: 4,
+      selectionLimit: props.maxFiles ?? 1,
       mediaTypes: ["images", "videos"],
       allowsEditing: true,
       quality: 0.8,
@@ -46,13 +49,18 @@ export default function FilePicker({ onSelected, ...props }: Props) {
       });
     }
   };
+
+  const classes = useMemo(
+    () => tailwindClasses(props.className ?? ""),
+    [props.className],
+  );
   return (
     <>
       <SnackBar
         snack={snackBar}
         onClose={() => setSnackBar({ ...snackBar, visible: false })}
       />
-      <Pressable onPress={pickImageAsync}>
+      <Pressable onPress={pickImageAsync} style={[classes]}>
         {props.children ? (
           props.children
         ) : (

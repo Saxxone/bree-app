@@ -81,7 +81,7 @@ export default function HomeScreen() {
       {Feed}
       <Link
         href={app_routes.post.compose}
-        style={tailwindClasses("absolute bottom-32 z-50 right-3")}
+        style={tailwindClasses("absolute bottom-24 z-50 right-3")}
       >
         <View
           style={tailwindClasses(
