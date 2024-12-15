@@ -79,6 +79,12 @@ const positioning = {
   "bottom-32": { bottom: 128 },
   "left-32": { left: 128 },
   "right-32": { right: 128 },
+
+  "z-10": { zIndex: 10 },
+  "z-20": { zIndex: 20 },
+  "z-30": { zIndex: 30 },
+  "z-40": { zIndex: 40 },
+  "z-50": { zIndex: 50 },
 };
 
 export default positioning;

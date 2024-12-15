@@ -7,7 +7,10 @@ import { Pressable } from "react-native";
 import SnackBar from "./SnackBar";
 
 interface Props {
-  readonly onSelected: (media: string[]) => void;
+  readonly onSelected: (data: {
+    paths: string[];
+    files: ImagePicker.ImagePickerAsset[];
+  }) => void; // Correct type for onSelected
   readonly children?: React.ReactNode;
 }
 
@@ -21,6 +24,8 @@ export default function FilePicker({ onSelected, ...props }: Props) {
 
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
+      allowsMultipleSelection: true,
+      selectionLimit: 4,
       mediaTypes: ["images", "videos"],
       allowsEditing: true,
       quality: 0.8,
@@ -28,7 +33,10 @@ export default function FilePicker({ onSelected, ...props }: Props) {
 
     if (!result.canceled) {
       console.log(result);
-      onSelected(result.assets.map((asset) => asset.uri));
+      onSelected({
+        paths: result.assets.map((asset) => asset.uri),
+        files: result.assets,
+      });
     } else {
       setSnackBar({
         visible: true,

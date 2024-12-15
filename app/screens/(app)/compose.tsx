@@ -1,4 +1,5 @@
 import { View } from "react-native";
+import * as ImagePicker from "expo-image-picker";
 import tailwindClasses from "@/services/ClassTransformer";
 import PostDisplay from "@/components/post/PostDisplay";
 import { Post, PostType } from "@/types/post";
@@ -70,6 +71,10 @@ export default function Compose() {
     bookmarkedByMe: false,
   });
 
+  const [placeholderFiles, setPlaceholderFiles] = useState<
+    ImagePicker.ImagePickerAsset[]
+  >([]);
+
   const [snackBar, setSnackBar] = useState<Snack>({
     visible: false,
     title: "",
@@ -112,13 +117,23 @@ export default function Compose() {
     setPost({ ...post, text: v });
   }
 
-  function setPostMedia(media: string[]) {
-    setPost({ ...post, media });
+  function setPostMedia(data: {
+    paths: string[];
+    files: ImagePicker.ImagePickerAsset[];
+  }) {
+    setPost({ ...post, media: data.paths });
+    setPlaceholderFiles(data.files);
+  }
+
+  function removeFile(index: number) {
+    const newFiles = [...placeholderFiles];
+    newFiles.splice(index, 1);
+    setPlaceholderFiles(newFiles);
   }
 
   const post_type: PostType = "SHORT";
 
-  const [isPosting, setIsPosting] = useState(false); // State to track posting status
+  const [isPosting, setIsPosting] = useState(false);
 
   function attemptCreatePost(type: "draft" | "publish") {
     setIsPosting(true); // Disable buttons while posting
@@ -154,7 +169,11 @@ export default function Compose() {
 
       {post_type === "SHORT" ? (
         <>
-          <FilePreview removable={true} />
+          <FilePreview
+            removable={true}
+            files={placeholderFiles}
+            removeFile={(index) => removeFile(index)}
+          />
           <FormInput
             placeholder={
               is_comment ? "Reply to this post" : "What's on your mind?"
@@ -182,21 +201,23 @@ export default function Compose() {
           "mt-4 flex flex-row items-center space-4 justify-end",
         )}
       >
-        <Button
-          disabled={isPosting || is_fetching_parent || !!inputErrors}
-          className="btn-primary-outline btn-md text-white !px-8 rounded-lg"
-          onPress={() => attemptCreatePost("draft")}
-        >
-          {isPosting ? (
-            <Ionicons
-              name="refresh"
-              size={16}
-              color="white"
-              style={tailwindClasses("mt-2")}
-            />
-          ) : null}
-          {"Draft"}
-        </Button>
+        {!is_comment && (
+          <Button
+            disabled={isPosting || is_fetching_parent || !!inputErrors}
+            className="btn-primary-outline btn-md text-white !px-8 rounded-lg"
+            onPress={() => attemptCreatePost("draft")}
+          >
+            {isPosting ? (
+              <Ionicons
+                name="refresh"
+                size={16}
+                color="white"
+                style={tailwindClasses("mt-2")}
+              />
+            ) : null}
+            {"Draft"}
+          </Button>
+        )}
         <Button
           disabled={isPosting || is_fetching_parent || !!inputErrors}
           className="btn-primary btn-md font-regular text-white !px-8 rounded-lg"
