@@ -10,9 +10,8 @@ import { violet_500 } from "@/constants/Colors";
 import tailwindClasses from "@/services/ClassTransformer";
 import SnackBar from "@/components/app/SnackBar";
 import { useMemo, useState } from "react";
-import { Link } from "expo-router";
 import { app_routes } from "@/constants/AppRoutes";
-import { Ionicons } from "@expo/vector-icons";
+import FloatingActionButton from "@/components/app/FloatingActionbutton";
 
 export default function HomeScreen() {
   const [snackBar, setSnackBar] = useState<Snack>({
@@ -29,7 +28,7 @@ export default function HomeScreen() {
         method: FetchMethod.POST,
         query: {
           skip: 0,
-          take: 40,
+          take: 10,
         },
       });
     },
@@ -79,18 +78,10 @@ export default function HomeScreen() {
   return (
     <>
       {Feed}
-      <Link
-        href={app_routes.post.compose}
-        style={tailwindClasses("absolute bottom-24 z-50 right-3")}
-      >
-        <View
-          style={tailwindClasses(
-            "justify-center bg-indigo-500 flex items-center text-white shadow-xl p-4 border rounded-full w-14 h-14",
-          )}
-        >
-          <Ionicons name="pencil-outline" size={24} color="white" />
-        </View>
-      </Link>
+      <FloatingActionButton
+        to={app_routes.post.compose}
+        icon="pencil-outline"
+      />
     </>
   );
 }
