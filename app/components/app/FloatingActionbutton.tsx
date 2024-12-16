@@ -14,7 +14,7 @@ const FloatingActionButton = memo(({ to, icon }: Props) => {
     <Link href={to} style={tailwindClasses("absolute bottom-24 z-50 right-3")}>
       <View
         style={tailwindClasses(
-          "justify-center bg-indigo-500 flex items-center text-white shadow-xl p-4 border rounded-full w-14 h-14",
+          "justify-center bg-indigo-500 flex items-center text-white shadow-xl p-4 rounded-full w-14 h-14",
         )}
       >
         <Ionicons name={icon} size={24} color="white" />
