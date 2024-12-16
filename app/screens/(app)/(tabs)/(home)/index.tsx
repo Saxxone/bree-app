@@ -11,7 +11,7 @@ import tailwindClasses from "@/services/ClassTransformer";
 import SnackBar from "@/components/app/SnackBar";
 import { useMemo, useState } from "react";
 import { app_routes } from "@/constants/AppRoutes";
-import FloatingActionButton from "@/components/app/FloatingActionbutton";
+import FloatingActionButton from "@/components/app/FloatingActionButton";
 
 export default function HomeScreen() {
   const [snackBar, setSnackBar] = useState<Snack>({
