@@ -2,29 +2,25 @@ import { useLocalSearchParams } from "expo-router";
 import PostDisplay from "@/components/post/PostDisplay";
 import { FlatList, RefreshControl, View } from "react-native";
 import Text from "@/components/app/Text";
-import SnackBar from "@/components/app/SnackBar";
 import api_routes from "@/constants/ApiRoutes";
 import { violet_500 } from "@/constants/Colors";
 import { ApiConnectService } from "@/services/ApiConnectService";
 import tailwindClasses from "@/services/ClassTransformer";
 import { Post } from "@/types/post";
-import { Snack, FetchMethod } from "@/types/types";
+import { FetchMethod } from "@/types/types";
 import { useQuery } from "@tanstack/react-query";
-import { useState, useMemo } from "react";
+import { useMemo, useContext } from "react";
+import SnackBarContext from "@/context/SnackBarContext";
 
 export default function PostScreen() {
   const { id } = useLocalSearchParams();
 
-  const [snackBar, setSnackBar] = useState<Snack>({
-    visible: false,
-    title: "Error",
-    type: "error",
-    message: "An error occured while fetching feed",
-  });
+  const { snackBar, setSnackBarState } = useContext(SnackBarContext);
 
   const {
     isFetching: is_fetching_post,
     isError: is_post_error,
+    error: post_error,
     data: post,
     refetch: refetchPost,
   } = useQuery({
@@ -43,6 +39,7 @@ export default function PostScreen() {
     isFetching: is_fetching_comments,
     isError: is_comments_error,
     data: comments,
+    error: comment_error,
     refetch: refetchComments,
   } = useQuery({
     queryKey: ["comments"],
@@ -62,12 +59,13 @@ export default function PostScreen() {
 
   const Post = useMemo(() => {
     if (is_post_error) {
-      return (
-        <SnackBar
-          snack={snackBar}
-          onClose={() => setSnackBar({ ...snackBar, visible: false })}
-        />
-      );
+      setSnackBarState({
+        ...snackBar,
+        visible: true,
+        title: "Error",
+        type: "error",
+        message: post_error.message,
+      });
     } else {
       return is_post_error ? (
         <View style={[tailwindClasses("p-3 mb-3 ")]}>
@@ -89,12 +87,13 @@ export default function PostScreen() {
 
   const Comments = useMemo(() => {
     if (is_comments_error) {
-      return (
-        <SnackBar
-          snack={snackBar}
-          onClose={() => setSnackBar({ ...snackBar, visible: false })}
-        />
-      );
+      setSnackBarState({
+        ...snackBar,
+        visible: true,
+        title: "Error",
+        type: "error",
+        message: comment_error.message,
+      });
     } else {
       return comments?.data && comments?.data?.length > 0 ? (
         <View style={tailwindClasses("container")}>

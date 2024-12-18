@@ -110,7 +110,11 @@ const LongPostBuilder = memo(() => {
         className="h-56 text-main flex flex-row justify-center items-center text-center h-56 border-gray-600 mb-4 rounded-lg border"
       >
         {placeholderFiles.length ? (
-          <FilePreview removable={false} files={placeholderFiles} />
+          <FilePreview
+            removable={false}
+            files={placeholderFiles}
+            fullScreen={true}
+          />
         ) : (
           <View style={[tailwindClasses("p-3 mb-3 ")]}>
             <Text className="text-center text-gray-500">

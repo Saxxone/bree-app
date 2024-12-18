@@ -9,18 +9,15 @@ import Text from "@/components/app/Text";
 import { violet_500 } from "@/constants/Colors";
 import tailwindClasses from "@/services/ClassTransformer";
 import SnackBar from "@/components/app/SnackBar";
-import { useMemo, useState } from "react";
+import { useContext, useMemo } from "react";
 import { app_routes } from "@/constants/AppRoutes";
 import FloatingActionButton from "@/components/app/FloatingActionButton";
+import SnackBarContext from "@/context/SnackBarContext";
 
 export default function HomeScreen() {
-  const [snackBar, setSnackBar] = useState<Snack>({
-    visible: false,
-    title: "Error",
-    type: "error",
-    message: "An error occured while fetching feed",
-  });
-  const { isFetching, isError, data, refetch } = useQuery({
+  const { snackBar, setSnackBarState } = useContext(SnackBarContext);
+
+  const { isFetching, isError, data, refetch, error } = useQuery({
     queryKey: ["feed"],
     queryFn: async () => {
       return await ApiConnectService<Post[]>({
@@ -28,7 +25,7 @@ export default function HomeScreen() {
         method: FetchMethod.POST,
         query: {
           skip: 0,
-          take: 10,
+          take: 9,
         },
       });
     },
@@ -38,12 +35,13 @@ export default function HomeScreen() {
 
   const Feed = useMemo(() => {
     if (isError) {
-      return (
-        <SnackBar
-          snack={snackBar}
-          onClose={() => setSnackBar({ ...snackBar, visible: false })}
-        />
-      );
+      return setSnackBarState({
+        ...snackBar,
+        visible: true,
+        title: "Error",
+        type: "error",
+        message: error.message,
+      });
     } else {
       return isError ? (
         <View style={[tailwindClasses("p-3 mb-3 ")]}>

@@ -9,7 +9,7 @@ import LongPostBuilder from "@/components/post/LongPostBuilder";
 import FilePreview from "@/components/post/FilePreview";
 import FormInput from "@/components/form/FormInput";
 import { ValidationRule } from "@/hooks/useValidation";
-import { useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import FilePicker from "@/components/app/FilePicker";
 import Text from "@/components/app/Text";
 import SnackBar from "@/components/app/SnackBar";
@@ -19,6 +19,9 @@ import { useQuery } from "@tanstack/react-query";
 import api_routes from "@/constants/ApiRoutes";
 import { ApiConnectService } from "@/services/ApiConnectService";
 import Button from "@/components/form/Button";
+import SpacerX from "@/components/app/SpacerX";
+import SpacerY from "@/components/app/SpacerY";
+import SnackBarContext from "@/context/SnackBarContext";
 
 export default function Compose() {
   const { id, is_comment } = useLocalSearchParams();
@@ -75,12 +78,7 @@ export default function Compose() {
     ImagePicker.ImagePickerAsset[]
   >([]);
 
-  const [snackBar, setSnackBar] = useState<Snack>({
-    visible: false,
-    title: "",
-    message: "",
-    type: "error",
-  });
+  const { snackBar, setSnackBarState } = useContext(SnackBarContext);
 
   const [inputErrors, setInputErrors] = useState<Record<string, string> | null>(
     null,
@@ -135,8 +133,7 @@ export default function Compose() {
   const [postType, setPostType] = useState<PostType>("LONG");
 
   function attributePostType(type: PostType) {
-    console.log(type);
-    setPostType(type);
+    setPostType(() => type);
   }
 
   function attemptCreatePost(type: "draft" | "publish") {
@@ -225,17 +222,15 @@ export default function Compose() {
         </Button>
       </View>
 
-      <SnackBar
-        snack={snackBar}
-        onClose={() => setSnackBar({ ...snackBar, visible: false })}
-      />
-      <View>
-        {inputErrors
-          ? Object.values(inputErrors).map((error) => (
-              <Text key={`${error}-error-message`}>{error}</Text>
-            ))
-          : null}
-      </View>
+      {
+        <View>
+          {inputErrors
+            ? Object.values(inputErrors).map((error) => (
+                <Text key={`${error}-error-message`}>{error}</Text>
+              ))
+            : null}
+        </View>
+      }
     </View>
   );
 }

@@ -1,7 +1,7 @@
 import { Link, router } from "expo-router";
 import * as Keychain from "react-native-keychain";
 import { View, ActivityIndicator } from "react-native";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import FormInput from "@/components/form/FormInput";
 import Text from "@/components/app/Text";
 import SpacerY from "@/components/app/SpacerY";
@@ -12,18 +12,15 @@ import { ValidationRule } from "@/hooks/useValidation";
 import { ApiConnectService } from "@/services/ApiConnectService";
 import { useQuery } from "@tanstack/react-query";
 import api_routes from "@/constants/ApiRoutes";
-import { FetchMethod, Snack } from "@/types/types";
+import { FetchMethod } from "@/types/types";
 import SnackBar from "@/components/app/SnackBar";
 import { User } from "@/types/user";
 import tailwindClasses from "@/services/ClassTransformer";
+import SnackBarContext from "@/context/SnackBarContext";
 
 export default function Login() {
-  const [snackBar, setSnackBar] = useState<Snack>({
-    visible: false,
-    title: "",
-    message: "",
-    type: "error",
-  });
+  const { snackBar, setSnackBarState } = useContext(SnackBarContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [toggled, setToggled] = useState(true);
@@ -82,7 +79,8 @@ export default function Login() {
         );
         router.replace(app_routes.post.home);
       } else if (error) {
-        setSnackBar({
+        setSnackBarState({
+          ...snackBar,
           visible: true,
           title: "Error",
           type: "error",
@@ -110,10 +108,6 @@ export default function Login() {
 
   return (
     <View style={tailwindClasses("container")}>
-      <SnackBar
-        snack={snackBar}
-        onClose={() => setSnackBar({ ...snackBar, visible: false })}
-      />
       <SpacerY size="lg" />
       <Text style={tailwindClasses("text-3xl font-bold")}>
         Login your account

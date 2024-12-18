@@ -4,21 +4,21 @@ import { useFonts } from "expo-font";
 import { Stack, Slot } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import "react-native-reanimated";
 import { SessionProvider } from "@/ctx";
 import { DarkTheme, LightTheme } from "@/constants/Theme";
 import { headerDark, headerLight } from "./styles/main";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import SnackBar from "./components/app/SnackBar";
+import { SnackBarProvider, useSnackBar } from "@/context/SnackBarProvider";
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 const queryClient = new QueryClient();
 
 export default function RootLayout() {
   const color_scheme = useColorScheme();
-  const header = color_scheme === "dark" ? headerDark : headerLight;
   const [loaded] = useFonts({
     "Outfit Black": require("@/assets/fonts/outfit/Outfit-Black.ttf"),
     "Outfit ExtraBold": require("@/assets/fonts/outfit/Outfit-ExtraBold.ttf"),
@@ -45,24 +45,50 @@ export default function RootLayout() {
     <SessionProvider>
       <ThemeProvider value={color_scheme === "dark" ? DarkTheme : LightTheme}>
         <QueryClientProvider client={queryClient}>
-          <Stack screenOptions={header}>
-            <Stack.Screen
-              name="screens/(app)"
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="screens/(auth)"
-              options={{
-                headerShown: false,
-              }}
-            />
-            <Slot />
-          </Stack>
+          <SnackBarProvider>
+            <LayoutContents />
+          </SnackBarProvider>
         </QueryClientProvider>
         <StatusBar style="auto" />
       </ThemeProvider>
     </SessionProvider>
+  );
+}
+
+function LayoutContents() {
+  const color_scheme = useColorScheme();
+  const header = color_scheme === "dark" ? headerDark : headerLight;
+  const { snackBar, setSnackBar } = useSnackBar();
+  const [showSnackBar, setShowSnackBar] = useState(false);
+
+  const modifySnack = useCallback(() => {
+    setSnackBar(snackBar);
+  }, [setSnackBar]);
+
+  useEffect(() => {
+    if (snackBar.visible !== showSnackBar) {
+      setShowSnackBar(snackBar.visible);
+    }
+  }, [snackBar.visible]);
+
+  return (
+    <>
+      <Stack screenOptions={header}>
+        <Stack.Screen
+          name="screens/(app)"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="screens/(auth)"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Slot />
+      </Stack>
+      {showSnackBar && <SnackBar snack={snackBar} onClose={modifySnack} />}
+    </>
   );
 }
