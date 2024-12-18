@@ -6,11 +6,13 @@ import tailwindClasses from "./services/ClassTransformer";
 import { Image } from "expo-image";
 
 export default function Index() {
-  //TODO fix this page design and handle auth better
   (async function getAuthStatus() {
     const token = await retrieveTokenFromKeychain();
+    console.log("token:::::", token);
     if (token) {
       router.replace(app_routes.post.home);
+    } else {
+      router.replace(app_routes.auth.login);
     }
   })();
 

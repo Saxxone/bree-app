@@ -105,12 +105,11 @@ export async function ApiConnectService<T>({
         .catch(() => ({ message: response.statusText }));
 
       console.error("API error", response.status, errorData);
-      return { data: null, error: errorData };
+      throw new Error(errorData.message);
     }
     const data: T = await response.json();
     return { data, error: null };
-  } catch (error) {
-    console.error("Fetch error:", error);
-    return { data: null, error };
+  } catch (error: any) {
+    throw new Error(error.message);
   }
 }

@@ -16,10 +16,11 @@ import { FetchMethod } from "@/types/types";
 import { useSnackBar } from "@/context/SnackBarProvider";
 import { User } from "@/types/user";
 import tailwindClasses from "@/services/ClassTransformer";
+import { useSession } from "@/ctx";
 
 export default function Login() {
   const { snackBar, setSnackBar } = useSnackBar();
-
+  const { signIn, signOut } = useSession();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [toggled, setToggled] = useState(true);
@@ -40,7 +41,7 @@ export default function Login() {
     return true;
   };
 
-  const { isFetching, error, refetch } = useQuery({
+  const { isFetching, error, isError, refetch } = useQuery({
     queryKey: ["login", email, password],
     queryFn: async () => {
       const data = {
@@ -69,15 +70,7 @@ export default function Login() {
       const response = await refetch();
       const api_url = process.env.EXPO_PUBLIC_API_BASE_URL as string;
 
-      if (response.data && !response.data.error) {
-        await Keychain.setGenericPassword(email, password);
-        await Keychain.setInternetCredentials(
-          api_url,
-          "access_token",
-          response?.data?.data?.access_token as string,
-        );
-        router.replace(app_routes.post.home);
-      } else if (error) {
+      if (error) {
         setSnackBar({
           ...snackBar,
           visible: true,
@@ -85,6 +78,15 @@ export default function Login() {
           type: "error",
           message: error.message || "Login failed. Please try again.",
         });
+      } else if (response.data && !response.data.error) {
+        await Keychain.setGenericPassword(email, password);
+        await Keychain.setInternetCredentials(
+          api_url,
+          "access_token",
+          response?.data?.data?.access_token as string,
+        );
+        signIn();
+        router.replace(app_routes.post.home);
       }
     }
   };

@@ -13,4 +13,9 @@ export const app_routes: Record<string, any> = {
     view_media: (id: string) =>
       `/screens/(app)/(tabs)/(home)/(post)/media/${id}`,
   },
+  auth: {
+    login: "/screens/(auth)login",
+    register: "/screens/(auth)register",
+    forgotPassword: "/screens/(auth)forgot-password",
+  },
 };
