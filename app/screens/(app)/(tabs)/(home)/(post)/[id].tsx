@@ -1,6 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
 import PostDisplay from "@/components/post/PostDisplay";
-import { FlatList, RefreshControl, View } from "react-native";
+import { FlatList, RefreshControl, View, ScrollView } from "react-native";
 import Text from "@/components/app/Text";
 import api_routes from "@/constants/ApiRoutes";
 import { violet_500 } from "@/constants/Colors";
@@ -138,9 +138,9 @@ export default function PostScreen() {
     refetchComments,
   ]);
   return (
-    <>
+    <ScrollView>
       {Post}
-      <View style={tailwindClasses("mt-4 ml-3")}>{Comments}</View>
-    </>
+      <View style={tailwindClasses("ml-3")}>{Comments}</View>
+    </ScrollView>
   );
 }

@@ -108,7 +108,7 @@ const FormInput = memo(
       }
     }, [value, validationRules, onValidationError, validate, setErrors]);
 
-    if (validationType && validationType === "eager") validateInput();
+    // if (validationType && validationType === "eager") validateInput();
 
     const memoPrependIcon = useMemo(() => {
       if (!prependIcon) return null;

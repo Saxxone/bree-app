@@ -13,9 +13,9 @@ export default function TabLayout() {
           | "notifications-outline"
           | "chatbubble-outline",
       ) =>
-      ({ color, focused }: { color: string; focused: boolean }) => (
+      ({ color }: { color: string }) => (
         <Ionicons
-          name={focused ? icon : icon}
+          name={icon}
           size={24}
           style={{ paddingVertical: 2 }}
           color={color}
@@ -25,6 +25,7 @@ export default function TabLayout() {
 
   const color_scheme = useColorScheme();
   const header = color_scheme === "dark" ? headerDark : headerLight;
+
   return (
     <Tabs screenOptions={header}>
       <Tabs.Screen

@@ -14,7 +14,7 @@ import { LongPost } from "@/types/post";
 import api_routes from "@/constants/ApiRoutes";
 import { ApiConnectService } from "@/services/ApiConnectService";
 import { FetchMethod } from "@/types/types";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useSnackBar } from "@/context/SnackBarProvider";
 import { Ionicons } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -75,22 +75,6 @@ const LongPostBuilder = memo(({ ...props }: Props) => {
       setContents([...contents, { text: "", media: [], files: [] }]);
     }
   }
-
-  const { isFetching, isError, data, refetch, error } = useQuery({
-    queryKey: ["feed"],
-    queryFn: async () => {
-      return await ApiConnectService<File[]>({
-        url: api_routes.posts.feed,
-        method: FetchMethod.POST,
-        query: {
-          skip: 0,
-          take: 9,
-        },
-      });
-    },
-    enabled: false,
-    retry: false,
-  });
 
   function setPostMedia(
     data: { paths: string[]; files: ImagePicker.ImagePickerAsset[] },

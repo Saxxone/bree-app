@@ -23,12 +23,12 @@ const PostTop = memo(({ post }: Props) => {
       <View style={tailwindClasses("flex-row items-start gap-2 mb-2")}>
         <Image
           source={{
-            uri: post.author.img as string,
+            uri: post.author?.img as string,
           }}
           style={tailwindClasses("avatar")}
         />
         <View>
-          <Text>{post.author.name}</Text>
+          <Text>{post.author?.name}</Text>
           <Text>@{post.author?.username}</Text>
         </View>
         <MaterialIcons

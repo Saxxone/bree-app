@@ -1,22 +1,40 @@
 import { View, ScrollView } from "react-native";
 import tailwindClasses from "@/services/ClassTransformer";
 import PostDisplay from "@/components/post/PostDisplay";
-import { Post, PostType } from "@/types/post";
+import { LongPostBlock, Post, PostType } from "@/types/post";
 import { Ionicons } from "@expo/vector-icons";
 import SelectPostType from "@/components/post/SelectPostType";
 import LongPostBuilder from "@/components/post/LongPostBuilder";
 import { useMemo, useState } from "react";
 import { FetchMethod } from "@/types/types";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import api_routes from "@/constants/ApiRoutes";
 import { ApiConnectService } from "@/services/ApiConnectService";
 import Button from "@/components/form/Button";
 import { useSnackBar } from "@/context/SnackBarProvider";
 import ShortPostBuilder from "@/components/post/ShortPostBuilder";
+import { app_routes } from "@/constants/AppRoutes";
 
 export default function Compose() {
   const { id, is_comment } = useLocalSearchParams();
+  const { snackBar, setSnackBar } = useSnackBar();
+  const [post, setPost] = useState<Partial<Post>>({
+    parentId: id as string,
+    text: "",
+    media: [],
+    mediaTypes: [],
+    type: "SHORT",
+  });
+  const [isPosting, setIsPosting] = useState(false);
+  const [postType, setPostType] = useState<PostType>("SHORT");
+  const [postAttribute, setPostAttribute] = useState<"draft" | "publish">(
+    "publish",
+  );
+
+  const [inputErrors, setInputErrors] = useState<Record<string, string> | null>(
+    null,
+  );
 
   const {
     isFetching: is_fetching_parent,
@@ -35,43 +53,67 @@ export default function Compose() {
     retry: false,
   });
 
-  const [post, setPost] = useState<Partial<Post>>({});
-
-  const { snackBar, setSnackBar } = useSnackBar();
-
-  const [inputErrors, setInputErrors] = useState<Record<string, string> | null>(
-    null,
-  );
+  const {
+    isFetching: is_creating_post,
+    data: new_post,
+    error: post_error,
+    isError: is_post_error,
+    refetch: creatPost,
+  } = useQuery({
+    queryKey: ["new-post"],
+    queryFn: async () => {
+      return await ApiConnectService<Post>({
+        url:
+          postAttribute === "publish"
+            ? api_routes.posts.create_post
+            : api_routes.posts.create_draft,
+        method: FetchMethod.POST,
+        body: post,
+      });
+    },
+    enabled: true,
+    retry: false,
+  });
 
   const handleValidationError = (errors: Record<string, string> | null) => {
     setInputErrors(errors);
   };
 
-  function setPostText(v: string) {
-    setPost({ ...post, text: v });
-  }
-
-  function setLongPost(data: any) {
+  function setLongPost(data: LongPostBlock[]) {
     console.log(inputErrors);
     setPost({ ...post, longPost: { content: data } });
   }
 
-  const [isPosting, setIsPosting] = useState(false);
-  const [postType, setPostType] = useState<PostType>("LONG");
+  function setShortPost(data: Partial<Post>) {
+    console.log(inputErrors);
+    setPost({ ...post, ...data });
+  }
 
   function attributePostType(type: PostType) {
     setPostType(() => type);
+    setPost({ ...post, type });
   }
 
-  function attemptCreatePost(type: "draft" | "publish") {
-    setIsPosting(true); // Disable buttons while posting
+  async function attemptCreatePost(type: "draft" | "publish") {
+    setIsPosting(true);
+    setPostAttribute(type);
 
     console.log("Attempting to create post of type:", type, post);
-    setSnackBar({
-      ...snackBar,
-      visible: true,
-    });
-    // ... your API call logic ...
+
+    await creatPost();
+
+    if (is_post_error) {
+      setSnackBar({
+        ...snackBar,
+        visible: true,
+        message: post_error.message,
+      });
+    } else {
+      is_comment
+        ? router.replace(app_routes.post.view(post.id))
+        : router.replace(app_routes.post.home);
+    }
+    setIsPosting(false);
   }
 
   return (
@@ -103,8 +145,8 @@ export default function Compose() {
 
       {postType === "SHORT" ? (
         <ShortPostBuilder
-          setPostText={setPostText}
           post={post}
+          setShortPost={setShortPost}
           is_comment={Number(is_comment)}
           onValidationError={handleValidationError}
         />
@@ -123,7 +165,7 @@ export default function Compose() {
       >
         {!is_comment && (
           <Button
-            disabled={isPosting || is_fetching_parent || !!inputErrors}
+            disabled={isPosting || is_creating_post || !!inputErrors}
             className="btn-primary-outline btn-md text-white !px-8 rounded-lg"
             onPress={() => attemptCreatePost("draft")}
           >
@@ -131,7 +173,7 @@ export default function Compose() {
           </Button>
         )}
         <Button
-          disabled={isPosting || is_fetching_parent || !!inputErrors}
+          disabled={isPosting || is_creating_post || !!inputErrors}
           className="btn-primary btn-md font-regular text-white !px-8 rounded-lg"
           onPress={() => attemptCreatePost("publish")}
         >
