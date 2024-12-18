@@ -22,6 +22,7 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 interface Props {
   readonly post: Partial<LongPost> | null | undefined;
   readonly setLongPost: (data: any) => void;
+  readonly onValidationError: (errors: Record<string, string> | null) => void;
 }
 
 const LongPostBuilder = memo(({ ...props }: Props) => {
@@ -33,10 +34,6 @@ const LongPostBuilder = memo(({ ...props }: Props) => {
   const [contents, setContents] = useState<
     { text: string; media: string[]; files: ImagePicker.ImagePickerAsset[] }[]
   >([{ text: "", media: [], files: [] }]);
-
-  const [inputErrors, setInputErrors] = useState<Record<string, string> | null>(
-    null,
-  );
 
   function setPostText(v: string, index: number) {
     const new_contents = [...contents];
@@ -56,12 +53,12 @@ const LongPostBuilder = memo(({ ...props }: Props) => {
   }
 
   const handleValidationError = (errors: Record<string, string> | null) => {
-    setInputErrors(errors);
+    props.onValidationError(errors);
   };
 
-  //TODO make validation for the two values to be present, i.e either media or text is required
   const validation_rules: Record<string, ValidationRule[]> = {
-    post: [
+    media: [{ type: "required", message: "Media file is required" }],
+    text: [
       { type: "required", message: "Post text is required." },
       {
         type: "max",
@@ -227,6 +224,8 @@ const LongPostBuilder = memo(({ ...props }: Props) => {
                 onSelected={(media) => setPostMedia(media, index)}
                 maxFiles={1}
                 ratio={[5, 3]}
+                validationRules={validation_rules.media}
+                onValidationError={handleValidationError}
                 className="h-56 text-main  flex flex-row justify-center items-center text-center border-gray-600 mb-4 rounded-lg border"
               >
                 {content.files ? (
@@ -248,7 +247,8 @@ const LongPostBuilder = memo(({ ...props }: Props) => {
               <FormInput
                 placeholder={"What's on your mind?"}
                 value={content.text}
-                validationRules={validation_rules.post}
+                validationType="eager"
+                validationRules={validation_rules.text}
                 autoComplete="username"
                 keyboardType="email-address"
                 inputMode="text"

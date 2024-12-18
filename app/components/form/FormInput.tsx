@@ -33,12 +33,13 @@ interface Props extends Omit<TextInputProps, "style"> {
   readonly validationRules?: ValidationRule[];
   readonly autoComplete?: "email" | "password" | "username";
   readonly className?: string;
-  style?: StyleProp<ViewStyle>;
-  inputStyle?: StyleProp<TextStyle>;
+  readonly style?: StyleProp<ViewStyle>;
+  readonly inputStyle?: StyleProp<TextStyle>;
   readonly onChangeText: (text: string) => void;
   readonly onPrependPressed?: (event: GestureResponderEvent) => void;
   readonly onAppendPressed?: (event: GestureResponderEvent) => void;
-  onValidationError?: (errors: Record<string, string> | null) => void;
+  readonly onValidationError?: (errors: Record<string, string> | null) => void;
+  readonly validationType?: "lazy" | "eager" | "none";
 }
 
 const FormInput = memo(
@@ -53,6 +54,7 @@ const FormInput = memo(
     inputStyle,
     autoComplete,
     validationRules,
+    validationType,
     onPrependPressed,
     onAppendPressed,
     onChangeText,
@@ -105,6 +107,8 @@ const FormInput = memo(
         );
       }
     }, [value, validationRules, onValidationError, validate, setErrors]);
+
+    if (validationType && validationType === "eager") validateInput();
 
     const memoPrependIcon = useMemo(() => {
       if (!prependIcon) return null;

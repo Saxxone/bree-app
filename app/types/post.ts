@@ -3,8 +3,8 @@ import type { DateString, MediaType } from "~/types/types";
 
 export interface Post {
   id: string;
-  createdAt: DateString | null;
-  updatedAt: DateString | null;
+  createdAt?: DateString | null;
+  updatedAt?: DateString | null;
   text: string | null | undefined;
   author: Partial<Author>;
   published: boolean;

@@ -8,9 +8,10 @@ import FilePicker from "../app/FilePicker";
 import Text from "../app/Text";
 
 interface Props {
-  post: Post;
+  post: Partial<Post>;
   is_comment: number;
   setPostText: (v: string) => void;
+  readonly onValidationError: (errors: Record<string, string> | null) => void;
 }
 
 const ShortPostBuilder = memo(({ ...props }: Props) => {
@@ -31,17 +32,14 @@ const ShortPostBuilder = memo(({ ...props }: Props) => {
     setPlaceholderFiles(data.files);
   }
 
-  const [inputErrors, setInputErrors] = useState<Record<string, string> | null>(
-    null,
-  );
-
   const handleValidationError = (errors: Record<string, string> | null) => {
-    setInputErrors(errors);
+    props.onValidationError(errors);
   };
 
   //TODO make validation for one of two values to be present, i.e either media or text is required
   const validation_rules: Record<string, ValidationRule[]> = {
-    post: [
+    media: [{ type: "required", message: "Media file is required" }],
+    text: [
       { type: "required", message: "Post text is required." },
       {
         type: "max",
@@ -63,7 +61,8 @@ const ShortPostBuilder = memo(({ ...props }: Props) => {
           props.is_comment ? "Reply to this post" : "What's on your mind?"
         }
         value={props.post.text as string}
-        validationRules={validation_rules.post}
+        validationType="eager"
+        validationRules={validation_rules.text}
         autoComplete="username"
         keyboardType="email-address"
         inputMode="text"

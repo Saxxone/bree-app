@@ -8,7 +8,6 @@ type Props = {
 };
 
 const ImageViewer = memo(({ source, placeholder }: Props) => {
-  console.log(placeholder);
   return (
     <Image
       source={{
