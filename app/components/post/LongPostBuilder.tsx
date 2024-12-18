@@ -3,61 +3,56 @@ import Text from "../app/Text";
 import FilePicker from "../app/FilePicker";
 import FilePreview from "./FilePreview";
 import * as ImagePicker from "expo-image-picker";
-import { Post } from "@/types/post";
 import FormInput from "../form/FormInput";
 import { ValidationRule } from "@/hooks/useValidation";
 import { View } from "react-native";
 import Button from "../form/Button";
 import tailwindClasses from "@/services/ClassTransformer";
+import PagerViewIndicator from "../app/PagerViewIndicator";
+import PagerView from "../app/PagerView";
+import { LongPost } from "@/types/post";
 
-const LongPostBuilder = memo(() => {
+interface Props {
+  post: Partial<LongPost> | null | undefined;
+  setLongPost: (data: any) => void;
+}
+
+const LongPostBuilder = memo(({ ...props }: Props) => {
   const [placeholderFiles, setPlaceholderFiles] = useState<
     ImagePicker.ImagePickerAsset[]
   >([]);
 
-  const [post, setPost] = useState<Post>({
-    id: "78dc3aeb-3d62-4156-aeed-7bde5998dce5",
-    text: "I'll be tinkering with Raspberry Pi and Arduino.  I look forward to all the cool stuff I'll build.\n\nI love robotics a lot.  Let's see what happens ❤️",
-    media: [
-      "https://pbs.bree.social/1000258433-95de6daf4c4ec23cdb14267d1038c1c35.jpg",
-    ],
-    mediaTypes: ["image"],
-    published: true,
-    authorId: "e1fb38c2-c10b-43c2-a6bc-3d286eccfc85",
-    likeCount: 0,
-    bookmarkCount: 0,
-    parentId: null,
-    commentCount: 0,
-    createdAt: "2024-12-10T02:25:41.743Z",
-    updatedAt: "2024-12-10T02:25:41.743Z",
-    deletedAt: null,
-    type: "SHORT",
-    longPostId: null,
-    likedBy: [],
-    bookmarkedBy: [],
-    author: {
-      id: "e1fb38c2-c10b-43c2-a6bc-3d286eccfc85",
-      name: "Stephen Udoekpo",
-      img: "https://pbs.bree.social/a5f541cf-5845-49a0-bf5d-f22528ff8315.jpg",
-      username: "saxxone17@gmail.com",
-    },
-    longPost: null,
-    likedByMe: false,
-    bookmarkedByMe: false,
-  });
+  const [contents, setContents] = useState([
+    { text: "", media: [], files: [] },
+  ]);
 
   const [inputErrors, setInputErrors] = useState<Record<string, string> | null>(
     null,
   );
-  function setPostText(v: string) {
-    setPost({ ...post, text: v });
+
+  function setPostText(v: string, index: number) {
+    const new_contents = [...contents];
+    new_contents[index].text = v;
+    setContents(new_contents);
+    props.setLongPost(new_contents);
   }
-  function setPostMedia(data: {
-    paths: string[];
-    files: ImagePicker.ImagePickerAsset[];
-  }) {
-    setPost({ ...post, media: data.paths });
-    setPlaceholderFiles(data.files);
+
+  function setPostMedia(
+    data: { paths: string[]; files: ImagePicker.ImagePickerAsset[] },
+    index: number,
+  ) {
+    const new_contents = [...contents];
+    new_contents[index].media = data.paths;
+    new_contents[index].files = data.files;
+    setContents(new_contents);
+    props.setLongPost(new_contents);
+  }
+
+  function removeFile(index: number) {
+    const newFiles = [...placeholderFiles];
+    newFiles.splice(index, 1);
+    setPlaceholderFiles(newFiles);
+    // props.setLongPost(newContents);
   }
 
   const handleValidationError = (errors: Record<string, string> | null) => {
@@ -67,11 +62,11 @@ const LongPostBuilder = memo(() => {
   //TODO make validation for one of two values to be present, i.e either media or text is required
   const validation_rules: Record<string, ValidationRule[]> = {
     post: [
-      { type: "required", message: "Password is required." },
+      { type: "required", message: "Post text is required." },
       {
-        type: "min",
-        value: 4,
-        message: "Password must be at least 4 characters.",
+        type: "max",
+        value: 300,
+        message: "Post text must not exceeed 300 characters.",
       },
     ],
   };
@@ -79,7 +74,9 @@ const LongPostBuilder = memo(() => {
   const [currentPage, setCurrentPage] = useState(0);
 
   function addPage() {
-    setCurrentPage(currentPage + 1);
+    if (contents.length < 7) {
+      setContents([...contents, { text: "", media: [], files: [] }]);
+    }
   }
 
   return (
@@ -94,7 +91,7 @@ const LongPostBuilder = memo(() => {
             "text-main bg-base-white flex h-8 w-8 items-center justify-center rounded-full",
           )}
         >
-          <Text>{currentPage}</Text>
+          <Text>{currentPage + 1}</Text>
         </View>
         <Button
           className="btn-primary-outline ml-auto btn-sm block"
@@ -104,38 +101,63 @@ const LongPostBuilder = memo(() => {
         </Button>
       </View>
 
-      <FilePicker
-        onSelected={setPostMedia}
-        maxFiles={1}
-        className="h-56 text-main flex flex-row justify-center items-center text-center h-56 border-gray-600 mb-4 rounded-lg border"
+      <PagerView
+        initialPage={0}
+        onPageScroll={(e) => setCurrentPage(e)}
+        spacing={32}
       >
-        {placeholderFiles.length ? (
-          <FilePreview
-            removable={false}
-            files={placeholderFiles}
-            fullScreen={true}
-          />
-        ) : (
-          <View style={[tailwindClasses("p-3 mb-3 ")]}>
-            <Text className="text-center text-gray-500">
-              Select File to Upload
-            </Text>
-          </View>
-        )}
-      </FilePicker>
-      <FormInput
-        placeholder={"What's on your mind?"}
-        value={post.text as string}
-        validationRules={validation_rules.post}
-        autoComplete="username"
-        keyboardType="email-address"
-        inputMode="text"
-        textAlignVertical="top"
-        onChangeText={setPostText}
-        multiline={true}
-        numberOfLines={4}
-        onValidationError={handleValidationError}
-      />
+        {contents.map((content, index) => {
+          return (
+            <View
+              style={[tailwindClasses("rounded-md")]}
+              key={"content-" + index + "-long-post"}
+            >
+              <PagerViewIndicator
+                currentPage={currentPage}
+                length={contents.length}
+                className="mb-4"
+              />
+              <FilePicker
+                onSelected={(media) => setPostMedia(media, index)}
+                maxFiles={1}
+                ratio={[5, 3]}
+                className="h-56 text-main  flex flex-row justify-center items-center text-center border-gray-600 mb-4 rounded-lg border"
+              >
+                {content.files ? (
+                  <FilePreview
+                    removable={false}
+                    files={content.files}
+                    fullScreen={true}
+                  />
+                ) : (
+                  <View style={[tailwindClasses("p-3 mb-3 ")]}>
+                    <Text className="text-center text-gray-500">
+                      Select File to Upload
+                    </Text>
+                  </View>
+                )}
+              </FilePicker>
+
+              <FormInput
+                placeholder={"What's on your mind?"}
+                value={content.text}
+                validationRules={validation_rules.post}
+                autoComplete="username"
+                keyboardType="email-address"
+                inputMode="text"
+                textAlignVertical="top"
+                onChangeText={(text) => setPostText(text, index)}
+                multiline={true}
+                numberOfLines={7}
+                onValidationError={handleValidationError}
+              />
+              <Text className="text-sm text-gray-400 text-right">
+                {props.post?.content?.[index]?.text?.length ?? 0}/300
+              </Text>
+            </View>
+          );
+        })}
+      </PagerView>
     </>
   );
 });

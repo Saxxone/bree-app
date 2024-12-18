@@ -29,7 +29,7 @@ const PostTop = memo(({ post }: Props) => {
         />
         <View>
           <Text>{post.author.name}</Text>
-          <Text>{post.author?.username}</Text>
+          <Text>@{post.author?.username}</Text>
         </View>
         <MaterialIcons
           name="verified"

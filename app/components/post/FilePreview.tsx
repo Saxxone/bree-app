@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import * as ImagePicker from "expo-image-picker";
 import ImageViewer from "../app/ImageViewer";
 import { FlatList, Pressable, View } from "react-native";
@@ -14,11 +14,16 @@ interface Props {
 }
 
 const FilePreview = memo(({ ...props }: Props) => {
+  const classes = useMemo(
+    () => tailwindClasses(props.className ?? ""),
+    [props.className],
+  );
   return props.files.length ? (
     <FlatList
-      style={
-        props.fullScreen ? tailwindClasses("overflow-hidden rounded-lg") : {}
-      }
+      style={[
+        props.fullScreen ? tailwindClasses("overflow-hidden rounded-lg") : {},
+        classes,
+      ]}
       horizontal
       data={props.files}
       keyExtractor={(file) => file.uri}

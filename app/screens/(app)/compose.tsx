@@ -1,16 +1,11 @@
-import { View } from "react-native";
-import * as ImagePicker from "expo-image-picker";
+import { View, ScrollView } from "react-native";
 import tailwindClasses from "@/services/ClassTransformer";
 import PostDisplay from "@/components/post/PostDisplay";
-import { Post, PostType } from "@/types/post";
+import { LongPost, Post, PostType } from "@/types/post";
 import { Ionicons } from "@expo/vector-icons";
 import SelectPostType from "@/components/post/SelectPostType";
 import LongPostBuilder from "@/components/post/LongPostBuilder";
-import FilePreview from "@/components/post/FilePreview";
-import FormInput from "@/components/form/FormInput";
-import { ValidationRule } from "@/hooks/useValidation";
 import { useMemo, useState } from "react";
-import FilePicker from "@/components/app/FilePicker";
 import Text from "@/components/app/Text";
 import { FetchMethod } from "@/types/types";
 import { useLocalSearchParams } from "expo-router";
@@ -19,6 +14,7 @@ import api_routes from "@/constants/ApiRoutes";
 import { ApiConnectService } from "@/services/ApiConnectService";
 import Button from "@/components/form/Button";
 import { useSnackBar } from "@/context/SnackBarProvider";
+import ShortPostBuilder from "@/components/post/ShortPostBuilder";
 
 export default function Compose() {
   const { id, is_comment } = useLocalSearchParams();
@@ -71,27 +67,11 @@ export default function Compose() {
     bookmarkedByMe: false,
   });
 
-  const [placeholderFiles, setPlaceholderFiles] = useState<
-    ImagePicker.ImagePickerAsset[]
-  >([]);
-
   const { snackBar, setSnackBar } = useSnackBar();
 
   const [inputErrors, setInputErrors] = useState<Record<string, string> | null>(
     null,
   );
-
-  //TODO make validation for one of two values to be present, i.e either media or text is required
-  const validation_rules: Record<string, ValidationRule[]> = {
-    post: [
-      { type: "required", message: "Password is required." },
-      {
-        type: "min",
-        value: 4,
-        message: "Password must be at least 4 characters.",
-      },
-    ],
-  };
 
   const handleValidationError = (errors: Record<string, string> | null) => {
     setInputErrors(errors);
@@ -112,18 +92,10 @@ export default function Compose() {
     setPost({ ...post, text: v });
   }
 
-  function setPostMedia(data: {
-    paths: string[];
-    files: ImagePicker.ImagePickerAsset[];
-  }) {
-    setPost({ ...post, media: data.paths });
-    setPlaceholderFiles(data.files);
-  }
-
-  function removeFile(index: number) {
-    const newFiles = [...placeholderFiles];
-    newFiles.splice(index, 1);
-    setPlaceholderFiles(newFiles);
+  function setLongPost(data: any) {
+    console.log(data);
+    setPost({ ...post, longPost: { content: data } });
+    console.log(post);
   }
 
   const [isPosting, setIsPosting] = useState(false);
@@ -141,7 +113,7 @@ export default function Compose() {
   }
 
   return (
-    <View style={tailwindClasses("container")}>
+    <ScrollView style={tailwindClasses("container")}>
       {useMemo(() => {
         return (
           is_comment &&
@@ -168,33 +140,14 @@ export default function Compose() {
       )}
 
       {postType === "SHORT" ? (
-        <>
-          <FilePreview
-            removable={true}
-            files={placeholderFiles}
-            removeFile={(index) => removeFile(index)}
-          />
-          <FormInput
-            placeholder={
-              is_comment ? "Reply to this post" : "What's on your mind?"
-            }
-            value={post.text as string}
-            validationRules={validation_rules.post}
-            autoComplete="username"
-            keyboardType="email-address"
-            inputMode="text"
-            textAlignVertical="top"
-            onChangeText={setPostText}
-            multiline={true}
-            numberOfLines={4}
-            onValidationError={handleValidationError}
-          />
-        </>
+        <ShortPostBuilder
+          setPostText={setPostText}
+          post={post}
+          is_comment={Number(is_comment)}
+        />
       ) : (
-        <LongPostBuilder />
+        <LongPostBuilder post={post.longPost} setLongPost={setLongPost} />
       )}
-
-      <FilePicker onSelected={setPostMedia} maxFiles={4} />
 
       <View
         style={tailwindClasses(
@@ -228,6 +181,6 @@ export default function Compose() {
             : null}
         </View>
       }
-    </View>
+    </ScrollView>
   );
 }

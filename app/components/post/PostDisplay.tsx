@@ -56,7 +56,11 @@ const PostDisplay = memo(({ post, ellipsis, actions, isFetching }: Props) => {
           </>
         ) : (
           // LONG POST DISPLAY
-          <PagerView initialPage={0} onPageScroll={(e) => setCurrentPage(e)}>
+          <PagerView
+            initialPage={0}
+            onPageScroll={(e) => setCurrentPage(e)}
+            spacing={56}
+          >
             {post.longPost?.content?.map((content, index) => {
               return (
                 <View
@@ -70,7 +74,11 @@ const PostDisplay = memo(({ post, ellipsis, actions, isFetching }: Props) => {
                     postId={post.id}
                   />
 
-                  <PagerViewIndicator currentPage={currentPage} post={post} />
+                  <PagerViewIndicator
+                    currentPage={currentPage}
+                    length={post.longPost?.content?.length as number}
+                    ids={post.longPost?.content?.map((c) => c.id) as string[]}
+                  />
 
                   <Text
                     className="break-word mt-2 font-light"

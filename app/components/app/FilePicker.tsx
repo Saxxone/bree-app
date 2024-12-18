@@ -14,6 +14,7 @@ interface Props {
   readonly className?: string;
   readonly disabled?: boolean;
   readonly maxFiles?: number;
+  readonly ratio?: [number, number];
 }
 
 export default function FilePicker({ onSelected, ...props }: Props) {
@@ -29,6 +30,9 @@ export default function FilePicker({ onSelected, ...props }: Props) {
       mediaTypes: ["images", "videos"],
       ...(props.maxFiles === 1 && {
         allowsEditing: true,
+      }),
+      ...(props.ratio && {
+        aspect: props.ratio,
       }),
       quality: 0.8,
     });
