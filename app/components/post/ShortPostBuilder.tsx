@@ -53,6 +53,7 @@ const ShortPostBuilder = memo(({ ...props }: Props) => {
   return (
     <>
       <FilePreview
+        placeholder={placeholderFiles}
         removable={true}
         files={placeholderFiles}
         removeFile={(index) => removeFile(index)}

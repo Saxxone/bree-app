@@ -36,6 +36,15 @@ import {
   purple_700,
   purple_800,
   purple_900,
+  blue_100,
+  blue_200,
+  blue_300,
+  blue_400,
+  blue_500,
+  blue_600,
+  blue_700,
+  blue_800,
+  blue_900,
 } from "@/constants/Colors";
 
 const textColors = {
@@ -80,6 +89,16 @@ const textColors = {
   "text-purple-700": { color: purple_700 },
   "text-purple-800": { color: purple_800 },
   "text-purple-900": { color: purple_900 },
+
+  "text-blue-100": { color: blue_100 },
+  "text-blue-200": { color: blue_200 },
+  "text-blue-300": { color: blue_300 },
+  "text-blue-400": { color: blue_400 },
+  "text-blue-500": { color: blue_500 },
+  "text-blue-600": { color: blue_600 },
+  "text-blue-700": { color: blue_700 },
+  "text-blue-800": { color: blue_800 },
+  "text-blue-900": { color: blue_900 },
 };
 
 export default textColors;

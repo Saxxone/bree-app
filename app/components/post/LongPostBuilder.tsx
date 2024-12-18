@@ -11,20 +11,28 @@ import tailwindClasses from "@/services/ClassTransformer";
 import PagerViewIndicator from "../app/PagerViewIndicator";
 import PagerView from "../app/PagerView";
 import { LongPost } from "@/types/post";
+import api_routes from "@/constants/ApiRoutes";
+import { ApiConnectService } from "@/services/ApiConnectService";
+import { FetchMethod } from "@/types/types";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { useSnackBar } from "@/context/SnackBarProvider";
+import { Ionicons } from "@expo/vector-icons";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 interface Props {
-  post: Partial<LongPost> | null | undefined;
-  setLongPost: (data: any) => void;
+  readonly post: Partial<LongPost> | null | undefined;
+  readonly setLongPost: (data: any) => void;
 }
 
 const LongPostBuilder = memo(({ ...props }: Props) => {
+  const { snackBar, setSnackBar } = useSnackBar();
   const [placeholderFiles, setPlaceholderFiles] = useState<
-    ImagePicker.ImagePickerAsset[]
+    ImagePicker.ImagePickerAsset[][]
   >([]);
 
-  const [contents, setContents] = useState([
-    { text: "", media: [], files: [] },
-  ]);
+  const [contents, setContents] = useState<
+    { text: string; media: string[]; files: ImagePicker.ImagePickerAsset[] }[]
+  >([{ text: "", media: [], files: [] }]);
 
   const [inputErrors, setInputErrors] = useState<Record<string, string> | null>(
     null,
@@ -37,29 +45,21 @@ const LongPostBuilder = memo(({ ...props }: Props) => {
     props.setLongPost(new_contents);
   }
 
-  function setPostMedia(
-    data: { paths: string[]; files: ImagePicker.ImagePickerAsset[] },
-    index: number,
-  ) {
+  function removePage() {
     const new_contents = [...contents];
-    new_contents[index].media = data.paths;
-    new_contents[index].files = data.files;
+    new_contents.splice(currentPage, 1);
     setContents(new_contents);
-    props.setLongPost(new_contents);
-  }
-
-  function removeFile(index: number) {
     const newFiles = [...placeholderFiles];
-    newFiles.splice(index, 1);
+    newFiles.splice(currentPage, 1);
     setPlaceholderFiles(newFiles);
-    // props.setLongPost(newContents);
+    props.setLongPost(new_contents);
   }
 
   const handleValidationError = (errors: Record<string, string> | null) => {
     setInputErrors(errors);
   };
 
-  //TODO make validation for one of two values to be present, i.e either media or text is required
+  //TODO make validation for the two values to be present, i.e either media or text is required
   const validation_rules: Record<string, ValidationRule[]> = {
     post: [
       { type: "required", message: "Post text is required." },
@@ -79,26 +79,128 @@ const LongPostBuilder = memo(({ ...props }: Props) => {
     }
   }
 
+  const { isFetching, isError, data, refetch, error } = useQuery({
+    queryKey: ["feed"],
+    queryFn: async () => {
+      return await ApiConnectService<File[]>({
+        url: api_routes.posts.feed,
+        method: FetchMethod.POST,
+        query: {
+          skip: 0,
+          take: 9,
+        },
+      });
+    },
+    enabled: false,
+    retry: false,
+  });
+
+  function setPostMedia(
+    data: { paths: string[]; files: ImagePicker.ImagePickerAsset[] },
+    index: number,
+  ) {
+    if (data.files.length > 0) {
+      placeholderFiles[index] = data.files;
+      setPlaceholderFiles([...placeholderFiles]);
+
+      uploadMutation.mutate(data.files, {
+        onSuccess: (uploadedPaths) => {
+          setContents((prevContents) => {
+            const newContents = [...prevContents];
+            newContents[index].media = uploadedPaths as string[];
+            newContents[index].files = data.files;
+            return newContents;
+          });
+          console.log("File upload successful:", uploadedPaths, contents);
+        },
+        onError: (error) => {
+          console.error("File upload failed:", error);
+          setSnackBar({
+            ...snackBar,
+            visible: true,
+            title: "Error",
+            type: "error",
+            message: "Failed to upload files",
+          });
+        },
+      });
+    }
+  }
+
+  const uploadMutation = useMutation({
+    mutationFn: async (files: ImagePicker.ImagePickerAsset[]) => {
+      const formData = new FormData();
+      files.forEach((file) => {
+        formData.append(
+          "app_files",
+          file as unknown as Blob,
+          file.fileName as string,
+        );
+      });
+
+      try {
+        const response = await ApiConnectService<string[]>({
+          url: api_routes.files.upload,
+          method: FetchMethod.POST,
+          body: formData,
+        });
+        if (response.error) {
+          throw new Error(response.error.message || "Upload Failed");
+        }
+        return response.data;
+      } catch (error: any) {
+        console.error("Error uploading files:", error);
+        setSnackBar({
+          visible: true,
+          title: "Error",
+          message: error?.message || "Failed to upload files",
+          type: "error",
+        });
+
+        throw error;
+      }
+    },
+  });
+
   return (
     <>
       <View
-        style={tailwindClasses(
-          "flex flex-row justify-between items-center mb-3",
-        )}
+        style={tailwindClasses("flex flex-row justify-between items-center")}
       >
+        <View style={tailwindClasses("h-7 w-7")}>
+          {contents.length > 1 ? (
+            <Button
+              className="flex items-center justify-center bg-gray-900 rounded-full px-0 py-0 h-7 w-7"
+              onPress={removePage}
+              disabled={contents.length === 1}
+            >
+              <Ionicons
+                name="close-outline"
+                size={20}
+                style={tailwindClasses("text-gray-300")}
+              />
+            </Button>
+          ) : null}
+        </View>
+
         <View
           style={tailwindClasses(
-            "text-main bg-base-white flex h-8 w-8 items-center justify-center rounded-full",
+            "text-main bg-base-white flex mx-auto h-8 w-8 items-center justify-center rounded-full",
           )}
         >
-          <Text>{currentPage + 1}</Text>
+          <Text className="text-sm">{currentPage + 1}</Text>
         </View>
-        <Button
-          className="btn-primary-outline ml-auto btn-sm block"
-          onPress={addPage}
-        >
-          Add Page
-        </Button>
+
+        <View style={tailwindClasses("w-6 mr-2")}>
+          {contents.length < 7 ? (
+            <AntDesign
+              name="plussquare"
+              size={24}
+              style={tailwindClasses("text-blue-300 ")}
+              onPress={addPage}
+            />
+          ) : null}
+        </View>
       </View>
 
       <PagerView
@@ -112,11 +214,15 @@ const LongPostBuilder = memo(({ ...props }: Props) => {
               style={[tailwindClasses("rounded-md")]}
               key={"content-" + index + "-long-post"}
             >
-              <PagerViewIndicator
-                currentPage={currentPage}
-                length={contents.length}
-                className="mb-4"
-              />
+              <View style={tailwindClasses("h-6")}>
+                {contents.length > 1 ? (
+                  <PagerViewIndicator
+                    currentPage={currentPage}
+                    length={contents.length}
+                    className="mb-4"
+                  />
+                ) : null}
+              </View>
               <FilePicker
                 onSelected={(media) => setPostMedia(media, index)}
                 maxFiles={1}
@@ -126,6 +232,7 @@ const LongPostBuilder = memo(({ ...props }: Props) => {
                 {content.files ? (
                   <FilePreview
                     removable={false}
+                    placeholder={placeholderFiles[index]}
                     files={content.files}
                     fullScreen={true}
                   />

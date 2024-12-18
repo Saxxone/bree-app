@@ -6,11 +6,12 @@ import tailwindClasses from "@/services/ClassTransformer";
 import { Ionicons } from "@expo/vector-icons";
 
 interface Props {
-  removable: boolean;
-  files: ImagePicker.ImagePickerAsset[];
-  className?: string;
-  fullScreen?: boolean;
-  removeFile?: (index: number) => void;
+  readonly removable: boolean;
+  readonly files: ImagePicker.ImagePickerAsset[];
+  readonly placeholder?: ImagePicker.ImagePickerAsset[];
+  readonly className?: string;
+  readonly fullScreen?: boolean;
+  readonly removeFile?: (index: number) => void;
 }
 
 const FilePreview = memo(({ ...props }: Props) => {
@@ -49,7 +50,10 @@ const FilePreview = memo(({ ...props }: Props) => {
               />
             </Pressable>
           )}
-          <ImageViewer source={file.item.uri} />
+          <ImageViewer
+            source={file.item.uri}
+            placeholder={props.placeholder?.[file.index].uri}
+          />
         </View>
       )}
     />

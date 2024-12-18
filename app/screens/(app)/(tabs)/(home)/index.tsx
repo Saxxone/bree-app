@@ -2,7 +2,7 @@ import PostDisplay from "@/components/post/PostDisplay";
 import { FlatList, RefreshControl, View } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import api_routes from "@/constants/ApiRoutes";
-import { FetchMethod, Snack } from "@/types/types";
+import { FetchMethod } from "@/types/types";
 import { ApiConnectService } from "@/services/ApiConnectService";
 import { Post } from "@/types/post";
 import Text from "@/components/app/Text";
