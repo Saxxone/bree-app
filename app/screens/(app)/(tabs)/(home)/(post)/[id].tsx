@@ -9,13 +9,13 @@ import tailwindClasses from "@/services/ClassTransformer";
 import { Post } from "@/types/post";
 import { FetchMethod } from "@/types/types";
 import { useQuery } from "@tanstack/react-query";
-import { useMemo, useContext } from "react";
-import SnackBarContext from "@/context/SnackBarContext";
+import { useMemo } from "react";
+import { useSnackBar } from "@/context/SnackBarProvider";
 
 export default function PostScreen() {
   const { id } = useLocalSearchParams();
 
-  const { snackBar, setSnackBarState } = useContext(SnackBarContext);
+  const { snackBar, setSnackBar } = useSnackBar();
 
   const {
     isFetching: is_fetching_post,
@@ -59,7 +59,7 @@ export default function PostScreen() {
 
   const Post = useMemo(() => {
     if (is_post_error) {
-      setSnackBarState({
+      setSnackBar({
         ...snackBar,
         visible: true,
         title: "Error",
@@ -87,7 +87,7 @@ export default function PostScreen() {
 
   const Comments = useMemo(() => {
     if (is_comments_error) {
-      setSnackBarState({
+      setSnackBar({
         ...snackBar,
         visible: true,
         title: "Error",

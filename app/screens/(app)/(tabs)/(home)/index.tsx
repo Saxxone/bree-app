@@ -8,14 +8,13 @@ import { Post } from "@/types/post";
 import Text from "@/components/app/Text";
 import { violet_500 } from "@/constants/Colors";
 import tailwindClasses from "@/services/ClassTransformer";
-import SnackBar from "@/components/app/SnackBar";
-import { useContext, useMemo } from "react";
+import { useMemo } from "react";
 import { app_routes } from "@/constants/AppRoutes";
 import FloatingActionButton from "@/components/app/FloatingActionButton";
-import SnackBarContext from "@/context/SnackBarContext";
+import { useSnackBar } from "@/context/SnackBarProvider";
 
 export default function HomeScreen() {
-  const { snackBar, setSnackBarState } = useContext(SnackBarContext);
+  const { snackBar, setSnackBar } = useSnackBar();
 
   const { isFetching, isError, data, refetch, error } = useQuery({
     queryKey: ["feed"],
@@ -35,7 +34,7 @@ export default function HomeScreen() {
 
   const Feed = useMemo(() => {
     if (isError) {
-      return setSnackBarState({
+      return setSnackBar({
         ...snackBar,
         visible: true,
         title: "Error",

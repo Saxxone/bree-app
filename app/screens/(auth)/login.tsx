@@ -1,7 +1,7 @@
 import { Link, router } from "expo-router";
 import * as Keychain from "react-native-keychain";
 import { View, ActivityIndicator } from "react-native";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import FormInput from "@/components/form/FormInput";
 import Text from "@/components/app/Text";
 import SpacerY from "@/components/app/SpacerY";
@@ -13,13 +13,12 @@ import { ApiConnectService } from "@/services/ApiConnectService";
 import { useQuery } from "@tanstack/react-query";
 import api_routes from "@/constants/ApiRoutes";
 import { FetchMethod } from "@/types/types";
-import SnackBar from "@/components/app/SnackBar";
+import { useSnackBar } from "@/context/SnackBarProvider";
 import { User } from "@/types/user";
 import tailwindClasses from "@/services/ClassTransformer";
-import SnackBarContext from "@/context/SnackBarContext";
 
 export default function Login() {
-  const { snackBar, setSnackBarState } = useContext(SnackBarContext);
+  const { snackBar, setSnackBar } = useSnackBar();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -79,7 +78,7 @@ export default function Login() {
         );
         router.replace(app_routes.post.home);
       } else if (error) {
-        setSnackBarState({
+        setSnackBar({
           ...snackBar,
           visible: true,
           title: "Error",

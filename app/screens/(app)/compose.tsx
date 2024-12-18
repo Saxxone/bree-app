@@ -9,19 +9,16 @@ import LongPostBuilder from "@/components/post/LongPostBuilder";
 import FilePreview from "@/components/post/FilePreview";
 import FormInput from "@/components/form/FormInput";
 import { ValidationRule } from "@/hooks/useValidation";
-import { useContext, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import FilePicker from "@/components/app/FilePicker";
 import Text from "@/components/app/Text";
-import SnackBar from "@/components/app/SnackBar";
-import { Snack, FetchMethod } from "@/types/types";
+import { FetchMethod } from "@/types/types";
 import { useLocalSearchParams } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 import api_routes from "@/constants/ApiRoutes";
 import { ApiConnectService } from "@/services/ApiConnectService";
 import Button from "@/components/form/Button";
-import SpacerX from "@/components/app/SpacerX";
-import SpacerY from "@/components/app/SpacerY";
-import SnackBarContext from "@/context/SnackBarContext";
+import { useSnackBar } from "@/context/SnackBarProvider";
 
 export default function Compose() {
   const { id, is_comment } = useLocalSearchParams();
@@ -78,7 +75,7 @@ export default function Compose() {
     ImagePicker.ImagePickerAsset[]
   >([]);
 
-  const { snackBar, setSnackBarState } = useContext(SnackBarContext);
+  const { snackBar, setSnackBar } = useSnackBar();
 
   const [inputErrors, setInputErrors] = useState<Record<string, string> | null>(
     null,
