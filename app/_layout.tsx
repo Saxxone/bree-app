@@ -81,6 +81,12 @@ function LayoutContents() {
           }}
         />
         <Stack.Screen
+          name="index"
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
           name="screens/(auth)"
           options={{
             headerShown: false,
