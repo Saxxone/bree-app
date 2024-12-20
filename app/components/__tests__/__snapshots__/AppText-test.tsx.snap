@@ -2,20 +2,18 @@
 
 exports[`renders correctly 1`] = `
 <Text
+  ellipsizeMode="tail"
   style={
     [
       {
-        "color": "#11181C",
+        "fontFamily": "Outfit Regular",
+        "fontSize": 15,
       },
       {
-        "fontSize": 16,
-        "lineHeight": 24,
+        "color": "#374151",
       },
       undefined,
-      undefined,
-      undefined,
-      undefined,
-      undefined,
+      {},
     ]
   }
 >

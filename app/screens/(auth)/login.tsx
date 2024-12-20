@@ -41,7 +41,7 @@ export default function Login() {
     return true;
   };
 
-  const { isFetching, error, isError, refetch } = useQuery({
+  const { isFetching, error, refetch } = useQuery({
     queryKey: ["login", email, password],
     queryFn: async () => {
       const data = {

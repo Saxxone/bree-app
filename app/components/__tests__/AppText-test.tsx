@@ -1,10 +1,10 @@
 import * as React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react-native";
 
 import Text from "../app/Text";
 
 it(`renders correctly`, () => {
-  const tree = renderer.create(<Text>Snapshot test!</Text>).toJSON();
+  const tree = render(<Text>Snapshot test!</Text>).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

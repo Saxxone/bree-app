@@ -1,5 +1,5 @@
 import { Theme } from "@react-navigation/native";
-import { fonts } from "@react-navigation/native/src/theming/fonts";
+import { fonts } from "@/assets/fonts/fonts";
 import {
   gray_100,
   gray_200,
