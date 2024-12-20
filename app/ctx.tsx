@@ -1,4 +1,9 @@
-import { useContext, createContext, type PropsWithChildren } from "react";
+import {
+  useContext,
+  createContext,
+  type PropsWithChildren,
+  useMemo,
+} from "react";
 import { useStorageState } from "@/useStorageState";
 
 const AuthContext = createContext<{
@@ -25,24 +30,26 @@ export function useSession() {
   return value;
 }
 
-export function SessionProvider({ children }: PropsWithChildren) {
+interface Props extends PropsWithChildren {
+  readonly children: React.ReactNode;
+}
+
+export function SessionProvider({ children }: Props) {
   const [[is_loading, session], setSession] = useStorageState("session");
 
-  return (
-    <AuthContext.Provider
-      value={{
-        signIn: () => {
-          // Perform sign-in logic here save user to state
-          setSession("xxx");
-        },
-        signOut: () => {
-          setSession(null);
-        },
-        session,
-        isLoading: is_loading,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+  const value = useMemo(() => {
+    return {
+      signIn: () => {
+        // Perform sign-in logic here save user to state
+        setSession("xxx");
+      },
+      signOut: () => {
+        setSession(null);
+      },
+      session,
+      isLoading: is_loading,
+    };
+  }, [is_loading, session, setSession]);
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
