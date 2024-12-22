@@ -10,7 +10,7 @@ import Button from "../form/Button";
 import tailwindClasses from "@/services/ClassTransformer";
 import PagerViewIndicator from "../app/PagerViewIndicator";
 import PagerView from "../app/PagerView";
-import { LongPost } from "@/types/post";
+import { LongPost, LongPostBlock } from "@/types/post";
 import api_routes from "@/constants/ApiRoutes";
 import { ApiConnectService } from "@/services/ApiConnectService";
 import { FetchMethod } from "@/types/types";
@@ -21,7 +21,7 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 
 interface Props {
   readonly post: Partial<LongPost> | null | undefined;
-  readonly setLongPost: (data: any) => void;
+  readonly setLongPost: (data: LongPostBlock[]) => void;
   readonly onValidationError: (errors: Record<string, string> | null) => void;
 }
 
@@ -31,9 +31,12 @@ const LongPostBuilder = memo(({ ...props }: Props) => {
     ImagePicker.ImagePickerAsset[][]
   >([]);
 
-  const [contents, setContents] = useState<
-    { text: string; media: string[]; files: ImagePicker.ImagePickerAsset[] }[]
-  >([{ text: "", media: [], files: [] }]);
+  const [contents, setContents] = useState<LongPostBlock[]>([
+    {
+      text: "",
+      media: [],
+    },
+  ]);
 
   function setPostText(v: string, index: number) {
     const new_contents = [...contents];
@@ -72,7 +75,7 @@ const LongPostBuilder = memo(({ ...props }: Props) => {
 
   function addPage() {
     if (contents.length < 7) {
-      setContents([...contents, { text: "", media: [], files: [] }]);
+      setContents([...contents, { text: "", media: [] }]);
     }
   }
 
@@ -89,7 +92,6 @@ const LongPostBuilder = memo(({ ...props }: Props) => {
           setContents((prevContents) => {
             const newContents = [...prevContents];
             newContents[index].media = uploadedPaths as string[];
-            newContents[index].files = data.files;
             return newContents;
           });
           console.log("File upload successful:", uploadedPaths, contents);
@@ -212,11 +214,10 @@ const LongPostBuilder = memo(({ ...props }: Props) => {
                 onValidationError={handleValidationError}
                 className="h-56 text-main  flex flex-row justify-center items-center text-center border-gray-600 mb-4 rounded-lg border"
               >
-                {content.files ? (
+                {placeholderFiles[index] ? (
                   <FilePreview
                     removable={false}
-                    placeholder={placeholderFiles[index]}
-                    files={content.files}
+                    files={placeholderFiles[index]}
                     fullScreen={true}
                   />
                 ) : (

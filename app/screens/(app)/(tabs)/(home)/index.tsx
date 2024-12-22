@@ -71,7 +71,7 @@ export default function HomeScreen() {
         </View>
       );
     }
-  }, [isFetching, isError, data, snackBar, refetch]);
+  }, [isFetching, isError, data, snackBar, setSnackBar, error, refetch]);
   return (
     <>
       {Feed}

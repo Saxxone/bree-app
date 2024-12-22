@@ -55,7 +55,7 @@ const SnackBar = memo(({ snack, onClose }: Props) => {
         clearTimeout(timer_ref.current);
       }
     };
-  }, [snack.visible, onClose]);
+  }, [snack.visible, fade_anim, onClose]);
 
   return (
     <Animated.View

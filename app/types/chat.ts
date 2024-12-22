@@ -9,7 +9,7 @@ export interface Chat {
   media: string | null | undefined;
   mediaType?: MediaType;
   read: boolean;
-  id: string | null | undefined;
+  id?: string | null;
   updatedAt: DateString | null;
   deletedAt: DateString | null;
   deletedBy?: Partial<User>;

@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { Pressable, View, useColorScheme } from "react-native";
+import { View, useColorScheme } from "react-native";
 import Button from "../form/Button";
 import { PostType } from "@/types/post";
 import tailwindClasses from "@/services/ClassTransformer";

@@ -63,13 +63,13 @@ function LayoutContents() {
 
   const modifySnack = useCallback(() => {
     setSnackBar(snackBar);
-  }, [setSnackBar]);
+  }, [snackBar, setSnackBar]);
 
   useEffect(() => {
     if (snackBar.visible !== showSnackBar) {
       setShowSnackBar(snackBar.visible);
     }
-  }, [snackBar.visible]);
+  }, [snackBar.visible, showSnackBar]);
 
   return (
     <>

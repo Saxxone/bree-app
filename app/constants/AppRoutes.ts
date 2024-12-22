@@ -1,5 +1,3 @@
-import type { RelativePathString } from "expo-router";
-
 export const app_routes: Record<string, any> = {
   home: "/screens/(app)/(tabs)/(home)",
   login: "/screens/(auth)/login",

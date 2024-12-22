@@ -91,13 +91,7 @@ export default function FilePicker({ onSelected, ...props }: Props) {
         Object.keys(aggregated_errors).length > 0 ? aggregated_errors : null,
       );
     }
-  }, [
-    file,
-    props.validationRules,
-    props.onValidationError,
-    validate,
-    setErrors,
-  ]);
+  }, [file, props, validate, setErrors]);
 
   const classes = useMemo(
     () => tailwindClasses(props.className ?? ""),

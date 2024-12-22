@@ -121,7 +121,7 @@ const FormInput = memo(
           <Ionicons name={prependIcon} size={18} color={text_color.color} />
         </Pressable>
       );
-    }, [prependIcon, text_color]);
+    }, [prependIcon, text_color, onPrependPressed]);
 
     const memoAppendIcon = useMemo(() => {
       if (!appendIcon) return null;
@@ -134,7 +134,7 @@ const FormInput = memo(
           <Ionicons name={appendIcon} size={18} color={text_color.color} />
         </Pressable>
       );
-    }, [appendIcon, text_color]);
+    }, [appendIcon, text_color, onAppendPressed]);
 
     return (
       <View style={[tailwindClasses("mb-4"), classes, style]}>

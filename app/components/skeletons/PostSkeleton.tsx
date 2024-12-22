@@ -6,9 +6,8 @@ import tailwindClasses from "@/services/ClassTransformer";
 import { DarkStyle, LightStyle } from "@/constants/Theme";
 
 const PostSkeleton = memo(() => {
-  const widths = ["w-40", "w-52", "w-full"];
-
   const random_widths = useMemo(() => {
+    const widths = ["w-40", "w-52", "w-full"];
     const shuffledWidths = [...widths];
 
     for (let i = shuffledWidths.length - 1; i > 0; i--) {
@@ -19,7 +18,7 @@ const PostSkeleton = memo(() => {
       ];
     }
     return shuffledWidths.slice(0, 3);
-  }, [widths]);
+  }, []);
   const color_scheme = useColorScheme();
 
   const bg_color = useMemo(
@@ -53,7 +52,7 @@ const PostSkeleton = memo(() => {
         {random_widths.map((w) => (
           <SkeletonLoader
             width={w}
-            key={w + Math.random() + "skeleton"}
+            key={w + "skeleton"}
             height="h-3"
             radius="rounded-lg"
             className="mb-2"

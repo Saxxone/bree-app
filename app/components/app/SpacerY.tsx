@@ -27,7 +27,7 @@ const SpacerY = memo(({ size }: Props) => {
     }
   };
 
-  const useVerticalPadding = useMemo(() => verticalPadding(), [size]);
+  const useVerticalPadding = useMemo(() => verticalPadding(), []);
 
   return <View style={{ paddingVertical: useVerticalPadding }} />;
 });

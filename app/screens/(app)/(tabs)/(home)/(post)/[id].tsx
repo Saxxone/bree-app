@@ -22,7 +22,6 @@ export default function PostScreen() {
     isError: is_post_error,
     error: post_error,
     data: post,
-    refetch: refetchPost,
   } = useQuery({
     queryKey: ["post"],
     queryFn: async () => {
@@ -83,7 +82,14 @@ export default function PostScreen() {
         </View>
       );
     }
-  }, [is_fetching_post, is_post_error, post, snackBar]);
+  }, [
+    is_fetching_post,
+    is_post_error,
+    post,
+    snackBar,
+    setSnackBar,
+    post_error,
+  ]);
 
   const Comments = useMemo(() => {
     if (is_comments_error) {
@@ -136,6 +142,8 @@ export default function PostScreen() {
     comments,
     snackBar,
     refetchComments,
+    comment_error,
+    setSnackBar,
   ]);
   return (
     <ScrollView>

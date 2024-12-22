@@ -16,7 +16,7 @@ const MediaViewer = memo(({ post }: Props) => {
     );
   });
 
-  const view = useMemo(() => posts, [post]);
+  const view = useMemo(() => posts, [posts]);
 
   return view;
 });

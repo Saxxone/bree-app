@@ -27,7 +27,7 @@ const SpacerX = memo(({ size }: Props) => {
     }
   };
 
-  const useHorizontalPadding = useMemo(() => horizontalPadding(), [size]);
+  const useHorizontalPadding = useMemo(() => horizontalPadding(), []);
 
   return <View style={{ paddingHorizontal: useHorizontalPadding }} />;
 });

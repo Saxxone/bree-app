@@ -29,15 +29,15 @@ export interface Post {
 export type PostType = "LONG" | "SHORT";
 
 export interface LongPost {
-  id: string | null | undefined;
+  id?: string | null;
   content: Partial<LongPostBlock>[];
   author?: Partial<Author>;
   authorId: string | null | undefined;
 }
 
 export interface LongPostBlock {
-  id: string | null | undefined;
-  longPostId: string | null | undefined;
+  id?: string | null;
+  longPostId?: string | null;
   text: string;
   media: string[];
   mediaTypes?: MediaType[];

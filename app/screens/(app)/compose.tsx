@@ -28,7 +28,7 @@ export default function Compose() {
   });
   const [isPosting, setIsPosting] = useState(false);
   const [postType, setPostType] = useState<PostType>("SHORT");
-  const [postAttribute, setPostAttribute] = useState<"draft" | "publish">(
+  const [postCreationType, setPostCreationType] = useState<"draft" | "publish">(
     "publish",
   );
 
@@ -36,12 +36,7 @@ export default function Compose() {
     null,
   );
 
-  const {
-    isFetching: is_fetching_parent,
-
-    data: parent_post,
-    refetch: refetchParentPost,
-  } = useQuery({
+  const { isFetching: is_fetching_parent, data: parent_post } = useQuery({
     queryKey: ["post"],
     queryFn: async () => {
       return await ApiConnectService<Post>({
@@ -55,16 +50,15 @@ export default function Compose() {
 
   const {
     isFetching: is_creating_post,
-    data: new_post,
     error: post_error,
     isError: is_post_error,
-    refetch: creatPost,
+    refetch: createPost,
   } = useQuery({
     queryKey: ["new-post"],
     queryFn: async () => {
       return await ApiConnectService<Post>({
         url:
-          postAttribute === "publish"
+          postCreationType === "publish"
             ? api_routes.posts.create_post
             : api_routes.posts.create_draft,
         method: FetchMethod.POST,
@@ -80,27 +74,23 @@ export default function Compose() {
   };
 
   function setLongPost(data: LongPostBlock[]) {
-    console.log(inputErrors);
     setPost({ ...post, longPost: { content: data } });
   }
 
   function setShortPost(data: Partial<Post>) {
-    console.log(inputErrors);
     setPost({ ...post, ...data });
   }
 
-  function attributePostType(type: PostType) {
+  function applyPostType(type: PostType) {
     setPostType(() => type);
     setPost({ ...post, type });
   }
 
   async function attemptCreatePost(type: "draft" | "publish") {
     setIsPosting(true);
-    setPostAttribute(type);
+    setPostCreationType(type);
 
-    console.log("Attempting to create post of type:", type, post);
-
-    await creatPost();
+    await createPost();
 
     if (is_post_error) {
       setSnackBar({
@@ -109,9 +99,8 @@ export default function Compose() {
         message: post_error.message,
       });
     } else {
-      is_comment
-        ? router.replace(app_routes.post.view(post.id))
-        : router.replace(app_routes.post.home);
+      if (is_comment) router.replace(app_routes.post.view(post.id));
+      else router.replace(app_routes.post.home);
     }
     setIsPosting(false);
   }
@@ -137,10 +126,10 @@ export default function Compose() {
             </>
           )
         );
-      }, [is_comment, parent_post, is_fetching_parent, refetchParentPost])}
+      }, [is_comment, parent_post, is_fetching_parent])}
 
       {!is_comment && (
-        <SelectPostType type={postType} onSelected={attributePostType} />
+        <SelectPostType type={postType} onSelected={applyPostType} />
       )}
 
       {postType === "SHORT" ? (

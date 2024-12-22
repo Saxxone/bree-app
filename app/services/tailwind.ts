@@ -1,20 +1,3 @@
-import {
-  gray_100,
-  gray_200,
-  gray_900,
-  rounded_lg,
-  white,
-  violet_400,
-  violet_700,
-  gray_300,
-  gray_400,
-  gray_500,
-  gray_600,
-  gray_700,
-  gray_800,
-  rose_500,
-  rose_100,
-} from "@/constants/Colors";
 import textColors from "@/services/tailwind-classes/textColors";
 import backgroundColors from "@/services/tailwind-classes/backgroundColors";
 import fontWeights from "@/services/tailwind-classes/fontWeights";
