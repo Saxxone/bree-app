@@ -61,8 +61,11 @@ function LayoutContents() {
   const { snackBar, setSnackBar } = useSnackBar();
   const [showSnackBar, setShowSnackBar] = useState(false);
 
-  const modifySnack = useCallback(() => {
-    setSnackBar(snackBar);
+  const closeSnack = useCallback(() => {
+    setSnackBar({
+      ...snackBar,
+      visible: false,
+    });
   }, [snackBar, setSnackBar]);
 
   useEffect(() => {
@@ -94,7 +97,7 @@ function LayoutContents() {
         />
         <Slot />
       </Stack>
-      {showSnackBar && <SnackBar snack={snackBar} onClose={modifySnack} />}
+      {showSnackBar && <SnackBar snack={snackBar} onClose={closeSnack} />}
     </>
   );
 }

@@ -68,44 +68,44 @@ export async function ApiConnectService<T>({
   try {
     const access_token = await retrieveTokenFromKeychain();
 
-    let fullUrl = url;
+    const parse_body = body instanceof FormData ? body : JSON.stringify(body);
+
+    let full_url = url;
 
     if (params) {
-      const paramParts = Object.entries(params)
+      const param_parts = Object.entries(params)
         .map(([key, value]) => `${key}=${value}`)
         .join("&");
-      fullUrl += `/${paramParts}`; // Assuming params are path parameters
+      full_url += `/${param_parts}`;
     }
 
     if (query) {
-      const queryParams = new URLSearchParams();
+      const query_params = new URLSearchParams();
       for (const [key, value] of Object.entries(query)) {
-        queryParams.append(key, value.toString());
+        query_params.append(key, value.toString());
       }
-      fullUrl += `?${queryParams.toString()}`;
+      full_url += `?${query_params.toString()}`;
     }
 
-    const response = await fetch(`${fullUrl}`, {
+    const response = await fetch(`${full_url}`, {
       method,
       headers: {
-        "Content-Type": content_type ?? "application/json",
         Authorization: "Bearer " + access_token,
         ...headers,
-
-        ...(content_type === "multipart/form-data" && {
-          enctype: "multipart/form-data",
+        ...(content_type !== "multipart/form-data" && {
+          "Content-Type": content_type ?? "application/json",
         }),
       },
-      body: method !== FetchMethod.GET ? JSON.stringify(body) : undefined,
+      body: method !== FetchMethod.GET ? parse_body : undefined,
     });
 
     if (!response.ok) {
-      const errorData = await response
+      const error_data = await response
         .json()
         .catch(() => ({ message: response.statusText }));
 
-      console.error("API error", response.status, errorData);
-      throw new Error(errorData.message);
+      console.error("API error", response.status, error_data);
+      throw new Error(error_data.message);
     }
     const data: T = await response.json();
     return { data, error: null };

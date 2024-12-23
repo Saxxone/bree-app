@@ -55,7 +55,6 @@ const ShortPostBuilder = memo(({ ...props }: Props) => {
             new_post.media = uploadedPaths as string[];
             return new_post;
           });
-          console.log("File upload successful:", uploadedPaths, shortPost);
           props.setShortPost(shortPost);
         },
         onError: (error) => {
@@ -65,7 +64,7 @@ const ShortPostBuilder = memo(({ ...props }: Props) => {
             visible: true,
             title: "Error",
             type: "error",
-            message: "Failed to upload files",
+            message: "Failed to upload",
           });
         },
       });
@@ -74,11 +73,15 @@ const ShortPostBuilder = memo(({ ...props }: Props) => {
 
   const uploadMutation = useMutation({
     mutationFn: async (files: ImagePicker.ImagePickerAsset[]) => {
-      const formData = new FormData();
+      const form_data = new FormData();
       files.forEach((file) => {
-        formData.append(
+        form_data.append(
           "app_files",
-          file as unknown as Blob,
+          {
+            uri: file.uri,
+            name: file.fileName,
+            type: file.type,
+          } as any,
           file.fileName as string,
         );
       });
@@ -87,18 +90,18 @@ const ShortPostBuilder = memo(({ ...props }: Props) => {
         const response = await ApiConnectService<string[]>({
           url: api_routes.files.upload,
           method: FetchMethod.POST,
-          body: formData,
+          body: form_data,
         });
         if (response.error) {
           throw new Error(response.error.message || "Upload Failed");
         }
         return response.data;
       } catch (error: any) {
-        console.error("Error uploading files:", error);
+        removeFile(0);
         setSnackBar({
           visible: true,
           title: "Error",
-          message: error?.message || "Failed to upload files",
+          message: error?.message || "Failed to upload",
           type: "error",
         });
 
@@ -150,7 +153,7 @@ const ShortPostBuilder = memo(({ ...props }: Props) => {
       <Text className="text-sm text-gray-400 text-right">
         {props.post.text?.length ?? 0}/300
       </Text>
-      <FilePicker onSelected={setPostMedia} maxFiles={4} />
+      <FilePicker onSelected={setPostMedia} maxFiles={1} ratio={[5, 3]} />
     </>
   );
 });

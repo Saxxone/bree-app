@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import Text from "../app/Text";
 import FilePicker from "../app/FilePicker";
 import FilePreview from "./FilePreview";
@@ -55,6 +55,24 @@ const LongPostBuilder = memo(({ ...props }: Props) => {
     props.setLongPost(new_contents);
   }
 
+  const removeFile = useCallback((contentIndex: number, fileIndex: number) => {
+    setPlaceholderFiles((prevFiles) => {
+      const newFiles = [...prevFiles];
+      if (newFiles[contentIndex]) {
+        newFiles[contentIndex].splice(fileIndex, 1);
+      }
+      return newFiles;
+    });
+    // ALSO remove the corresponding media URI from contents state:
+    setContents((prevContents) => {
+      const newContents = [...prevContents];
+      if (newContents[contentIndex]) {
+        newContents[contentIndex].media?.splice(fileIndex, 1);
+      }
+      return newContents;
+    });
+  }, []);
+
   const handleValidationError = (errors: Record<string, string> | null) => {
     props.onValidationError(errors);
   };
@@ -103,7 +121,7 @@ const LongPostBuilder = memo(({ ...props }: Props) => {
             visible: true,
             title: "Error",
             type: "error",
-            message: "Failed to upload files",
+            message: "Failed to upload",
           });
         },
       });
@@ -112,9 +130,9 @@ const LongPostBuilder = memo(({ ...props }: Props) => {
 
   const uploadMutation = useMutation({
     mutationFn: async (files: ImagePicker.ImagePickerAsset[]) => {
-      const formData = new FormData();
+      const form_data = new FormData();
       files.forEach((file) => {
-        formData.append(
+        form_data.append(
           "app_files",
           file as unknown as Blob,
           file.fileName as string,
@@ -125,22 +143,34 @@ const LongPostBuilder = memo(({ ...props }: Props) => {
         const response = await ApiConnectService<string[]>({
           url: api_routes.files.upload,
           method: FetchMethod.POST,
-          body: formData,
+          body: form_data,
         });
         if (response.error) {
           throw new Error(response.error.message || "Upload Failed");
         }
         return response.data;
       } catch (error: any) {
-        console.error("Error uploading files:", error);
-        setSnackBar({
-          visible: true,
-          title: "Error",
-          message: error?.message || "Failed to upload files",
-          type: "error",
-        });
-
-        throw error;
+        throw new Error(error);
+      }
+    },
+    onError: (
+      error,
+      variables,
+      context: { contentIndex: number; fileIndex: number } | undefined,
+    ) => {
+      console.error("Mutation error:", error);
+      setSnackBar({
+        visible: true,
+        title: "Error",
+        message: error?.message || "Failed to upload",
+        type: "error",
+      });
+      console.log(context);
+      if (
+        context?.contentIndex !== undefined &&
+        context?.fileIndex !== undefined
+      ) {
+        removeFile(context.contentIndex, context.fileIndex);
       }
     },
   });

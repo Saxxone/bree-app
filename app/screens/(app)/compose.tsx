@@ -40,7 +40,7 @@ export default function Compose() {
     queryKey: ["post"],
     queryFn: async () => {
       return await ApiConnectService<Post>({
-        url: api_routes.posts.getPostById(id as string),
+        url: id && api_routes.posts.getPostById(id as string),
         method: FetchMethod.GET,
       });
     },
@@ -65,7 +65,7 @@ export default function Compose() {
         body: post,
       });
     },
-    enabled: true,
+    enabled: false,
     retry: false,
   });
 
@@ -87,6 +87,16 @@ export default function Compose() {
   }
 
   async function attemptCreatePost(type: "draft" | "publish") {
+    const isShortPostEmpty =
+      post.type === "SHORT" && !post.text && !post.media?.length;
+
+    const isLongPostEmpty =
+      post.type === "LONG" && !post?.longPost?.content?.length;
+
+    if (isShortPostEmpty && isLongPostEmpty) {
+      return;
+    }
+
     setIsPosting(true);
     setPostCreationType(type);
 

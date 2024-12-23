@@ -21,20 +21,14 @@ const FilePreview = memo(({ ...props }: Props) => {
   );
   return props.files.length ? (
     <FlatList
-      style={[
-        props.fullScreen ? tailwindClasses("overflow-hidden rounded-lg") : {},
-        classes,
-      ]}
+      style={[classes]}
       horizontal
       data={props.files}
       keyExtractor={(file) => file.uri}
       showsHorizontalScrollIndicator={true}
       renderItem={(file) => (
         <View
-          style={[
-            tailwindClasses(props.fullScreen ? "w-96" : "w-48 my-3 mr-4"),
-            tailwindClasses("relative rounded-lg h-56"),
-          ]}
+          style={[tailwindClasses("w-48 my-3 mr-4 relative rounded-lg h-56")]}
         >
           {props.removable && props.removeFile && (
             <Pressable

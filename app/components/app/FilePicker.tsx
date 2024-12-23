@@ -39,7 +39,7 @@ export default function FilePicker({ onSelected, ...props }: Props) {
       ...(props.ratio && {
         aspect: props.ratio,
       }),
-      quality: 0.8,
+      quality: 1,
     });
 
     if (!result.canceled) {
@@ -50,7 +50,6 @@ export default function FilePicker({ onSelected, ...props }: Props) {
       setFile(result.assets);
       validateInput();
     } else {
-      console.log("User canceled image picker");
       setSnackBar({
         ...snackBar,
         visible: true,
