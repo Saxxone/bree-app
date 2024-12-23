@@ -34,7 +34,7 @@ export default function FilePicker({ onSelected, ...props }: Props) {
       selectionLimit: props.maxFiles ?? 1,
       mediaTypes: ["images", "videos"],
       ...(props.maxFiles === 1 && {
-        allowsEditing: true,
+        allowsEditing: false,
       }),
       ...(props.ratio && {
         aspect: props.ratio,

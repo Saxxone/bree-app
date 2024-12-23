@@ -6,26 +6,27 @@ interface Props {
    * The base URL for the API endpoint.
    */
   url: string;
+
   /**
    * Path parameters to be appended to the URL.  These are added directly to the path, separated by slashes. For example, `{id: 123}` would add `/id=123` to the URL.
    */
   params?: Record<string, string | number>;
+
   /**
    * Query parameters to be appended to the URL. These are added after a `?` and are formatted as standard query string parameters.  For example, `{page: 1, limit: 10}` becomes `?page=1&limit=10`.
    */
   query?: Record<string, string | number>;
+
   /**
    * The HTTP method to use (GET, POST, PUT, DELETE, etc.).
    */
   method: FetchMethod;
+
   /**
-   * The request body.  This will be JSON.stringified unless the 'content_type' is set to 'multipart/form-data'.
+   * The request body.  This will be JSON.stringified unless the it is 'multipart/form-data'.
    */
   body?: any;
-  /**
-   * The Content-Type header for the request. Defaults to 'application/json'.  Set this to 'multipart/form-data' for file uploads.
-   */
-  content_type?: string;
+
   /**
    * Additional headers to include in the request.
    */
@@ -37,7 +38,7 @@ interface Props {
  *
  * @returns {Promise<string | undefined>} The stored token, or undefined if retrieval fails or no token is found.
  */
-export async function retrieveTokenFromKeychain() {
+export async function retrieveTokenFromKeychain(): Promise<string | undefined> {
   const api_url = process.env.EXPO_PUBLIC_API_BASE_URL as string;
   try {
     const credentials = await Keychain.getInternetCredentials(api_url);
@@ -62,7 +63,6 @@ export async function ApiConnectService<T>({
   query,
   method,
   body,
-  content_type,
   headers,
 }: Props): Promise<{ data: T | null; error: any }> {
   try {
@@ -92,11 +92,8 @@ export async function ApiConnectService<T>({
       headers: {
         Authorization: "Bearer " + access_token,
         ...headers,
-        ...(content_type !== "multipart/form-data" && {
-          "Content-Type": content_type ?? "application/json",
-        }),
       },
-      body: method !== FetchMethod.GET ? parse_body : undefined,
+      body: method !== FetchMethod.GET ? body : undefined,
     });
 
     if (!response.ok) {

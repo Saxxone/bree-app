@@ -1,4 +1,5 @@
 import { memo, useState } from "react";
+import * as FileSystem from "expo-file-system";
 import FormInput from "../form/FormInput";
 import FilePreview from "./FilePreview";
 import * as ImagePicker from "expo-image-picker";
@@ -17,6 +18,16 @@ interface Props {
   is_comment: number;
   setShortPost: (post: Partial<Post>) => void;
   readonly onValidationError: (errors: Record<string, string> | null) => void;
+}
+function generateRandomString(length: number): string {
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    result += characters.charAt(randomIndex);
+  }
+  return result;
 }
 
 const ShortPostBuilder = memo(({ ...props }: Props) => {
@@ -73,25 +84,41 @@ const ShortPostBuilder = memo(({ ...props }: Props) => {
 
   const uploadMutation = useMutation({
     mutationFn: async (files: ImagePicker.ImagePickerAsset[]) => {
-      const form_data = new FormData();
-      files.forEach((file) => {
-        form_data.append(
-          "app_files",
-          {
-            uri: file.uri,
-            name: file.fileName,
-            type: file.type,
-          } as any,
-          file.fileName as string,
-        );
-      });
-
       try {
+        const boundary = generateRandomString(16);
+        const parts = [];
+
+        await Promise.all(
+          files.map(async (file) => {
+            console.log("Uploading file:", file.mimeType);
+            const base64 = await FileSystem.readAsStringAsync(file.uri, {
+              encoding: FileSystem.EncodingType.Base64,
+            });
+            parts.push(
+              [
+                `--${boundary}\r\n`,
+                `Content-Disposition: form-data; name="${file.fileName}}"; filename="${file.fileName}"\r\n`,
+                `Content-Type: ${file.mimeType}\r\n\r\n`,
+                base64,
+                `\r\n`,
+              ].join(""),
+            );
+          }),
+        );
+
+        parts.push(`--${boundary}--\r\n`);
+        const body = new Blob([parts.join("")]);
+
+        console.log("FormData before sending:", body);
         const response = await ApiConnectService<string[]>({
           url: api_routes.files.upload,
           method: FetchMethod.POST,
-          body: form_data,
+          headers: {
+            "Content-Type": `multipart/form-data; boundary=${boundary}`,
+          },
+          body: body,
         });
+
         if (response.error) {
           throw new Error(response.error.message || "Upload Failed");
         }
@@ -153,7 +180,7 @@ const ShortPostBuilder = memo(({ ...props }: Props) => {
       <Text className="text-sm text-gray-400 text-right">
         {props.post.text?.length ?? 0}/300
       </Text>
-      <FilePicker onSelected={setPostMedia} maxFiles={1} ratio={[5, 3]} />
+      <FilePicker onSelected={setPostMedia} maxFiles={4} ratio={[5, 3]} />
     </>
   );
 });
