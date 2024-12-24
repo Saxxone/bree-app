@@ -1,5 +1,4 @@
 import { memo, useState } from "react";
-import * as FileSystem from "expo-file-system";
 import FormInput from "../form/FormInput";
 import FilePreview from "./FilePreview";
 import * as ImagePicker from "expo-image-picker";
@@ -8,10 +7,14 @@ import { ValidationRule } from "@/hooks/useValidation";
 import FilePicker from "../app/FilePicker";
 import Text from "../app/Text";
 import api_routes from "@/constants/ApiRoutes";
-import { ApiConnectService } from "@/services/ApiConnectService";
+import {
+  ApiConnectService,
+  retrieveTokenFromKeychain,
+} from "@/services/ApiConnectService";
 import { FetchMethod } from "@/types/types";
 import { useMutation } from "@tanstack/react-query";
 import { useSnackBar } from "@/context/SnackBarProvider";
+import * as FileSystem from "expo-file-system";
 
 interface Props {
   post: Partial<Post>;
@@ -85,44 +88,41 @@ const ShortPostBuilder = memo(({ ...props }: Props) => {
   const uploadMutation = useMutation({
     mutationFn: async (files: ImagePicker.ImagePickerAsset[]) => {
       try {
-        const boundary = generateRandomString(16);
-        const parts = [];
+        let blob: any;
+        const access_token = await retrieveTokenFromKeychain();
 
         await Promise.all(
           files.map(async (file) => {
-            console.log("Uploading file:", file.mimeType);
-            const base64 = await FileSystem.readAsStringAsync(file.uri, {
-              encoding: FileSystem.EncodingType.Base64,
-            });
-            parts.push(
-              [
-                `--${boundary}\r\n`,
-                `Content-Disposition: form-data; name="${file.fileName}}"; filename="${file.fileName}"\r\n`,
-                `Content-Type: ${file.mimeType}\r\n\r\n`,
-                base64,
-                `\r\n`,
-              ].join(""),
+            const task = new FileSystem.UploadTask(
+              api_routes.files.upload,
+              file.uri,
+              {
+                headers: {
+                  Authorization: "Bearer " + access_token,
+                },
+                uploadType: FileSystem.FileSystemUploadType.MULTIPART,
+                fieldName: "app_files",
+              },
             );
+
+            blob = await task.uploadAsync();
           }),
         );
 
-        parts.push(`--${boundary}--\r\n`);
-        const body = new Blob([parts.join("")]);
+        console.log("FormData after sending:", blob);
+        // const response = await ApiConnectService<string[]>({
+        //   url: api_routes.files.upload,
+        //   method: FetchMethod.POST,
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: blob,
+        // });
 
-        console.log("FormData before sending:", body);
-        const response = await ApiConnectService<string[]>({
-          url: api_routes.files.upload,
-          method: FetchMethod.POST,
-          headers: {
-            "Content-Type": `multipart/form-data; boundary=${boundary}`,
-          },
-          body: body,
-        });
-
-        if (response.error) {
-          throw new Error(response.error.message || "Upload Failed");
-        }
-        return response.data;
+        // if (response.error) {
+        //   throw new Error(response.error.message || "Upload Failed");
+        // }
+        return blob;
       } catch (error: any) {
         removeFile(0);
         setSnackBar({

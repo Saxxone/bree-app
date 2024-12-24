@@ -2,7 +2,7 @@ import tailwindClasses from "@/services/ClassTransformer";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { useCallback, useMemo, useState } from "react";
-import { Pressable, View } from "react-native";
+import { Pressable, View, Alert } from "react-native";
 import { useSnackBar } from "@/context/SnackBarProvider";
 import { ValidationRule, useValidation } from "@/hooks/useValidation";
 import Text from "../app/Text";
@@ -26,7 +26,17 @@ export default function FilePicker({ onSelected, ...props }: Props) {
   const [file, setFile] = useState<ImagePicker.ImagePickerAsset[]>();
 
   const pickImageAsync = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert(
+        "Permission Denied",
+        "Permission to access gallery was denied",
+      );
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      base64: true,
       ...(props.maxFiles &&
         props.maxFiles > 1 && {
           allowsMultipleSelection: true,
@@ -45,7 +55,10 @@ export default function FilePicker({ onSelected, ...props }: Props) {
     if (!result.canceled) {
       onSelected({
         paths: result.assets.map((asset) => asset.uri),
-        files: result.assets,
+        files: result.assets.map((asset) => ({
+          ...asset,
+          base64: "data:image/png;base64," + asset.base64,
+        })),
       });
       setFile(result.assets);
       validateInput();

@@ -68,7 +68,11 @@ export async function ApiConnectService<T>({
   try {
     const access_token = await retrieveTokenFromKeychain();
 
-    const parse_body = body instanceof FormData ? body : JSON.stringify(body);
+    const parsed_body = headers?.["Content-Type"].includes(
+      "multipart/form-data",
+    )
+      ? body
+      : JSON.stringify(body);
 
     let full_url = url;
 
@@ -86,14 +90,14 @@ export async function ApiConnectService<T>({
       }
       full_url += `?${query_params.toString()}`;
     }
-
+    console.log(parsed_body);
     const response = await fetch(`${full_url}`, {
       method,
       headers: {
         Authorization: "Bearer " + access_token,
         ...headers,
       },
-      body: method !== FetchMethod.GET ? body : undefined,
+      body: method !== FetchMethod.GET ? parsed_body : undefined,
     });
 
     if (!response.ok) {
