@@ -12,11 +12,9 @@ const api_routes = {
     create_post: api_url + "/posts/create-post",
     create_draft: api_url + "/posts/create-draft",
     update: (id: string) => api_url + `/posts/publish/${id}`,
-    like: (id: string, status: boolean) =>
-      api_url + `/posts/like/${id}?status=${status}`,
+    like: (id: string) => api_url + `/posts/like/${id}`,
     checkLike: (id: string) => api_url + `/posts/check-like/${id}`,
-    bookmark: (id: string, status: boolean) =>
-      api_url + `/posts/bookmark/${id}?status=${status}`,
+    bookmark: (id: string) => api_url + `/posts/bookmark/${id}`,
     checkBookmark: (id: string) => api_url + `/posts/check-bookmark/${id}`,
     getPostById: (id: string) => api_url + `/posts/${id}`,
     getComments: (id: string) => api_url + `/posts/comments/${id}`,

@@ -1,11 +1,15 @@
-import { useMemo, memo } from "react";
+import { useMemo, memo, useState } from "react";
 import { Post } from "@/types/post";
-import { Pressable, View, useColorScheme } from "react-native";
+import { Alert, Pressable, Share, View, useColorScheme } from "react-native";
 import tailwindClasses from "@/services/ClassTransformer";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import Text from "../app/Text";
 import { router } from "expo-router";
 import { app_routes } from "@/constants/AppRoutes";
+import api_routes from "@/constants/ApiRoutes";
+import { ApiConnectService } from "@/services/ApiConnectService";
+import { FetchMethod } from "@/types/types";
+import { useQuery } from "@tanstack/react-query";
 
 type Props = {
   readonly post: Post;
@@ -23,7 +27,8 @@ interface Action {
   icon: IconName;
   key?: keyof Post;
   active: boolean;
-  command: () => void;
+  route?: "like" | "bookmark";
+  command: () => void | Promise<void>;
 }
 
 const PostActions = memo(({ post, className }: Props) => {
@@ -31,8 +36,47 @@ const PostActions = memo(({ post, className }: Props) => {
   const color_scheme = useColorScheme();
   const color = color_scheme === "dark" ? "text-gray-300" : "text-gray-500";
 
-  function likePost() {
-    console.log("like");
+  const [action, setAction] = useState<Partial<Action> | null>(null);
+  const [state, setState] = useState<Partial<Post>>({
+    likedByMe: post.likedByMe,
+    bookmarkedByMe: post.bookmarkedByMe,
+    commentCount: post.commentCount,
+    likeCount: post.likeCount,
+    bookmarkCount: post.bookmarkCount,
+  });
+
+  const {
+    isFetching: in_progress,
+    data: action_data,
+    error: action_error,
+    isError: is_action_error,
+    refetch: postAction,
+  } = useQuery({
+    queryKey: [action?.key],
+    queryFn: async () => {
+      return await ApiConnectService<Post>({
+        url: api_routes.posts[action?.route ?? "like"](post.id),
+        method: FetchMethod.PUT,
+        body: post,
+      });
+    },
+    enabled: false,
+    retry: false,
+  });
+
+  async function likePost() {
+    setAction({
+      key: "likeCount",
+      route: "like",
+    });
+    const response = await postAction();
+    setState((prev_state) => {
+      return {
+        ...prev_state,
+        likedByMe: response.data?.data?.likedByMe ?? prev_state.likedByMe,
+        likeCount: response.data?.data?.likeCount ?? prev_state.likeCount,
+      };
+    });
   }
 
   function comment() {
@@ -42,12 +86,41 @@ const PostActions = memo(({ post, className }: Props) => {
     });
   }
 
-  function sharePost() {
-    console.log("share");
+  async function sharePost() {
+    try {
+      const result = await Share.share({
+        message: `See this post on Bree: ${api_routes.posts.getPostById(post.id)}`,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          console.log(result.activityType);
+        } else {
+          console.log(result);
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+        console.log(result);
+      }
+    } catch (error: any) {
+      Alert.alert(error.message);
+    }
   }
 
-  function bookmarkPost() {
-    console.log("bookmark");
+  async function bookmarkPost() {
+    setAction({
+      key: "bookmarkCount",
+      route: "bookmark",
+    });
+    const response = await postAction();
+    setState((prev_state) => {
+      return {
+        ...prev_state,
+        bookmarkedByMe:
+          response.data?.data?.bookmarkedByMe ?? prev_state.bookmarkedByMe,
+        bookmarkCount:
+          response.data?.data?.bookmarkCount ?? prev_state.bookmarkCount,
+      };
+    });
   }
 
   const actions = useMemo<Action[]>(
@@ -55,7 +128,7 @@ const PostActions = memo(({ post, className }: Props) => {
       {
         icon: "heart-outline",
         key: "likeCount",
-        active: post?.likedByMe,
+        active: state.likedByMe ?? false,
         command: likePost,
       },
       {
@@ -72,11 +145,11 @@ const PostActions = memo(({ post, className }: Props) => {
       {
         icon: "bookmark-outline",
         key: "bookmarkCount",
-        active: post?.bookmarkedByMe,
+        active: state.bookmarkedByMe ?? false,
         command: bookmarkPost,
       },
     ],
-    [post],
+    [post, state],
   );
   return (
     <View
@@ -115,9 +188,9 @@ const PostActions = memo(({ post, className }: Props) => {
             ]}
           >
             <Ionicons name={icon} size={16} style={[iconColorStyle]} />
-            {action.key && post[action.key] ? (
+            {action?.key && state[action.key] ? (
               <Text style={tailwindClasses("ml-1 text-sm font-light")}>
-                {String(post[action.key])}
+                {String(state[action.key])}{" "}
               </Text>
             ) : null}
           </Pressable>
