@@ -11,6 +11,7 @@ interface Props {
   readonly onSelected: (data: {
     paths: string[];
     files: ImagePicker.ImagePickerAsset[];
+    base64?: string;
   }) => void;
   readonly children?: React.ReactNode;
   readonly className?: string;
@@ -36,7 +37,6 @@ export default function FilePicker({ onSelected, ...props }: Props) {
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({
-      base64: true,
       ...(props.maxFiles &&
         props.maxFiles > 1 && {
           allowsMultipleSelection: true,
@@ -55,10 +55,7 @@ export default function FilePicker({ onSelected, ...props }: Props) {
     if (!result.canceled) {
       onSelected({
         paths: result.assets.map((asset) => asset.uri),
-        files: result.assets.map((asset) => ({
-          ...asset,
-          base64: "data:image/png;base64," + asset.base64,
-        })),
+        files: result.assets,
       });
       setFile(result.assets);
       validateInput();

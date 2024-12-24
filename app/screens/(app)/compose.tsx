@@ -23,7 +23,6 @@ export default function Compose() {
     parentId: id as string,
     text: "",
     media: [],
-    mediaTypes: [],
     type: "SHORT",
   });
   const [isPosting, setIsPosting] = useState(false);
@@ -99,6 +98,8 @@ export default function Compose() {
 
     setIsPosting(true);
     setPostCreationType(type);
+
+    console.log("POST:::::::", post);
 
     await createPost();
 

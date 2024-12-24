@@ -12,8 +12,8 @@ import PagerViewIndicator from "../app/PagerViewIndicator";
 import PagerView from "../app/PagerView";
 import { LongPost, LongPostBlock } from "@/types/post";
 import api_routes from "@/constants/ApiRoutes";
-import { ApiConnectService } from "@/services/ApiConnectService";
-import { FetchMethod } from "@/types/types";
+import { retrieveTokenFromKeychain } from "@/services/ApiConnectService";
+import * as FileSystem from "expo-file-system";
 import { useMutation } from "@tanstack/react-query";
 import { useSnackBar } from "@/context/SnackBarProvider";
 import { Ionicons } from "@expo/vector-icons";
@@ -106,13 +106,12 @@ const LongPostBuilder = memo(({ ...props }: Props) => {
       setPlaceholderFiles([...placeholderFiles]);
 
       uploadMutation.mutate(data.files, {
-        onSuccess: (uploadedPaths) => {
+        onSuccess: (upload_ids) => {
           setContents((prevContents) => {
             const newContents = [...prevContents];
-            newContents[index].media = uploadedPaths as string[];
+            newContents[index].media = upload_ids as string[];
             return newContents;
           });
-          console.log("File upload successful:", uploadedPaths, contents);
         },
         onError: (error) => {
           console.error("File upload failed:", error);
@@ -130,25 +129,37 @@ const LongPostBuilder = memo(({ ...props }: Props) => {
 
   const uploadMutation = useMutation({
     mutationFn: async (files: ImagePicker.ImagePickerAsset[]) => {
-      const form_data = new FormData();
-      files.forEach((file) => {
-        form_data.append(
-          "app_files",
-          file as unknown as Blob,
-          file.fileName as string,
-        );
-      });
+      const access_token = await retrieveTokenFromKeychain();
 
       try {
-        const response = await ApiConnectService<string[]>({
-          url: api_routes.files.upload,
-          method: FetchMethod.POST,
-          body: form_data,
+        const uploadPromises = files.map(async (file) => {
+          const task = new FileSystem.UploadTask(
+            api_routes.files.upload,
+            file.uri,
+            {
+              headers: {
+                Authorization: "Bearer " + access_token,
+              },
+              uploadType: FileSystem.FileSystemUploadType.MULTIPART,
+              fieldName: "app_files",
+            },
+          );
+
+          const result = await task.uploadAsync();
+
+          if (result?.status !== 201) {
+            throw new Error(
+              `Upload failed with status ${result?.status}: ${result?.body}`,
+            );
+          }
+
+          return JSON.parse(result.body);
         });
-        if (response.error) {
-          throw new Error(response.error.message || "Upload Failed");
-        }
-        return response.data;
+
+        const results = await Promise.all(uploadPromises);
+        const upload_ids = results.flat();
+
+        return upload_ids;
       } catch (error: any) {
         throw new Error(error);
       }

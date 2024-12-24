@@ -7,11 +7,7 @@ import { ValidationRule } from "@/hooks/useValidation";
 import FilePicker from "../app/FilePicker";
 import Text from "../app/Text";
 import api_routes from "@/constants/ApiRoutes";
-import {
-  ApiConnectService,
-  retrieveTokenFromKeychain,
-} from "@/services/ApiConnectService";
-import { FetchMethod } from "@/types/types";
+import { retrieveTokenFromKeychain } from "@/services/ApiConnectService";
 import { useMutation } from "@tanstack/react-query";
 import { useSnackBar } from "@/context/SnackBarProvider";
 import * as FileSystem from "expo-file-system";
@@ -63,10 +59,12 @@ const ShortPostBuilder = memo(({ ...props }: Props) => {
       setPlaceholderFiles([...data.files]);
 
       uploadMutation.mutate(data.files, {
-        onSuccess: (uploadedPaths) => {
+        onSuccess: (upload_ids) => {
+          console.log(upload_ids);
+
           setShortPost((prev_post) => {
             const new_post = prev_post;
-            new_post.media = uploadedPaths as string[];
+            new_post.media = upload_ids as string[];
             return new_post;
           });
           props.setShortPost(shortPost);
@@ -87,51 +85,48 @@ const ShortPostBuilder = memo(({ ...props }: Props) => {
 
   const uploadMutation = useMutation({
     mutationFn: async (files: ImagePicker.ImagePickerAsset[]) => {
+      const access_token = await retrieveTokenFromKeychain();
+
       try {
-        let blob: any;
-        const access_token = await retrieveTokenFromKeychain();
-
-        await Promise.all(
-          files.map(async (file) => {
-            const task = new FileSystem.UploadTask(
-              api_routes.files.upload,
-              file.uri,
-              {
-                headers: {
-                  Authorization: "Bearer " + access_token,
-                },
-                uploadType: FileSystem.FileSystemUploadType.MULTIPART,
-                fieldName: "app_files",
+        const uploadPromises = files.map(async (file) => {
+          const task = new FileSystem.UploadTask(
+            api_routes.files.upload,
+            file.uri,
+            {
+              headers: {
+                Authorization: "Bearer " + access_token,
               },
+              uploadType: FileSystem.FileSystemUploadType.MULTIPART,
+              fieldName: "app_files",
+            },
+          );
+
+          const result = await task.uploadAsync();
+
+          if (result?.status !== 201) {
+            throw new Error(
+              `Upload failed with status ${result?.status}: ${result?.body}`,
             );
+          }
 
-            blob = await task.uploadAsync();
-          }),
-        );
+          return JSON.parse(result.body);
+        });
 
-        console.log("FormData after sending:", blob);
-        // const response = await ApiConnectService<string[]>({
-        //   url: api_routes.files.upload,
-        //   method: FetchMethod.POST,
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //   },
-        //   body: blob,
-        // });
+        const results = await Promise.all(uploadPromises);
+        const upload_ids = results.flat();
 
-        // if (response.error) {
-        //   throw new Error(response.error.message || "Upload Failed");
-        // }
-        return blob;
+        return upload_ids;
       } catch (error: any) {
-        removeFile(0);
+        files.forEach((_, index) => {
+          removeFile(index);
+        });
+
         setSnackBar({
           visible: true,
           title: "Error",
           message: error?.message || "Failed to upload",
           type: "error",
         });
-
         throw error;
       }
     },

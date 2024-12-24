@@ -6,27 +6,26 @@ interface Props {
    * The base URL for the API endpoint.
    */
   url: string;
-
   /**
    * Path parameters to be appended to the URL.  These are added directly to the path, separated by slashes. For example, `{id: 123}` would add `/id=123` to the URL.
    */
   params?: Record<string, string | number>;
-
   /**
    * Query parameters to be appended to the URL. These are added after a `?` and are formatted as standard query string parameters.  For example, `{page: 1, limit: 10}` becomes `?page=1&limit=10`.
    */
   query?: Record<string, string | number>;
-
   /**
    * The HTTP method to use (GET, POST, PUT, DELETE, etc.).
    */
   method: FetchMethod;
-
   /**
-   * The request body.  This will be JSON.stringified unless the it is 'multipart/form-data'.
+   * The request body.  This will be JSON.stringified unless the 'content_type' is set to 'multipart/form-data'.
    */
   body?: any;
-
+  /**
+   * The Content-Type header for the request. Defaults to 'application/json'.  Set this to 'multipart/form-data' for file uploads.
+   */
+  content_type?: string;
   /**
    * Additional headers to include in the request.
    */
@@ -38,7 +37,7 @@ interface Props {
  *
  * @returns {Promise<string | undefined>} The stored token, or undefined if retrieval fails or no token is found.
  */
-export async function retrieveTokenFromKeychain(): Promise<string | undefined> {
+export async function retrieveTokenFromKeychain() {
   const api_url = process.env.EXPO_PUBLIC_API_BASE_URL as string;
   try {
     const credentials = await Keychain.getInternetCredentials(api_url);
@@ -63,54 +62,51 @@ export async function ApiConnectService<T>({
   query,
   method,
   body,
+  content_type,
   headers,
 }: Props): Promise<{ data: T | null; error: any }> {
   try {
     const access_token = await retrieveTokenFromKeychain();
 
-    const parsed_body = headers?.["Content-Type"].includes(
-      "multipart/form-data",
-    )
-      ? body
-      : JSON.stringify(body);
-
-    let full_url = url;
+    let fullUrl = url;
 
     if (params) {
-      const param_parts = Object.entries(params)
+      const paramParts = Object.entries(params)
         .map(([key, value]) => `${key}=${value}`)
         .join("&");
-      full_url += `/${param_parts}`;
+      fullUrl += `/${paramParts}`; // Assuming params are path parameters
     }
 
     if (query) {
-      const query_params = new URLSearchParams();
+      const queryParams = new URLSearchParams();
       for (const [key, value] of Object.entries(query)) {
-        query_params.append(key, value.toString());
+        queryParams.append(key, value.toString());
       }
-      full_url += `?${query_params.toString()}`;
+      fullUrl += `?${queryParams.toString()}`;
     }
-    console.log(parsed_body);
-    const response = await fetch(`${full_url}`, {
+
+    const response = await fetch(`${fullUrl}`, {
       method,
       headers: {
+        "Content-Type": "application/json",
         Authorization: "Bearer " + access_token,
         ...headers,
       },
-      body: method !== FetchMethod.GET ? parsed_body : undefined,
+      body: method !== FetchMethod.GET ? JSON.stringify(body) : undefined,
     });
 
     if (!response.ok) {
-      const error_data = await response
+      const errorData = await response
         .json()
         .catch(() => ({ message: response.statusText }));
 
-      console.error("API error", response.status, error_data);
-      throw new Error(error_data.message);
+      console.error("API error", response.status, errorData);
+      return { data: null, error: errorData };
     }
     const data: T = await response.json();
     return { data, error: null };
-  } catch (error: any) {
-    throw new Error(error.message);
+  } catch (error) {
+    console.error("Fetch error:", error);
+    return { data: null, error };
   }
 }
