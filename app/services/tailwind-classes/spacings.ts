@@ -73,6 +73,24 @@ const spacings = {
   "m-4": { margin: 16 },
   "m-5": { margin: 20 },
 
+  "-mt-3": {
+    marginTop: -12,
+  },
+  "-mb-3": {
+    marginBottom: -12,
+  },
+  "-mx-3": {
+    marginHorizontal: -12,
+  },
+  "-my-3": {
+    marginVertical: -12,
+  },
+
+  "m-auto": { margin: "auto" },
+
+  "mt-0": { marginTop: 0 },
+  "mb-0": { marginBottom: 0 },
+
   "mt-0.5": { marginTop: 2 },
   "mb-0.5": { marginBottom: 2 },
   "ml-0.5": { marginLeft: 2 },

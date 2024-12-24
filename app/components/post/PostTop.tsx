@@ -16,7 +16,7 @@ const PostTop = memo(({ post }: Props) => {
       {post.parentId ? (
         <Ionicons
           name="arrow-undo"
-          size={12}
+          size={8}
           style={tailwindClasses("text-gray-400 block mb-1")}
         />
       ) : null}
@@ -29,7 +29,9 @@ const PostTop = memo(({ post }: Props) => {
         />
         <View>
           <Text>{post.author?.name}</Text>
-          <Text>@{post.author?.username}</Text>
+          <Text className="text-xs text-gray-400">
+            @{post.author?.username}
+          </Text>
         </View>
         <MaterialIcons
           name="verified"

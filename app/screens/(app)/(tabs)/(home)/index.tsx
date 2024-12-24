@@ -1,10 +1,6 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
-import {
-  FlatList,
-  RefreshControl,
-  View,
-  ActivityIndicator,
-} from "react-native";
+import { RefreshControl, View, ActivityIndicator } from "react-native";
+import { FlashList } from "@shopify/flash-list";
 import PostDisplay from "@/components/post/PostDisplay";
 import { ApiConnectService } from "@/services/ApiConnectService";
 import { Post } from "@/types/post";
@@ -17,6 +13,7 @@ import api_routes from "@/constants/ApiRoutes";
 import { FetchMethod } from "@/types/types";
 
 const POSTS_PER_PAGE = 9;
+const ESTIMATED_ITEM_SIZE = 250;
 
 export default function HomeScreen() {
   const {
@@ -46,7 +43,7 @@ export default function HomeScreen() {
     initialPageParam: 0,
   });
 
-  const allPosts = data?.pages.flatMap((page) => page.data) ?? [];
+  const all_posts = data?.pages.flatMap((page) => page.data) ?? [];
 
   const renderFooter = () => {
     if (!isFetchingNextPage) return null;
@@ -60,8 +57,9 @@ export default function HomeScreen() {
   return (
     <>
       <View style={tailwindClasses("container flex-1")}>
-        <FlatList
-          data={allPosts}
+        <FlashList
+          data={all_posts}
+          estimatedItemSize={ESTIMATED_ITEM_SIZE}
           ListEmptyComponent={
             isFetching ? null : (
               <View style={tailwindClasses("p-3 mb-3")}>
@@ -71,10 +69,10 @@ export default function HomeScreen() {
               </View>
             )
           }
-          keyExtractor={(post) => post?.id ?? ""}
+          keyExtractor={(post) => post.id}
           renderItem={({ item: post }) => (
             <PostDisplay
-              key={post?.id ? post.id : ""}
+              key={post.id}
               post={post}
               ellipsis={true}
               actions={true}

@@ -1,6 +1,11 @@
 import { useLocalSearchParams } from "expo-router";
 import PostDisplay from "@/components/post/PostDisplay";
-import { FlatList, RefreshControl, View, ScrollView } from "react-native";
+import {
+  RefreshControl,
+  View,
+  ScrollView,
+  ActivityIndicator,
+} from "react-native";
 import Text from "@/components/app/Text";
 import api_routes from "@/constants/ApiRoutes";
 import { violet_500 } from "@/constants/Colors";
@@ -8,14 +13,15 @@ import { ApiConnectService } from "@/services/ApiConnectService";
 import tailwindClasses from "@/services/ClassTransformer";
 import { Post } from "@/types/post";
 import { FetchMethod } from "@/types/types";
-import { useQuery } from "@tanstack/react-query";
-import { useMemo } from "react";
-import { useSnackBar } from "@/context/SnackBarProvider";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useEffect, useMemo } from "react";
+import { FlashList } from "@shopify/flash-list";
+
+const POSTS_PER_PAGE = 9;
+const ESTIMATED_ITEM_SIZE = 250;
 
 export default function PostScreen() {
   const { id } = useLocalSearchParams();
-
-  const { snackBar, setSnackBar } = useSnackBar();
 
   const {
     isFetching: is_fetching_post,
@@ -23,7 +29,7 @@ export default function PostScreen() {
     error: post_error,
     data: post,
   } = useQuery({
-    queryKey: ["post"],
+    queryKey: ["post", id],
     queryFn: async () => {
       return await ApiConnectService<Post>({
         url: api_routes.posts.getPostById(id as string),
@@ -34,13 +40,25 @@ export default function PostScreen() {
     retry: false,
   });
 
+  const renderFooter = () => {
+    if (!isFetchingNextPage) return null;
+    return (
+      <View style={tailwindClasses("py-4")}>
+        <ActivityIndicator color={violet_500} />
+      </View>
+    );
+  };
+
   const {
     isFetching: is_fetching_comments,
     isError: is_comments_error,
     data: comments,
     error: comment_error,
     refetch: refetchComments,
-  } = useQuery({
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfiniteQuery({
     queryKey: ["comments"],
     queryFn: async () => {
       return await ApiConnectService<Post[]>({
@@ -52,103 +70,135 @@ export default function PostScreen() {
         },
       });
     },
+    getNextPageParam: (lastPage, pages) => {
+      return lastPage.data?.length === POSTS_PER_PAGE
+        ? pages.length
+        : undefined;
+    },
+    initialPageParam: 0,
     enabled: true,
     retry: false,
   });
 
-  const Post = useMemo(() => {
-    if (is_post_error) {
-      setSnackBar({
-        ...snackBar,
-        visible: true,
-        title: "Error",
-        type: "error",
-        message: post_error.message,
+  const {
+    isFetching: is_fetching_parent_post,
+    isError: is_parent_post_error,
+    error: parent_post_error,
+    data: parent_post,
+  } = useQuery({
+    queryKey: ["parent_post", post?.data?.parentId],
+    queryFn: async () => {
+      return await ApiConnectService<Post>({
+        url: api_routes.posts.getPostById(post?.data?.parentId as string),
+        method: FetchMethod.GET,
       });
-    } else {
-      return is_post_error ? (
-        <View style={[tailwindClasses("p-3 mb-3 ")]}>
-          <Text>Post cannot be displayed.</Text>
-        </View>
-      ) : (
-        <View style={tailwindClasses("container")}>
-          <PostDisplay
-            key={post?.data?.id}
-            ellipsis={false}
-            actions={true}
-            isFetching={is_fetching_post}
-            post={post?.data}
-          />
-        </View>
-      );
-    }
+    },
+    enabled: !!post?.data?.parentId,
+    retry: false,
+  });
+
+  const ParentPost = useMemo(() => {
+    return parent_post?.data ? (
+      <View>
+        <PostDisplay
+          key={parent_post?.data?.id}
+          ellipsis={false}
+          actions={true}
+          isFetching={is_fetching_parent_post}
+          post={parent_post?.data}
+        />
+      </View>
+    ) : null;
   }, [
-    is_fetching_post,
-    is_post_error,
-    post,
-    snackBar,
-    setSnackBar,
-    post_error,
+    is_fetching_parent_post,
+    is_parent_post_error,
+    parent_post,
+    parent_post_error,
   ]);
 
+  const Post = useMemo(() => {
+    return post?.data ? (
+      <View>
+        <PostDisplay
+          key={post?.data?.id}
+          ellipsis={false}
+          actions={true}
+          isFetching={is_fetching_post}
+          post={post?.data}
+        />
+      </View>
+    ) : null;
+  }, [is_fetching_post, is_post_error, post, post_error]);
+
+  const all_comments = comments?.pages.flatMap((page) => page.data) ?? [];
+
   const Comments = useMemo(() => {
-    if (is_comments_error) {
-      setSnackBar({
-        ...snackBar,
-        visible: true,
-        title: "Error",
-        type: "error",
-        message: comment_error.message,
-      });
-    } else {
-      return comments?.data && comments?.data?.length > 0 ? (
-        <View style={tailwindClasses("container")}>
-          <FlatList
-            data={comments.data}
-            keyExtractor={(post) => post.id}
-            renderItem={({ item: post }) => (
-              <PostDisplay
-                key={post.id}
-                actions={false}
-                isFetching={is_fetching_comments}
-                post={post}
-                ellipsis={true}
-              />
-            )}
-            refreshControl={
-              <RefreshControl
-                colors={[violet_500]}
-                refreshing={is_fetching_comments}
-                onRefresh={refetchComments}
-              />
+    return all_comments.length > 0 ? (
+      <View>
+        <FlashList
+          data={all_comments}
+          ListEmptyComponent={
+            is_fetching_comments ? null : (
+              <View style={tailwindClasses("p-3 mb-3")}>
+                <Text className="text-center text-gray-500">.</Text>
+              </View>
+            )
+          }
+          keyExtractor={(post) => post.id}
+          renderItem={({ item: post }) => (
+            <PostDisplay
+              actions={true}
+              key={post.id}
+              isFetching={is_fetching_comments && !isFetchingNextPage}
+              post={post}
+              ellipsis={true}
+            />
+          )}
+          refreshControl={
+            <RefreshControl
+              colors={[violet_500]}
+              refreshing={is_fetching_comments}
+              onRefresh={refetchComments}
+            />
+          }
+          onEndReached={() => {
+            if (hasNextPage && !isFetchingNextPage) {
+              fetchNextPage();
             }
-          />
-        </View>
-      ) : (
-        <View style={[tailwindClasses("px-3 mb-3 ")]}>
-          <Text
-            style={tailwindClasses(
-              "text-center text-xl font-bold text-gray-500",
-            )}
-          >
-            .
-          </Text>
-        </View>
-      );
-    }
+          }}
+          onEndReachedThreshold={0.5}
+          ListFooterComponent={renderFooter}
+          estimatedItemSize={ESTIMATED_ITEM_SIZE}
+        />
+      </View>
+    ) : (
+      <View style={[tailwindClasses("px-3 mb-3 ")]}>
+        <Text
+          style={tailwindClasses("text-center text-xl font-bold text-gray-500")}
+        >
+          .
+        </Text>
+      </View>
+    );
   }, [
     is_fetching_comments,
     is_comments_error,
     comments,
-    snackBar,
     refetchComments,
     comment_error,
-    setSnackBar,
   ]);
   return (
-    <ScrollView>
+    <ScrollView style={tailwindClasses("container")}>
+      {ParentPost}
       {Post}
-      <View style={tailwindClasses("ml-3")}>{Comments}</View>
+      {all_comments.length > 0 && (
+        <>
+          <Text className="text-center text-xl font-bold text-gray-500 mb-3 -mt-3">
+            ...
+          </Text>
+          <View className="pb-6">{Comments}</View>
+        </>
+      )}
     </ScrollView>
   );
 }

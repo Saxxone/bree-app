@@ -181,7 +181,7 @@ const PostActions = memo(({ post, className }: Props) => {
               action.command();
             }}
             style={[
-              tailwindClasses("p-1 flex flex-row items-center cursor-pointer"),
+              tailwindClasses("p-2 flex flex-row items-center cursor-pointer"),
               index === 2
                 ? tailwindClasses("ml-auto mr-1")
                 : tailwindClasses("mr-1"),
