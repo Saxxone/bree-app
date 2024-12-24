@@ -35,7 +35,7 @@ const PostDisplay = memo(({ post, ellipsis, actions, isFetching }: Props) => {
     <Link
       href={app_routes.post.view(post.id)}
       style={[
-        tailwindClasses("px-3 pt-3 pb-2 mb-3 rounded-lg cursor-pointer"),
+        tailwindClasses("px-3 pt-3 pb-2 mb-3 rounded-lg h-40 cursor-pointer"),
         { backgroundColor: bg_color.backgroundColor },
       ]}
     >
