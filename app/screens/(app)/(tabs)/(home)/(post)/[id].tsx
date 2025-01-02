@@ -133,7 +133,7 @@ export default function PostScreen() {
   const all_comments = comments?.pages.flatMap((page) => page.data) ?? [];
 
   const Comments = useMemo(() => {
-    return all_comments.length > 0 ? (
+    return all_comments.length > 0 && post ? (
       <View>
         <FlashList
           data={all_comments}
@@ -144,11 +144,11 @@ export default function PostScreen() {
               </View>
             )
           }
-          keyExtractor={(post) => post.id}
+          keyExtractor={(item) => item.id}
           renderItem={({ item: post }) => (
             <PostDisplay
               actions={true}
-              key={post.id}
+              key={item.id}
               isFetching={is_fetching_comments && !isFetchingNextPage}
               post={post}
               ellipsis={true}
