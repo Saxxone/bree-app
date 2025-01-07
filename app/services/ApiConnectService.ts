@@ -24,7 +24,7 @@ interface TokenPair {
 // Constants
 const KEYCHAIN_SERVICE = process.env.EXPO_PUBLIC_API_BASE_URL as string;
 const TOKEN_REFRESH_ENDPOINT = "/auth/refresh"; // Adjust this to match your API endpoint
-let isRefreshing = false;
+let is_refreshing = false;
 let refreshSubscribers: ((token: string) => void)[] = [];
 
 /**
@@ -37,8 +37,8 @@ function subscribeTokenRefresh(cb: (token: string) => void) {
 /**
  * Executes all pending callbacks with the new token
  */
-function onTokenRefreshComplete(newToken: string) {
-  refreshSubscribers.forEach((cb) => cb(newToken));
+function onTokenRefreshComplete(new_token: string) {
+  refreshSubscribers.forEach((cb) => cb(new_token));
   refreshSubscribers = [];
 }
 
@@ -123,9 +123,9 @@ async function refreshToken(): Promise<string | null> {
       throw new Error("Token refresh failed");
     }
 
-    const newTokens: TokenPair = await response.json();
-    await saveTokens(newTokens);
-    return newTokens.access_token;
+    const new_tokens: TokenPair = await response.json();
+    await saveTokens(new_tokens);
+    return new_tokens.access_token;
   } catch (error) {
     console.error("Token refresh failed:", error);
     await logout();
@@ -188,7 +188,7 @@ export async function ApiConnectService<T>({
       });
 
       if (!response.ok) {
-        const errorData = await response
+        const error_data = await response
           .json()
           .catch(() => ({ message: response.statusText }));
 
@@ -196,7 +196,7 @@ export async function ApiConnectService<T>({
           throw new Error("Unauthorized");
         }
 
-        return { data: null, error: errorData };
+        return { data: null, error: error_data };
       }
 
       const data: T = await response.json();
@@ -207,24 +207,9 @@ export async function ApiConnectService<T>({
     try {
       return await makeRequest(tokens.access_token);
     } catch (error: any) {
-      if (error.message === "Unauthorized") {
-        if (!isRefreshing) {
-          isRefreshing = true;
-          const newToken = await refreshToken();
-          isRefreshing = false;
-
-          if (newToken) {
-            onTokenRefreshComplete(newToken);
-            return await makeRequest(newToken);
-          }
-        } else {
-          const newToken = await new Promise<string>((resolve) => {
-            subscribeTokenRefresh(resolve);
-          });
-          return await makeRequest(newToken);
-        }
-      }
-      throw error;
+      return await handleRequestError<T>(error, (new_token) =>
+        makeRequest(new_token),
+      );
     }
   } catch (error: any) {
     if (error.message === "Unauthorized") {
@@ -232,6 +217,39 @@ export async function ApiConnectService<T>({
     }
     return { data: null, error };
   }
+}
+
+async function handleRequestError<T>(
+  error: any,
+  cb: (token: string) => Promise<
+    | {
+        data: null;
+        error: any;
+      }
+    | {
+        data: T;
+        error: null;
+      }
+  >,
+) {
+  if (error.message === "Unauthorized") {
+    if (!is_refreshing) {
+      is_refreshing = true;
+      const new_token = await refreshToken();
+      is_refreshing = false;
+
+      if (new_token) {
+        onTokenRefreshComplete(new_token);
+        return await cb(new_token);
+      }
+    } else {
+      const new_token = await new Promise<string>((resolve) => {
+        subscribeTokenRefresh(resolve);
+      });
+      return await cb(new_token);
+    }
+  }
+  throw error;
 }
 
 export { saveTokens, getTokens, logout };
