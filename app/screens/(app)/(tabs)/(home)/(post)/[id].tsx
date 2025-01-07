@@ -14,7 +14,7 @@ import tailwindClasses from "@/services/ClassTransformer";
 import { Post } from "@/types/post";
 import { FetchMethod } from "@/types/types";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { useEffect, useMemo } from "react";
+import { useMemo } from "react";
 import { FlashList } from "@shopify/flash-list";
 
 const POSTS_PER_PAGE = 9;
@@ -144,11 +144,11 @@ export default function PostScreen() {
               </View>
             )
           }
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item?.id ?? ""}
           renderItem={({ item: post }) => (
             <PostDisplay
               actions={true}
-              key={item.id}
+              key={post?.id}
               isFetching={is_fetching_comments && !isFetchingNextPage}
               post={post}
               ellipsis={true}

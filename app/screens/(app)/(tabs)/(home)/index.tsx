@@ -66,14 +66,17 @@ export default function HomeScreen() {
                 <Text className="text-center text-gray-500">
                   No posts found.
                 </Text>
+                <Text className="text-center text-gray-500">
+                  {all_posts.length}
+                </Text>
               </View>
             )
           }
-          keyExtractor={(post) => post.id}
-          renderItem={({ item: post }) => (
+          keyExtractor={(item) => item?.id ?? ""}
+          renderItem={({ item }) => (
             <PostDisplay
-              key={post.id}
-              post={post}
+              key={item?.id}
+              post={item}
               ellipsis={true}
               actions={true}
               isFetching={isFetching && !isFetchingNextPage}

@@ -18,7 +18,7 @@
       "color": "#6366f1",
       "iosDisplayInForeground": true,
       "androidMode": "default"
-      },
+    },
     "splash": {
       "image": "./app/assets/images/bree.png",
       "resizeMode": "contain",
@@ -45,6 +45,13 @@
       "favicon": "./app/assets/images/bree.png"
     },
     "plugins": [
+      [
+        "expo-secure-store",
+        {
+          "configureAndroidBackup": true,
+          "faceIDPermission": "Allow Bree to access your Face ID biometric data."
+        }
+      ],
       "expo-router",
       [
         "expo-splash-screen",
@@ -62,7 +69,8 @@
           "supportsPictureInPicture": true
         }
       ],
-      "expo-localization"
+      "expo-localization",
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true

@@ -43,7 +43,7 @@ export default function Compose() {
         method: FetchMethod.GET,
       });
     },
-    enabled: true,
+    enabled: !!id,
     retry: false,
   });
 
