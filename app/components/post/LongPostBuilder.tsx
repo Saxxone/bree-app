@@ -18,6 +18,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useSnackBar } from "@/context/SnackBarProvider";
 import { Ionicons } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import React from "react";
 
 interface Props {
   readonly post: Partial<LongPost> | null | undefined;

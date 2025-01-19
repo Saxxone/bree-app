@@ -15,6 +15,7 @@ import Button from "@/components/form/Button";
 import { useSnackBar } from "@/context/SnackBarProvider";
 import ShortPostBuilder from "@/components/post/ShortPostBuilder";
 import { app_routes } from "@/constants/AppRoutes";
+import React from "react";
 
 export default function Compose() {
   const { id, is_comment } = useLocalSearchParams();
@@ -99,8 +100,6 @@ export default function Compose() {
     setIsPosting(true);
     setPostCreationType(type);
 
-    console.log("POST:::::::", post);
-
     await createPost();
 
     if (is_post_error) {
@@ -137,7 +136,7 @@ export default function Compose() {
             </>
           )
         );
-      }, [is_comment, parent_post, is_fetching_parent])}
+      }, [is_comment, is_fetching_parent, parent_post?.data])}
 
       {!is_comment && (
         <SelectPostType type={postType} onSelected={applyPostType} />

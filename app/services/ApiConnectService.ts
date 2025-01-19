@@ -28,6 +28,23 @@ let is_refreshing = false;
 let refreshSubscribers: ((token: string) => void)[] = [];
 
 /**
+ * Retrieves a token from the keychain.
+ *
+ * @returns {Promise<string | undefined>} The stored token, or undefined if retrieval fails or no token is found.
+ */
+export async function retrieveTokenFromKeychain(): Promise<string | undefined> {
+  const api_url = process.env.EXPO_PUBLIC_API_BASE_URL as string;
+  try {
+    const credentials = await Keychain.getInternetCredentials(api_url);
+    if (credentials) {
+      return credentials.password;
+    }
+  } catch (error) {
+    console.error("Failed to access Keychain", error);
+  }
+}
+
+/**
  * Subscribes callbacks to be executed once token refresh is complete
  */
 function subscribeTokenRefresh(cb: (token: string) => void) {

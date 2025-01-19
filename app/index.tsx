@@ -8,7 +8,6 @@ import { Image } from "expo-image";
 export default function Index() {
   (async function getAuthStatus() {
     const token = await retrieveTokenFromKeychain();
-    console.log("token:::::", token);
     if (token) {
       router.replace(app_routes.post.home);
     } else {
