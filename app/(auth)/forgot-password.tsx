@@ -6,14 +6,14 @@ import api_routes from "@/app_directories/constants/ApiRoutes";
 import { app_routes } from "@/app_directories/constants/AppRoutes";
 import { primary } from "@/app_directories/constants/Colors";
 import { useSnackBar } from "@/app_directories/context/SnackBarProvider";
+import { ValidationRule } from "@/app_directories/hooks/useValidation";
 import { ApiConnectService } from "@/app_directories/services/ApiConnectService";
 import tailwindClasses from "@/app_directories/services/ClassTransformer";
+import { FetchMethod } from "@/app_directories/types/types";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
-import { ValidationRule } from "@/hooks/useValidation";
-import { FetchMethod } from "@/app_directories/types/types";
 
 export default function Login() {
   const { snackBar, setSnackBar } = useSnackBar();

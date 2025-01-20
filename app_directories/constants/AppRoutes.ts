@@ -1,10 +1,10 @@
 export const app_routes: Record<string, any> = {
   post: {
-    home: "/(app)/(tabs)/(home)",
+    home: "/(tabs)/(home)",
     compose: "/compose",
-    edit: (id: string) => `/(app)/(home)/post/${id}/edit`,
-    view: (id: string) => `/(app)/(tabs)/(home)/(post)/${id}`,
-    view_media: (id: string) => `/(app)/(tabs)/(home)/(post)/media/${id}`,
+    edit: (id: string) => `/(tabs)/(home)/post/${id}/edit`,
+    view: (id: string) => `/(tabs)/(home)/(post)/${id}`,
+    view_media: (id: string) => `/(tabs)/(home)/(post)/media/${id}`,
   },
   auth: {
     login: "/(auth)/login",
