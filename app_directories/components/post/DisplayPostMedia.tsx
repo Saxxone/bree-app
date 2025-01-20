@@ -1,6 +1,6 @@
 import { memo, useMemo } from "react";
 import { Pressable, View } from "react-native";
-import tailwindClasses from "@/app-directories/services/ClassTransformer";
+import tailwindClasses from "@/app_directories/services/ClassTransformer";
 import ImageViewer from "../app/ImageViewer";
 import VideoViewer from "../app/VideoViewer";
 

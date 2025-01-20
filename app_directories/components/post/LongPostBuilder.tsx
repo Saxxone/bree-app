@@ -1,7 +1,7 @@
-import api_routes from "@/app-directories/constants/ApiRoutes";
-import { useSnackBar } from "@/app-directories/context/SnackBarProvider";
-import { getTokens } from "@/app-directories/services/ApiConnectService";
-import tailwindClasses from "@/app-directories/services/ClassTransformer";
+import api_routes from "@/app_directories/constants/ApiRoutes";
+import { useSnackBar } from "@/app_directories/context/SnackBarProvider";
+import { getTokens } from "@/app_directories/services/ApiConnectService";
+import tailwindClasses from "@/app_directories/services/ClassTransformer";
 import { Ionicons } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useMutation } from "@tanstack/react-query";

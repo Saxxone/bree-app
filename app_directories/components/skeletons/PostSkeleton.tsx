@@ -1,7 +1,7 @@
-import tailwindClasses from "@/app-directories/services/ClassTransformer";
+import tailwindClasses from "@/app_directories/services/ClassTransformer";
 import { memo, useMemo } from "react";
 import { useColorScheme, View } from "react-native";
-import { DarkStyle, LightStyle } from "@/app-directories/constants/Theme";
+import { DarkStyle, LightStyle } from "@/app_directories/constants/Theme";
 import SkeletonLoader from "./SkeletonLoader";
 
 const PostSkeleton = memo(() => {

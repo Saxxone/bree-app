@@ -4,7 +4,7 @@ import {
   type PropsWithChildren,
   useMemo,
 } from "react";
-import { useStorageState } from "@/app-directories/services/useStorageState";
+import { useStorageState } from "@/app_directories/services/useStorageState";
 
 const AuthContext = createContext<{
   signIn: () => void;

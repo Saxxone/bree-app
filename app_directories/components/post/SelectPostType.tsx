@@ -1,8 +1,8 @@
-import Button from "@/app-directories/components/form/Button";
-import { PostType } from "@/app-directories/types/post";
+import Button from "@/app_directories/components/form/Button";
+import { PostType } from "@/app_directories/types/post";
 import { memo } from "react";
 import { useColorScheme, View } from "react-native";
-import tailwindClasses from "@/app-directories/services/ClassTransformer";
+import tailwindClasses from "@/app_directories/services/ClassTransformer";
 
 interface Props {
   type: PostType;

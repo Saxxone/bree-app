@@ -1,25 +1,25 @@
-import { useSession } from "@/app/ctx";
-import SpacerY from "@/app-directories/components/app/SpacerY";
-import Text from "@/app-directories/components/app/Text";
-import AppButton from "@/app-directories/components/form/Button";
-import FormInput from "@/app-directories/components/form/FormInput";
-import api_routes from "@/app-directories/constants/ApiRoutes";
-import { app_routes } from "@/app-directories/constants/AppRoutes";
-import { primary } from "@/app-directories/constants/Colors";
-import { useSnackBar } from "@/app-directories/context/SnackBarProvider";
+import SpacerY from "@/app_directories/components/app/SpacerY";
+import Text from "@/app_directories/components/app/Text";
+import AppButton from "@/app_directories/components/form/Button";
+import FormInput from "@/app_directories/components/form/FormInput";
+import api_routes from "@/app_directories/constants/ApiRoutes";
+import { app_routes } from "@/app_directories/constants/AppRoutes";
+import { primary } from "@/app_directories/constants/Colors";
+import { useSnackBar } from "@/app_directories/context/SnackBarProvider";
+import { ValidationRule } from "@/app_directories/hooks/useValidation";
 import {
   ApiConnectService,
   savePassword,
   saveTokens,
-} from "@/app-directories/services/ApiConnectService";
-import tailwindClasses from "@/app-directories/services/ClassTransformer";
+} from "@/app_directories/services/ApiConnectService";
+import tailwindClasses from "@/app_directories/services/ClassTransformer";
+import { FetchMethod } from "@/app_directories/types/types";
+import { User } from "@/app_directories/types/user";
+import { useSession } from "@/app_directories/context/AppContext";
 import { useQuery } from "@tanstack/react-query";
 import { Link, router } from "expo-router";
 import { useState } from "react";
 import { ActivityIndicator, View } from "react-native";
-import { ValidationRule } from "@/app-directories/hooks/useValidation";
-import { FetchMethod } from "@/app-directories/types/types";
-import { User } from "@/app-directories/types/user";
 
 export default function Login() {
   const { snackBar, setSnackBar } = useSnackBar();

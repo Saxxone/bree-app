@@ -1,10 +1,10 @@
-import Text from "@/app-directories/components/app/Text";
-import api_routes from "@/app-directories/constants/ApiRoutes";
-import { app_routes } from "@/app-directories/constants/AppRoutes";
-import { ApiConnectService } from "@/app-directories/services/ApiConnectService";
-import tailwindClasses from "@/app-directories/services/ClassTransformer";
-import { Post } from "@/app-directories/types/post";
-import { FetchMethod } from "@/app-directories/types/types";
+import Text from "@/app_directories/components/app/Text";
+import api_routes from "@/app_directories/constants/ApiRoutes";
+import { app_routes } from "@/app_directories/constants/AppRoutes";
+import { ApiConnectService } from "@/app_directories/services/ApiConnectService";
+import tailwindClasses from "@/app_directories/services/ClassTransformer";
+import { Post } from "@/app_directories/types/post";
+import { FetchMethod } from "@/app_directories/types/types";
 import { Ionicons } from "@expo/vector-icons";
 import { useQuery } from "@tanstack/react-query";
 import { router } from "expo-router";

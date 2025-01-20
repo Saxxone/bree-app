@@ -1,5 +1,5 @@
-import ImageViewer from "@/app-directories/components/app/ImageViewer";
-import VideoViewer from "@/app-directories/components/app/VideoViewer";
+import ImageViewer from "@/app_directories/components/app/ImageViewer";
+import VideoViewer from "@/app_directories/components/app/VideoViewer";
 import { memo, useMemo } from "react";
 import { Post } from "../../types/post";
 

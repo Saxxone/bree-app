@@ -1,4 +1,4 @@
-import { DarkStyle, LightStyle } from "@/app-directories/constants/Theme";
+import { DarkStyle, LightStyle } from "@/app_directories/constants/Theme";
 import { memo, useMemo } from "react";
 import {
   Text as AppText,
@@ -6,7 +6,7 @@ import {
   TextStyle,
   useColorScheme,
 } from "react-native";
-import tailwindClasses from "@/app-directories/services/ClassTransformer";
+import tailwindClasses from "@/app_directories/services/ClassTransformer";
 
 interface Props {
   style?: TextStyle;

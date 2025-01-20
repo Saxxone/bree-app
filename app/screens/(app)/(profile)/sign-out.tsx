@@ -1,6 +1,6 @@
-import { useSession } from "@/app/ctx";
-import Text from "@/app-directories/components/app/Text";
-import tailwindClasses from "@/app-directories/services/ClassTransformer";
+import Text from "@/app_directories/components/app/Text";
+import tailwindClasses from "@/app_directories/services/ClassTransformer";
+import { useSession } from "@/app_directories/context/AppContext";
 import { View } from "react-native";
 
 export default function Index() {

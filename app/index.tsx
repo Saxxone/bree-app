@@ -1,9 +1,9 @@
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import { View } from "react-native";
-import { getTokens } from "@/app-directories/services/ApiConnectService";
-import tailwindClasses from "@/app-directories/services/ClassTransformer";
-import { app_routes } from "@/app-directories/constants/AppRoutes";
+import { getTokens } from "@/app_directories/services/ApiConnectService";
+import tailwindClasses from "@/app_directories/services/ClassTransformer";
+import { app_routes } from "@/app_directories/constants/AppRoutes";
 
 export default function Index() {
   (async function getAuthStatus() {
@@ -30,7 +30,7 @@ export default function Index() {
       )}
     >
       <Image
-        source={require("@/app-directories/assets/images/bree.png")}
+        source={require("@/app_directories/assets/images/bree.png")}
         contentFit="cover"
         style={[tailwindClasses("rounded-lg h-20 w-20 object-cover")]}
       />

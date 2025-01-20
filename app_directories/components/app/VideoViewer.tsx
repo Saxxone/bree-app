@@ -1,7 +1,7 @@
 import { useEvent } from "expo";
 import { useVideoPlayer, VideoView } from "expo-video";
 import { View } from "react-native";
-import tailwindClasses from "@/app-directories/services/ClassTransformer";
+import tailwindClasses from "@/app_directories/services/ClassTransformer";
 
 interface Props {
   source: string;

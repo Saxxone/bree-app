@@ -1,7 +1,7 @@
 import { Link, Stack } from "expo-router";
 import React from "react";
 import { View } from "react-native";
-import tailwindClasses from "@/app-directories/services/ClassTransformer";
+import tailwindClasses from "@/app_directories/services/ClassTransformer";
 
 export default function NotFoundScreen() {
   return (

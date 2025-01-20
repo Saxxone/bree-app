@@ -1,6 +1,6 @@
-import { gray_600, gray_700 } from "@/app-directories/constants/Colors";
+import { gray_600, gray_700 } from "@/app_directories/constants/Colors";
 import { Animated } from "react-native";
-import tailwindClasses from "@/app-directories/services/ClassTransformer";
+import tailwindClasses from "@/app_directories/services/ClassTransformer";
 
 interface Props {
   width: string;

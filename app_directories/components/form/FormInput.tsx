@@ -1,5 +1,5 @@
-import Text from "@/app-directories/components/app/Text";
-import { DarkStyle, LightStyle } from "@/app-directories/constants/Theme";
+import Text from "@/app_directories/components/app/Text";
+import { DarkStyle, LightStyle } from "@/app_directories/constants/Theme";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { memo, useCallback, useMemo, useState } from "react";
 import {
@@ -15,7 +15,7 @@ import {
 } from "react-native";
 import { gray_900, white } from "../../constants/Colors";
 import { useValidation, ValidationRule } from "../../hooks/useValidation";
-import tailwindClasses from "@/app-directories/services/ClassTransformer";
+import tailwindClasses from "@/app_directories/services/ClassTransformer";
 
 type IconNames =
   | "lock-closed-outline"

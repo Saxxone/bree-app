@@ -1,7 +1,7 @@
-import { primary } from "@/app-directories/constants/Colors";
+import { primary } from "@/app_directories/constants/Colors";
 import { memo, useMemo } from "react";
 import { Pressable } from "react-native";
-import tailwindClasses from "@/app-directories/services/ClassTransformer";
+import tailwindClasses from "@/app_directories/services/ClassTransformer";
 import Text from "../app/Text";
 
 type Props = {

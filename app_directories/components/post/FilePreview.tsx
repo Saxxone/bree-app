@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { memo, useMemo } from "react";
 import { FlatList, Pressable, View } from "react-native";
-import tailwindClasses from "@/app-directories/services/ClassTransformer";
+import tailwindClasses from "@/app_directories/services/ClassTransformer";
 import ImageViewer from "../app/ImageViewer";
 
 interface Props {
