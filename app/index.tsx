@@ -1,20 +1,25 @@
-import { View } from "react-native";
-import { router } from "expo-router";
-import { retrieveTokenFromKeychain } from "@/services/ApiConnectService";
-import { app_routes } from "./constants/AppRoutes";
-import tailwindClasses from "./services/ClassTransformer";
 import { Image } from "expo-image";
+import { router } from "expo-router";
+import { View } from "react-native";
+import { getTokens } from "@/services/ApiConnectService";
+import tailwindClasses from "@/services/ClassTransformer";
+import { app_routes } from "@/constants/AppRoutes";
 
 export default function Index() {
   (async function getAuthStatus() {
-    const token = await retrieveTokenFromKeychain();
-    console.log("::token::", token);
-    if (token) {
+    const { access_token } = await getTokens();
+    console.log("::token::", access_token);
+    if (access_token) {
       console.log("Authenticated");
       router.replace(app_routes.post.home);
     } else {
       console.log("Redirecting to login");
-      router.replace(app_routes.auth.login);
+      if (router) {
+        console.log("Router is available");
+        router.push("/screens/auth/login");
+      } else {
+        console.error("Router is not available");
+      }
     }
   })();
 

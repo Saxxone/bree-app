@@ -1,15 +1,15 @@
-import { useLocalSearchParams } from "expo-router";
-import PostDisplay from "@/components/post/PostDisplay";
-import { View, ScrollView } from "react-native";
 import Text from "@/components/app/Text";
+import PostDisplay from "@/components/post/PostDisplay";
 import api_routes from "@/constants/ApiRoutes";
+import { useSnackBar } from "@/context/SnackBarProvider";
 import { ApiConnectService } from "@/services/ApiConnectService";
 import tailwindClasses from "@/services/ClassTransformer";
 import { Post } from "@/types/post";
 import { FetchMethod } from "@/types/types";
 import { useQuery } from "@tanstack/react-query";
+import { useLocalSearchParams } from "expo-router";
 import { useMemo } from "react";
-import { useSnackBar } from "@/context/SnackBarProvider";
+import { ScrollView, View } from "react-native";
 
 export default function PostScreen() {
   const { id } = useLocalSearchParams();

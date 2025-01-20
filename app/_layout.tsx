@@ -1,17 +1,17 @@
+import { SessionProvider } from "@/app/ctx";
+import SnackBar from "@/components/app/SnackBar";
+import { DarkTheme, LightTheme } from "@/constants/Theme";
+import { SnackBarProvider, useSnackBar } from "@/context/SnackBarProvider";
+import { headerDark, headerLight } from "@/styles/main";
 import { ThemeProvider } from "@react-navigation/native";
-import { useColorScheme } from "react-native";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
-import { Stack, Slot } from "expo-router";
+import { Slot, Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { useColorScheme } from "react-native";
 import "react-native-reanimated";
-import { SessionProvider } from "@/ctx";
-import { DarkTheme, LightTheme } from "@/constants/Theme";
-import { headerDark, headerLight } from "./styles/main";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import SnackBar from "./components/app/SnackBar";
-import { SnackBarProvider, useSnackBar } from "@/context/SnackBarProvider";
 
 SplashScreen.preventAutoHideAsync();
 

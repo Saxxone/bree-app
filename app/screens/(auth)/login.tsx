@@ -1,22 +1,25 @@
-import { Link, router } from "expo-router";
-import * as Keychain from "react-native-keychain";
-import { View, ActivityIndicator } from "react-native";
-import { useState } from "react";
-import FormInput from "@/components/form/FormInput";
-import Text from "@/components/app/Text";
+import { useSession } from "@/app/ctx";
 import SpacerY from "@/components/app/SpacerY";
+import Text from "@/components/app/Text";
 import AppButton from "@/components/form/Button";
+import FormInput from "@/components/form/FormInput";
+import api_routes from "@/constants/ApiRoutes";
 import { app_routes } from "@/constants/AppRoutes";
 import { primary } from "@/constants/Colors";
-import { ValidationRule } from "@/hooks/useValidation";
-import { ApiConnectService } from "@/services/ApiConnectService";
-import { useQuery } from "@tanstack/react-query";
-import api_routes from "@/constants/ApiRoutes";
-import { FetchMethod } from "@/types/types";
 import { useSnackBar } from "@/context/SnackBarProvider";
-import { User } from "@/types/user";
+import {
+  ApiConnectService,
+  savePassword,
+  saveTokens,
+} from "@/services/ApiConnectService";
 import tailwindClasses from "@/services/ClassTransformer";
-import { useSession } from "@/ctx";
+import { useQuery } from "@tanstack/react-query";
+import { Link, router } from "expo-router";
+import { useState } from "react";
+import { ActivityIndicator, View } from "react-native";
+import { ValidationRule } from "../../../hooks/useValidation";
+import { FetchMethod } from "../../../types/types";
+import { User } from "../../../types/user";
 
 export default function Login() {
   const { snackBar, setSnackBar } = useSnackBar();
@@ -68,7 +71,6 @@ export default function Login() {
 
     if (validateLogin()) {
       const response = await refetch();
-      const api_url = process.env.EXPO_PUBLIC_API_BASE_URL as string;
 
       if (error) {
         setSnackBar({
@@ -79,12 +81,14 @@ export default function Login() {
           message: error.message || "Login failed. Please try again.",
         });
       } else if (response.data && !response.data.error) {
-        await Keychain.setGenericPassword(email, password);
-        await Keychain.setInternetCredentials(
-          api_url,
-          "access_token",
-          response?.data?.data?.access_token as string,
-        );
+        savePassword({
+          username: email,
+          password: password,
+        });
+        saveTokens({
+          access_token: response?.data?.data?.access_token as string,
+          refresh_token: response?.data?.data?.refresh_token as string,
+        });
         signIn();
         router.replace(app_routes.post.home);
       }

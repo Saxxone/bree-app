@@ -1,8 +1,8 @@
-import { Text, useColorScheme } from "react-native";
+import { useSession } from "@/app/ctx";
 import { Redirect, Stack } from "expo-router";
-import { useSession } from "@/ctx";
+import { Text, useColorScheme } from "react-native";
 
-import { headerDark, headerLight } from "@/styles/main";
+import { headerDark, headerLight } from "../../../styles/main";
 
 export default function AppLayout() {
   const { session, isLoading } = useSession();

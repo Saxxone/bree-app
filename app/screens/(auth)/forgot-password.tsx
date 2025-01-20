@@ -1,19 +1,19 @@
-import { Link } from "expo-router";
-import { View } from "react-native";
-import { useState } from "react";
-import FormInput from "@/components/form/FormInput";
-import Text from "@/components/app/Text";
 import SpacerY from "@/components/app/SpacerY";
+import Text from "@/components/app/Text";
 import AppButton from "@/components/form/Button";
+import FormInput from "@/components/form/FormInput";
+import api_routes from "@/constants/ApiRoutes";
 import { app_routes } from "@/constants/AppRoutes";
 import { primary } from "@/constants/Colors";
-import { ValidationRule } from "@/hooks/useValidation";
-import { ApiConnectService } from "@/services/ApiConnectService";
-import { useQuery } from "@tanstack/react-query";
-import api_routes from "@/constants/ApiRoutes";
-import { FetchMethod } from "@/types/types";
-import tailwindClasses from "@/services/ClassTransformer";
 import { useSnackBar } from "@/context/SnackBarProvider";
+import { ApiConnectService } from "@/services/ApiConnectService";
+import tailwindClasses from "@/services/ClassTransformer";
+import { useQuery } from "@tanstack/react-query";
+import { Link } from "expo-router";
+import { useState } from "react";
+import { View } from "react-native";
+import { ValidationRule } from "@/hooks/useValidation";
+import { FetchMethod } from "@/types/types";
 
 export default function Login() {
   const { snackBar, setSnackBar } = useSnackBar();

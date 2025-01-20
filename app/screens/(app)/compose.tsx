@@ -1,21 +1,20 @@
-import { View, ScrollView } from "react-native";
-import tailwindClasses from "@/services/ClassTransformer";
-import PostDisplay from "@/components/post/PostDisplay";
-import { LongPostBlock, Post, PostType } from "@/types/post";
-import { Ionicons } from "@expo/vector-icons";
-import SelectPostType from "@/components/post/SelectPostType";
 import LongPostBuilder from "@/components/post/LongPostBuilder";
-import { useMemo, useState } from "react";
-import { FetchMethod } from "@/types/types";
-import { router, useLocalSearchParams } from "expo-router";
-import { useQuery } from "@tanstack/react-query";
-import api_routes from "@/constants/ApiRoutes";
-import { ApiConnectService } from "@/services/ApiConnectService";
 import Button from "@/components/form/Button";
-import { useSnackBar } from "@/context/SnackBarProvider";
+import PostDisplay from "@/components/post/PostDisplay";
+import SelectPostType from "@/components/post/SelectPostType";
 import ShortPostBuilder from "@/components/post/ShortPostBuilder";
+import api_routes from "@/constants/ApiRoutes";
 import { app_routes } from "@/constants/AppRoutes";
-import React from "react";
+import { useSnackBar } from "@/context/SnackBarProvider";
+import { ApiConnectService } from "@/services/ApiConnectService";
+import tailwindClasses from "@/services/ClassTransformer";
+import { Post, PostType, LongPostBlock } from "@/types/post";
+import { FetchMethod } from "@/types/types";
+import { Ionicons } from "@expo/vector-icons";
+import { useQuery } from "@tanstack/react-query";
+import { useLocalSearchParams, router } from "expo-router";
+import React, { useState, useMemo } from "react";
+import { ScrollView, View } from "react-native";
 
 export default function Compose() {
   const { id, is_comment } = useLocalSearchParams();

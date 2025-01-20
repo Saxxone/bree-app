@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
 import { useColorScheme } from "react-native";
-import { headerDark, headerLight } from "@/styles/main";
+import { headerDark, headerLight } from "../../../styles/main";
 
 export default function AuthLayout() {
   const color_scheme = useColorScheme();

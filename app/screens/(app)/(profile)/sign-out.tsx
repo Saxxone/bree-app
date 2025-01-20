@@ -1,7 +1,7 @@
-import { View } from "react-native";
-import { useSession } from "@/ctx";
-import tailwindClasses from "@/services/ClassTransformer";
+import { useSession } from "@/app/ctx";
 import Text from "@/components/app/Text";
+import tailwindClasses from "@/services/ClassTransformer";
+import { View } from "react-native";
 
 export default function Index() {
   const { signOut } = useSession();

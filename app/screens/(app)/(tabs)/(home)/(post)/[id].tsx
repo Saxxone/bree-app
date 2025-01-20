@@ -1,22 +1,21 @@
-import { useLocalSearchParams } from "expo-router";
-import PostDisplay from "@/components/post/PostDisplay";
-import {
-  RefreshControl,
-  View,
-  ScrollView,
-  ActivityIndicator,
-} from "react-native";
 import Text from "@/components/app/Text";
+import PostDisplay from "@/components/post/PostDisplay";
 import api_routes from "@/constants/ApiRoutes";
 import { violet_500 } from "@/constants/Colors";
+import { Post } from "@/types/post";
 import { ApiConnectService } from "@/services/ApiConnectService";
 import tailwindClasses from "@/services/ClassTransformer";
-import { Post } from "@/types/post";
 import { FetchMethod } from "@/types/types";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import { useMemo } from "react";
 import { FlashList } from "@shopify/flash-list";
-import React from "react";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useLocalSearchParams } from "expo-router";
+import React, { useMemo } from "react";
+import {
+  ActivityIndicator,
+  RefreshControl,
+  ScrollView,
+  View,
+} from "react-native";
 
 const POSTS_PER_PAGE = 9;
 const ESTIMATED_ITEM_SIZE = 250;

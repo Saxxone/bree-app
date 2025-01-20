@@ -1,17 +1,17 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { RefreshControl, View, ActivityIndicator } from "react-native";
-import { FlashList } from "@shopify/flash-list";
-import PostDisplay from "@/components/post/PostDisplay";
-import { ApiConnectService } from "@/services/ApiConnectService";
-import { Post } from "@/types/post";
-import Text from "@/components/app/Text";
-import { violet_500 } from "@/constants/Colors";
-import tailwindClasses from "@/services/ClassTransformer";
-import { app_routes } from "@/constants/AppRoutes";
 import FloatingActionButton from "@/components/app/FloatingActionButton";
+import Text from "@/components/app/Text";
+import PostDisplay from "@/components/post/PostDisplay";
 import api_routes from "@/constants/ApiRoutes";
+import { app_routes } from "@/constants/AppRoutes";
+import { violet_500 } from "@/constants/Colors";
+import { ApiConnectService } from "@/services/ApiConnectService";
+import tailwindClasses from "@/services/ClassTransformer";
+import { Post } from "@/types/post";
 import { FetchMethod } from "@/types/types";
+import { FlashList } from "@shopify/flash-list";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import React from "react";
+import { ActivityIndicator, RefreshControl, View } from "react-native";
 
 const POSTS_PER_PAGE = 9;
 const ESTIMATED_ITEM_SIZE = 250;
