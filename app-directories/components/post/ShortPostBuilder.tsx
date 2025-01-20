@@ -1,7 +1,7 @@
-import Text from "@/components/app/Text";
-import api_routes from "@/constants/ApiRoutes";
-import { useSnackBar } from "@/context/SnackBarProvider";
-import { getTokens } from "@/services/ApiConnectService";
+import Text from "@/app-directories/components/app/Text";
+import api_routes from "@/app-directories/constants/ApiRoutes";
+import { useSnackBar } from "@/app-directories/context/SnackBarProvider";
+import { getTokens } from "@/app-directories/services/ApiConnectService";
 import { useMutation } from "@tanstack/react-query";
 import * as FileSystem from "expo-file-system";
 import * as ImagePicker from "expo-image-picker";

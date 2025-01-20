@@ -1,6 +1,6 @@
-import Text from "@/components/app/Text";
-import { useSnackBar } from "@/context/SnackBarProvider";
-import tailwindClasses from "@/services/ClassTransformer";
+import Text from "@/app-directories/components/app/Text";
+import { useSnackBar } from "@/app-directories/context/SnackBarProvider";
+import tailwindClasses from "@/app-directories/services/ClassTransformer";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import React, { useCallback, useMemo, useState } from "react";

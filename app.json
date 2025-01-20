@@ -5,7 +5,7 @@
     "description": "Bree Social is social media that's healthy and non-toxic. Social media that is the best of us for us. Bree is freedom to express yourself in the most authentic way. Be Free",
     "version": "0.0.1",
     "orientation": "portrait",
-    "icon": "./app/assets/images/bree.png",
+    "icon": "./assets/images/bree.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -14,13 +14,13 @@
       "ios"
     ],
     "notification": {
-      "icon": "./app/assets/images/bree.png",
+      "icon": "./assets/images/bree.png",
       "color": "#6366f1",
       "iosDisplayInForeground": true,
       "androidMode": "default"
     },
     "splash": {
-      "image": "./app/assets/images/bree.png",
+      "image": "./assets/images/bree.png",
       "resizeMode": "contain",
       "backgroundColor": "#1f2937"
     },
@@ -34,7 +34,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./app/assets/images/bree.png",
+        "foregroundImage": "./assets/images/bree.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.anonymous.breeapp"
@@ -42,7 +42,7 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./app/assets/images/bree.png"
+      "favicon": "./assets/images/bree.png"
     },
     "plugins": [
       [
@@ -56,7 +56,7 @@
       [
         "expo-splash-screen",
         {
-          "image": "./app/assets/images/bree.png",
+          "image": "./assets/images/bree.png",
           "imageWidth": 200,
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"

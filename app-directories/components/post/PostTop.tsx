@@ -1,9 +1,9 @@
-import Text from "@/components/app/Text";
-import { violet_400 } from "@/constants/Colors";
+import Text from "@/app-directories/components/app/Text";
+import { violet_400 } from "@/app-directories/constants/Colors";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import React, { memo } from "react";
 import { Image, View } from "react-native";
-import tailwindClasses from "../../services/ClassTransformer";
+import tailwindClasses from "@/app-directories/services/ClassTransformer";
 import { Post } from "../../types/post";
 
 interface Props {

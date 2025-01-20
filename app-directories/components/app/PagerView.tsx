@@ -6,7 +6,7 @@ import {
   NativeSyntheticEvent,
   View,
 } from "react-native";
-import tailwindClasses from "../../services/ClassTransformer";
+import tailwindClasses from "@/app-directories/services/ClassTransformer";
 
 interface Props {
   children: React.ReactNode;

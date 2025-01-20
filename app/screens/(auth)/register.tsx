@@ -1,19 +1,19 @@
-import SpacerY from "@/components/app/SpacerY";
-import Text from "@/components/app/Text";
-import AppButton from "@/components/form/Button";
-import FormInput from "@/components/form/FormInput";
-import api_routes from "@/constants/ApiRoutes";
-import { app_routes } from "@/constants/AppRoutes";
-import { primary } from "@/constants/Colors";
-import { useSnackBar } from "@/context/SnackBarProvider";
-import { ApiConnectService } from "@/services/ApiConnectService";
-import tailwindClasses from "@/services/ClassTransformer";
+import SpacerY from "@/app-directories/components/app/SpacerY";
+import Text from "@/app-directories/components/app/Text";
+import AppButton from "@/app-directories/components/form/Button";
+import FormInput from "@/app-directories/components/form/FormInput";
+import api_routes from "@/app-directories/constants/ApiRoutes";
+import { app_routes } from "@/app-directories/constants/AppRoutes";
+import { primary } from "@/app-directories/constants/Colors";
+import { useSnackBar } from "@/app-directories/context/SnackBarProvider";
+import { ApiConnectService } from "@/app-directories/services/ApiConnectService";
+import tailwindClasses from "@/app-directories/services/ClassTransformer";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "expo-router";
 import { useState } from "react";
 import { View } from "react-native";
-import { ValidationRule } from "../../../hooks/useValidation";
-import { FetchMethod } from "../../../types/types";
+import { ValidationRule } from "@/app-directories/hooks/useValidation";
+import { FetchMethod } from "@/app-directories/types/types";
 
 export default function Login() {
   const { snackBar, setSnackBar } = useSnackBar();

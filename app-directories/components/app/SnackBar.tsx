@@ -7,12 +7,12 @@ import {
   green_500,
   rose_100,
   rose_500,
-} from "@/constants/Colors";
+} from "@/app-directories/constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { memo, useEffect, useRef } from "react";
 import { Animated, Pressable, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import tailwindClasses from "../../services/ClassTransformer";
+import tailwindClasses from "@/app-directories/services/ClassTransformer";
 import type { Snack } from "../../types/types";
 import Text from "./Text";
 

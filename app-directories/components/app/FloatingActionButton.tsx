@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Link, RelativePathString } from "expo-router";
 import { memo } from "react";
 import { View } from "react-native";
-import tailwindClasses from "../../services/ClassTransformer";
+import tailwindClasses from "@/app-directories/services/ClassTransformer";
 
 interface Props {
   to: RelativePathString;

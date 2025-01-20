@@ -1,6 +1,6 @@
 import { Image } from "expo-image";
 import { memo } from "react";
-import tailwindClasses from "../../services/ClassTransformer";
+import tailwindClasses from "@/app-directories/services/ClassTransformer";
 
 type Props = {
   readonly source: string;

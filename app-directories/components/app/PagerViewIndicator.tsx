@@ -1,6 +1,6 @@
 import { memo, useMemo } from "react";
 import { View } from "react-native";
-import tailwindClasses from "../../services/ClassTransformer";
+import tailwindClasses from "@/app-directories/services/ClassTransformer";
 
 interface Props {
   length: number;
