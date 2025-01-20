@@ -1,8 +1,4 @@
 export const app_routes: Record<string, any> = {
-  home: "/screens/(app)/(tabs)/(home)",
-  login: "/screens/(auth)/login",
-  register: "/screens/(auth)/register",
-  forgotPassword: "/screens/(auth)/forgot-password",
   post: {
     home: "/screens/(app)/(tabs)/(home)",
     compose: "/screens/compose",
@@ -12,8 +8,8 @@ export const app_routes: Record<string, any> = {
       `/screens/(app)/(tabs)/(home)/(post)/media/${id}`,
   },
   auth: {
-    login: "/screens/(auth)login",
-    register: "/screens/(auth)register",
-    forgotPassword: "/screens/(auth)forgot-password",
+    login: "/screens/(auth)/login",
+    register: "/screens/(auth)/register",
+    forgot_password: "/screens/(auth)forgot-password",
   },
 };

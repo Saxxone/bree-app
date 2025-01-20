@@ -138,7 +138,7 @@ export default function Login() {
       />
 
       <View style={tailwindClasses("justify-end flex-row w-full")}>
-        <Link href={app_routes.forgotPassword}>
+        <Link href={app_routes.auth.forgot_password}>
           <Text style={tailwindClasses("self-end")}>Forgot password?</Text>
         </Link>
       </View>
@@ -160,7 +160,7 @@ export default function Login() {
       <SpacerY size="xxs" />
 
       <View style={tailwindClasses("flex-row justify-center w-full")}>
-        <Link href={app_routes.register}>
+        <Link href={app_routes.auth.register}>
           <Text>Create new account?</Text>
           <Text style={{ color: primary }}> Sign up</Text>
         </Link>

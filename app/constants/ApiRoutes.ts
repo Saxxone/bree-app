@@ -6,6 +6,7 @@ const api_routes = {
   google_signup: api_url + "/auth/signup/google",
   logout: api_url + "/auth/logout",
   register: api_url + "/user/register",
+  token_refresh: api_url + "/auth/refresh",
   posts: {
     base: api_url + "/posts",
     feed: api_url + "/posts/feed",

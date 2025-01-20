@@ -1,10 +1,7 @@
 import { FetchMethod } from "@/types/types";
 import * as Keychain from "react-native-keychain";
 import * as SecureStore from "expo-secure-store";
-
-interface AuthState {
-  isAuthenticated: boolean;
-}
+import api_routes from "@/constants/ApiRoutes";
 
 interface Props {
   url: string;
@@ -21,28 +18,9 @@ interface TokenPair {
   refresh_token: string;
 }
 
-// Constants
-const KEYCHAIN_SERVICE = process.env.EXPO_PUBLIC_API_BASE_URL as string;
-const TOKEN_REFRESH_ENDPOINT = "/auth/refresh"; // Adjust this to match your API endpoint
+const KEYCHAIN_URL = { service: process.env.EXPO_PUBLIC_API_BASE_URL };
 let is_refreshing = false;
 let refreshSubscribers: ((token: string) => void)[] = [];
-
-/**
- * Retrieves a token from the keychain.
- *
- * @returns {Promise<string | undefined>} The stored token, or undefined if retrieval fails or no token is found.
- */
-export async function retrieveTokenFromKeychain(): Promise<string | undefined> {
-  const api_url = process.env.EXPO_PUBLIC_API_BASE_URL as string;
-  try {
-    const credentials = await Keychain.getInternetCredentials(api_url);
-    if (credentials) {
-      return credentials.password;
-    }
-  } catch (error) {
-    console.error("Failed to access Keychain", error);
-  }
-}
 
 /**
  * Subscribes callbacks to be executed once token refresh is complete
@@ -62,61 +40,67 @@ function onTokenRefreshComplete(new_token: string) {
 /**
  * Saves tokens to keychain
  */
-async function saveTokens(tokens: TokenPair): Promise<void> {
+const saveTokens = async (tokens: TokenPair): Promise<void> => {
   try {
-    await Keychain.setInternetCredentials(
-      KEYCHAIN_SERVICE,
-      "access_token",
-      tokens.access_token,
-    );
-    await Keychain.setInternetCredentials(
-      KEYCHAIN_SERVICE + "_refresh",
-      "refresh_token",
-      tokens.refresh_token,
-    );
   } catch (error) {
-    console.error("Failed to save tokens to Keychain", error);
-    throw error;
+    console.error("Failed to save tokens to Keychain:", error);
+  }
+};
+
+/**
+ * Retrieves a token from the keychain.
+ *
+ * @returns {Promise<string | undefined>} The stored token, or undefined if retrieval fails or no token is found.
+ */
+export async function retrieveTokenFromKeychain(): Promise<string | undefined> {
+  try {
+    const credentials = await Keychain.getInternetCredentials(KEYCHAIN_URL);
+    if (credentials) {
+      return credentials.password;
+    }
+  } catch (error) {
+    console.error("Failed to access Keychain", error);
   }
 }
 
 /**
  * Retrieves both access and refresh tokens from keychain
  */
-async function getTokens(): Promise<TokenPair | null> {
+const getTokens = async (): Promise<TokenPair | null> => {
   try {
-    const [accessCreds, refreshCreds] = await Promise.all([
-      Keychain.getInternetCredentials(KEYCHAIN_SERVICE),
-      Keychain.getInternetCredentials(KEYCHAIN_SERVICE + "_refresh"),
+    const [access_credentials, refresh_credentials] = await Promise.all([
+      Keychain.getInternetCredentials(KEYCHAIN_URL),
+      Keychain.getInternetCredentials(KEYCHAIN_URL + "_refresh"),
     ]);
 
-    if (accessCreds && refreshCreds) {
+    if (access_credentials && refresh_credentials) {
       return {
-        access_token: accessCreds.password,
-        refresh_token: refreshCreds.password,
+        access_token: access_credentials.password,
+        refresh_token: refresh_credentials.password,
       };
+    } else {
+      return null;
     }
-    return null;
   } catch (error) {
-    console.error("Failed to retrieve tokens from Keychain", error);
+    console.error("Failed to get tokens from Keychain:", error);
     return null;
   }
-}
+};
 
 /**
  * Clears all tokens from keychain and updates auth state
  */
-async function logout() {
+const logout = async () => {
   try {
     await Promise.all([
-      Keychain.resetInternetCredentials(KEYCHAIN_SERVICE),
-      Keychain.resetInternetCredentials(KEYCHAIN_SERVICE + "_refresh"),
+      Keychain.resetInternetCredentials(KEYCHAIN_URL),
+      // Keychain.resetInternetCredentials(KEYCHAIN_REFRESH_TOKEN_SERVICE),
     ]);
-    await SecureStore.setItemAsync("isAuthenticated", "false");
+    await SecureStore.deleteItemAsync("isAuthenticated");
   } catch (error) {
-    console.error("Failed to clear tokens from Keychain", error);
+    console.error("Failed to logout and clear credentials:", error);
   }
-}
+};
 
 /**
  * Refreshes the access token using the refresh token
@@ -128,7 +112,7 @@ async function refreshToken(): Promise<string | null> {
       throw new Error("No refresh token available");
     }
 
-    const response = await fetch(KEYCHAIN_SERVICE + TOKEN_REFRESH_ENDPOINT, {
+    const response = await fetch(api_routes.token_refresh, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -252,7 +236,7 @@ async function handleRequestError<T>(
   if (error.message === "Unauthorized") {
     if (!is_refreshing) {
       is_refreshing = true;
-      const new_token = await refreshToken();
+      const new_token = ""; //await refreshToken();
       is_refreshing = false;
 
       if (new_token) {

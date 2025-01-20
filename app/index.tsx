@@ -8,9 +8,12 @@ import { Image } from "expo-image";
 export default function Index() {
   (async function getAuthStatus() {
     const token = await retrieveTokenFromKeychain();
+    console.log("::token::", token);
     if (token) {
+      console.log("Authenticated");
       router.replace(app_routes.post.home);
     } else {
+      console.log("Redirecting to login");
       router.replace(app_routes.auth.login);
     }
   })();

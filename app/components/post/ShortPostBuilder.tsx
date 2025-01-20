@@ -11,6 +11,7 @@ import { retrieveTokenFromKeychain } from "@/services/ApiConnectService";
 import { useMutation } from "@tanstack/react-query";
 import { useSnackBar } from "@/context/SnackBarProvider";
 import * as FileSystem from "expo-file-system";
+import React from "react";
 
 interface Props {
   post: Partial<Post>;

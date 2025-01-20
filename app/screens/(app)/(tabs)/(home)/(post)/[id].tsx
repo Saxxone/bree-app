@@ -16,6 +16,7 @@ import { FetchMethod } from "@/types/types";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { FlashList } from "@shopify/flash-list";
+import React from "react";
 
 const POSTS_PER_PAGE = 9;
 const ESTIMATED_ITEM_SIZE = 250;
@@ -101,7 +102,7 @@ export default function PostScreen() {
     return parent_post?.data ? (
       <View>
         <PostDisplay
-          key={parent_post?.data?.id}
+          key={`parent-${parent_post?.data?.id}`}
           ellipsis={false}
           actions={true}
           isFetching={is_fetching_parent_post}
@@ -109,18 +110,13 @@ export default function PostScreen() {
         />
       </View>
     ) : null;
-  }, [
-    is_fetching_parent_post,
-    is_parent_post_error,
-    parent_post,
-    parent_post_error,
-  ]);
+  }, [is_fetching_parent_post, parent_post?.data]);
 
   const Post = useMemo(() => {
     return post?.data ? (
       <View>
         <PostDisplay
-          key={post?.data?.id}
+          key={`main-${post?.data?.id}`}
           ellipsis={false}
           actions={true}
           isFetching={is_fetching_post}
@@ -148,7 +144,7 @@ export default function PostScreen() {
           renderItem={({ item: post }) => (
             <PostDisplay
               actions={true}
-              key={post?.id}
+              key={`comment-${post?.id}`}
               isFetching={is_fetching_comments && !isFetchingNextPage}
               post={post}
               ellipsis={true}
@@ -182,10 +178,11 @@ export default function PostScreen() {
     );
   }, [
     is_fetching_comments,
-    is_comments_error,
-    comments,
     refetchComments,
-    comment_error,
+    post,
+    isFetchingNextPage,
+    hasNextPage,
+    fetchNextPage,
   ]);
   return (
     <ScrollView style={tailwindClasses("container")}>

@@ -11,6 +11,7 @@ import { app_routes } from "@/constants/AppRoutes";
 import FloatingActionButton from "@/components/app/FloatingActionButton";
 import api_routes from "@/constants/ApiRoutes";
 import { FetchMethod } from "@/types/types";
+import React from "react";
 
 const POSTS_PER_PAGE = 9;
 const ESTIMATED_ITEM_SIZE = 250;
