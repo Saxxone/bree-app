@@ -173,7 +173,7 @@ const FormInput = memo(
           {appendIcon ? memoAppendIcon : null}
         </View>
         <View>
-          {Object.values(errors).map((error, index) => (
+          {Object.values(errors).map((error) => (
             <Text
               key={`${errors.name}-error-message`}
               style={tailwindClasses("my-1 text-red-400")}
@@ -186,5 +186,7 @@ const FormInput = memo(
     );
   },
 );
+
+FormInput.displayName = "FormInput";
 
 export default FormInput;

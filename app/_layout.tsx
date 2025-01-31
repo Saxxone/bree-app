@@ -1,11 +1,11 @@
 import SnackBar from "@/app_directories/components/app/SnackBar";
 import { DarkTheme, LightTheme } from "@/app_directories/constants/Theme";
+import { SessionProvider } from "@/app_directories/context/AppContext";
 import {
   SnackBarProvider,
   useSnackBar,
 } from "@/app_directories/context/SnackBarProvider";
 import { headerDark, headerLight } from "@/app_directories/styles/main";
-import { SessionProvider } from "@/app_directories/context/AppContext";
 import { ThemeProvider } from "@react-navigation/native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
@@ -81,19 +81,13 @@ function LayoutContents() {
     <>
       <Stack screenOptions={header}>
         <Stack.Screen
-          name="screens/(app)"
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
           name="index"
           options={{
             headerShown: false,
           }}
         />
         <Stack.Screen
-          name="screens/(auth)"
+          name="(auth)"
           options={{
             headerShown: false,
           }}

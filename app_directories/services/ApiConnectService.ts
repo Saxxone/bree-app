@@ -23,9 +23,9 @@ interface PasswordPair {
   password: string;
 }
 
-const ACCESS_TOKEN_URL = process.env.EXPO_PUBLIC_API_BASE_URL + "access_token";
+const ACCESS_TOKEN_URL = process.env.EXPO_PUBLIC_API_BASE_URL + "_access_token";
 const REFRESH_TOKEN_URL =
-  process.env.EXPO_PUBLIC_API_BASE_URL + "refresh_token";
+  process.env.EXPO_PUBLIC_API_BASE_URL + "_refresh_token";
 let is_refreshing = false;
 let refreshSubscribers: ((token: string) => void)[] = [];
 
@@ -61,6 +61,9 @@ async function saveTokens(tokens: TokenPair): Promise<void> {
         ACCESS_TOKEN_URL,
         "access_token",
         tokens.access_token,
+        {
+          service: ACCESS_TOKEN_URL,
+        },
       );
 
     if (tokens.refresh_token)
@@ -68,6 +71,9 @@ async function saveTokens(tokens: TokenPair): Promise<void> {
         REFRESH_TOKEN_URL,
         "refresh_token",
         tokens.refresh_token,
+        {
+          service: REFRESH_TOKEN_URL,
+        },
       );
   } catch (error) {
     console.error("Failed to save tokens to Keychain:", error);
@@ -110,8 +116,10 @@ const logout = async () => {
   try {
     await Promise.all([
       Keychain.resetGenericPassword(),
-      Keychain.resetInternetCredentials(ACCESS_TOKEN_URL),
-      Keychain.resetInternetCredentials(REFRESH_TOKEN_URL),
+      Keychain.resetInternetCredentials({
+        service: ACCESS_TOKEN_URL,
+      }),
+      Keychain.resetInternetCredentials({ service: REFRESH_TOKEN_URL }),
     ]);
     await SecureStore.deleteItemAsync("isAuthenticated");
   } catch (error) {
@@ -126,7 +134,7 @@ async function refreshToken(): Promise<string | null> {
   try {
     const tokens = await getTokens();
     if (!tokens?.refresh_token) {
-      throw new Error("No refresh token available");
+      await logout();
     }
 
     const response = await fetch(api_routes.token_refresh, {
@@ -173,14 +181,14 @@ export async function ApiConnectService<T>({
       };
     }
 
-    let fullUrl = url;
+    let full_url = url;
 
     // Build URL with params and query
     if (params) {
       const paramParts = Object.entries(params)
         .map(([key, value]) => `${key}=${value}`)
         .join("&");
-      fullUrl += `/${paramParts}`;
+      full_url += `/${paramParts}`;
     }
 
     if (query) {
@@ -188,18 +196,18 @@ export async function ApiConnectService<T>({
       Object.entries(query).forEach(([key, value]) =>
         queryParams.append(key, value.toString()),
       );
-      fullUrl += `?${queryParams.toString()}`;
+      full_url += `?${queryParams.toString()}`;
     }
 
     const parsed_body =
       content_type === "application/json" ? JSON.stringify(body) : body;
     // Function to make the actual API call
     const makeRequest = async (token: string) => {
-      const response = await fetch(`${fullUrl}`, {
+      const response = await fetch(`${full_url}`, {
         method,
         headers: {
           "Content-Type": content_type,
-          Authorization: `Bearer ${token}`,
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
           ...headers,
         },
         body: method !== FetchMethod.GET ? parsed_body : undefined,
@@ -211,6 +219,7 @@ export async function ApiConnectService<T>({
           .catch(() => ({ message: response.statusText }));
 
         if (response.status === 401) {
+          await logout();
           throw new Error("Unauthorized");
         }
 
@@ -229,7 +238,7 @@ export async function ApiConnectService<T>({
       );
     }
   } catch (error: any) {
-    if (error.message === "Unauthorized") {
+    if (error.status === 401) {
       await logout();
     }
     return { data: null, error };
@@ -249,7 +258,7 @@ async function handleRequestError<T>(
       }
   >,
 ) {
-  if (error.message === "Unauthorized") {
+  if (error.status === 401) {
     if (!is_refreshing) {
       is_refreshing = true;
       const new_token = await refreshToken();

@@ -5,6 +5,7 @@ import FormInput from "@/app_directories/components/form/FormInput";
 import api_routes from "@/app_directories/constants/ApiRoutes";
 import { app_routes } from "@/app_directories/constants/AppRoutes";
 import { primary } from "@/app_directories/constants/Colors";
+import { useSession } from "@/app_directories/context/AppContext";
 import { useSnackBar } from "@/app_directories/context/SnackBarProvider";
 import { ValidationRule } from "@/app_directories/hooks/useValidation";
 import {
@@ -15,7 +16,6 @@ import {
 import tailwindClasses from "@/app_directories/services/ClassTransformer";
 import { FetchMethod } from "@/app_directories/types/types";
 import { User } from "@/app_directories/types/user";
-import { useSession } from "@/app_directories/context/AppContext";
 import { useQuery } from "@tanstack/react-query";
 import { Link, router } from "expo-router";
 import { useState } from "react";
@@ -66,7 +66,7 @@ export default function Login() {
     retry: false,
   });
 
-  const HandleSignIn = async () => {
+  async function handleSignIn() {
     if (isFetching) return;
 
     if (validateLogin()) {
@@ -93,7 +93,7 @@ export default function Login() {
         router.replace(app_routes.post.home);
       }
     }
-  };
+  }
 
   function togglePasswordField() {
     setToggled(!toggled);
@@ -129,6 +129,7 @@ export default function Login() {
         inputMode="email"
         onChangeText={setEmail}
         prependIcon="person-outline"
+        editable={!isFetching}
         onValidationError={handleValidationError}
       />
       <FormInput
@@ -142,6 +143,7 @@ export default function Login() {
         prependIcon="lock-closed-outline"
         onAppendPressed={togglePasswordField}
         appendIcon={toggled ? "eye-outline" : "eye-off-outline"}
+        editable={!isFetching}
         onValidationError={handleValidationError}
       />
 
@@ -153,7 +155,7 @@ export default function Login() {
 
       <SpacerY size="xxs" />
 
-      <AppButton onPress={HandleSignIn} theme="primary">
+      <AppButton onPress={handleSignIn} theme="primary">
         {isFetching ? <ActivityIndicator size="small" color="#fff" /> : "Login"}
       </AppButton>
 
