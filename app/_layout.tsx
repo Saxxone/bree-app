@@ -5,6 +5,7 @@ import {
   SnackBarProvider,
   useSnackBar,
 } from "@/app_directories/context/SnackBarProvider";
+import tailwindClasses from "@/app_directories/services/ClassTransformer";
 import { headerDark, headerLight } from "@/app_directories/styles/main";
 import { ThemeProvider } from "@react-navigation/native";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -15,6 +16,7 @@ import { StatusBar } from "expo-status-bar";
 import React, { useCallback, useEffect, useState } from "react";
 import { useColorScheme } from "react-native";
 import "react-native-reanimated";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -79,21 +81,34 @@ function LayoutContents() {
 
   return (
     <>
-      <Stack screenOptions={header}>
-        <Stack.Screen
-          name="index"
-          options={{
-            headerShown: false,
+      <SafeAreaView
+        style={[
+          tailwindClasses("flex-1"),
+          color_scheme === "dark"
+            ? tailwindClasses("bg-gray-800")
+            : tailwindClasses("bg-gray-200"),
+        ]}
+      >
+        <Stack
+          screenOptions={{
+            ...header,
           }}
-        />
-        <Stack.Screen
-          name="(auth)"
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Slot />
-      </Stack>
+        >
+          <Stack.Screen
+            name="index"
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Stack.Screen
+            name="(auth)"
+            options={{
+              headerShown: false,
+            }}
+          />
+          <Slot />
+        </Stack>
+      </SafeAreaView>
       {showSnackBar && <SnackBar snack={snackBar} onClose={closeSnack} />}
     </>
   );

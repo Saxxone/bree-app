@@ -8,7 +8,6 @@ const displays = {
   "inline-flex": { display: "inline-flex" },
 
   //flex
-
   "flex-1": { flex: 1 },
   "flex-auto": { flex: "auto" },
   "flex-initial": { flex: "initial" },

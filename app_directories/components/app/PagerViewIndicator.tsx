@@ -46,4 +46,6 @@ const PagerViewIndicator = memo(({ ...props }: Props) => {
   );
 });
 
+PagerViewIndicator.displayName = "PagerViewIndicator";
+
 export default PagerViewIndicator;

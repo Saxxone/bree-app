@@ -7,6 +7,7 @@ export const headerLight = {
   },
   headerShadowVisible: false,
   headerTintColor: gray_800,
+  headerShown: false,
   tabBarStyle: {
     backgroundColor: gray_200,
   },
@@ -19,6 +20,7 @@ export const headerDark = {
   },
   headerShadowVisible: false,
   headerTintColor: white,
+  headerShown: false,
   tabBarStyle: {
     backgroundColor: gray_800,
   },

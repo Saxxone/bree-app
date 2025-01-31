@@ -1,8 +1,8 @@
+import { headerDark, headerLight } from "@/app_directories/styles/main";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Tabs } from "expo-router";
 import { useMemo } from "react";
 import { useColorScheme } from "react-native";
-import { headerDark, headerLight } from "@/app_directories/styles/main";
 
 export default function TabLayout() {
   const tabBarIcon = useMemo(() => {
