@@ -16,9 +16,7 @@ import textDecorations from "./tailwind-classes/textDecorations";
  * @fileoverview This file provides a mapping of Tailwind CSS class names to their equivalent React Native style objects.  This allows us to use familiar Tailwind classes within React Native components, abstracting away the underlying style specifics.
  */
 
-const tailwindToRNMap: {
-  [key: string]: any;
-} = {
+const tailwind_to_RN_map = {
   ...textColors,
   ...backgroundColors,
   ...fontWeights,
@@ -34,4 +32,4 @@ const tailwindToRNMap: {
   ...generic,
 };
 
-export default tailwindToRNMap;
+export default tailwind_to_RN_map;
